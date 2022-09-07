@@ -1,0 +1,97 @@
+@import url(left_side.css);
+@import url(right_side.css);
+@import url(center.css);
+@import url(account_login.css);
+
+:root {
+    --color2: #52339a;
+    --color3: #ffffff;
+    --main_color: rgba(240, 122, 34, 0.87);
+    --main_color_solid: rgb(218, 111, 29);
+    --center_content_background: #3D3D3D;
+}
+
+header {
+    background-color: #000000;
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    z-index: 7;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.head-container {
+    position: relative;
+}
+
+.btn-exit-from-account {
+    position: absolute;
+    border: 3px solid #000000;
+    border-radius: 7px;
+    border-color: var(--main_color_solid);
+    height: 36px;
+    width: 150px;
+    right: 12px;
+    top: 2px;
+}
+
+.btn-exit-from-account:hover {
+    background-color: var(--color3); 
+    border-color: #000000;
+    color: #000000;
+}
+
+.exit-header-text {
+    color: var(--main_color_solid);
+    height: 100%;
+    width: 100%;
+}
+
+.logo {
+    background: url(../img/logo.jpg);
+    background-position: center center;
+    background-size: 45px 45px;
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    left: 15px;
+    bottom: 3px;
+}
+
+.logo-text {
+    position: absolute;
+    top: 12px;
+    left: 65px;
+}
+
+footer {
+    background-color: var(--main_color_solid);
+    min-height: 5.5vh;
+    position: relative;
+}
+
+.main-container {
+    min-height: 87vh;
+    background: url(../img/background.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);   
+    padding-top: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    align-items:center;
+    position: relative;
+}
+
+.color1 {
+    color: var(--color1);
+}
+
+.color2 {
+    color: var(--color2);
+}

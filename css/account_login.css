@@ -1,0 +1,43 @@
+.account-login-center {
+    background-color:var(--center_content_background);
+    min-height: 88vh;
+    min-width: 600px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.account-login-container, .account-registration-container {
+    height: 300px;
+    width: 500px;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: var( --color3);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    display: table;
+    margin: 0 auto;
+}
+
+.account-login-container {
+    height: 230px;
+}
+
+.reg-button, .log-button {
+    border-radius: 5px;
+    margin-left: 60px;
+    width: 280px;
+    height: 38px;
+    background-color: var(--main_color);
+  }
+
+.reg-button:hover, .log-button:hover {
+    border-radius: 5px;
+    background-color: var(--center_content_background);
+    color:white;
+  }
+
+.login-form, .registration-form {
+    padding-right: 70px;
+}

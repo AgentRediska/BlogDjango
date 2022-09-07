@@ -1,0 +1,83 @@
+.center-container {
+    background-color:var(--center_content_background);
+    min-height: 88vh;
+    min-width: 600px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+
+.news-list-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color:var(--center_content_background);
+}
+
+.news {
+    min-height: 320px;
+    max-height: 320px;
+    width: 100%;
+    background-color: var( --color3);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    position: relative;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 15px;
+}
+
+.photo-news-user {
+    height: 50px;
+    width: 50px;
+    background: url(../img/example_photo.jpg);
+    background-position: center center;
+    background-size: 50px 50px;
+    border: 1px solid #000000;
+    border-radius: 33px;
+    margin-right: 5px;
+}
+
+.news-user-info-nick-id {
+    border: 1px solid var(--border-color);
+}
+
+.description-container {
+    width: 100%;
+    min-height: 200px;
+    border: 1px solid var(--border-color);
+    margin-top: 5px;
+}
+
+.news-user-info {
+    height: 60px;
+    margin-right: 11px;
+}
+
+.description-text {
+    height: 170px;
+    width: 100%;
+    border: 1px solid #000000;
+}
+
+.reaction-container {
+    width: 50%;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.btn-news-like:hover {
+    border: 1px solid #00db42;
+}
+
+.btn-news-dislike:hover {
+    border: 1px solid #d80000;
+}
+
+.count-like, .count-dislike {
+    display: inline;
+}
+

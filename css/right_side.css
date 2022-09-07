@@ -1,0 +1,51 @@
+
+.right-container {
+    min-height: 520px;
+    max-height: 540px;
+    min-width: 260px;
+    margin-left: 10px;
+    padding: 0px;
+    position: relative;
+    position: sticky;
+    top: 50px;
+}
+
+.subs-user-info {
+    height: 70px;
+    width: 100%;
+    background-color: var( --main_color);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    margin-top: 20px;
+    padding-top: 4px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.subs-user-info:hover {
+    background-color: var( --color3);
+}
+
+.photo-subs-user {
+    width: 60px;
+    height: 60px;
+    background: url(../img/example_photo.jpg);
+    background-position: center center;
+    background-size: 50px 50px;
+    border: 1px solid #000000;
+    border-radius: 33px;
+}
+
+.info-subs-user {
+    height: 60px;
+    margin-left: 2px;
+    margin-right: 6px;
+    padding-right:5px;
+}
+
+.menu-right-container {
+    margin-top: 90px;
+    background-color: var(--main_color);
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link  rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Блог</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo"></div>
+        <h4 class="text-start logo-text text-white">Let's tell</h4>
+    </header>
+
+    <section class="main-container">
+        <div class="row">
+            <div class="col-2 left-container">
+            </div>
+            <div class="col center-container account-login-center">
+                <div class="account-login-container">
+                    <div class="row">
+                        <div class="col-2"></div>
+                            <p class="fs-4 fw-bold">Вход</p>
+                    </div>
+                    <form name = "login-form" class="login-form">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <h6>Логин:</h6>
+                            </div>
+                            <div class="col-4">
+                                <input type = "text">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <h6>Пароль:</h6>
+                            </div>
+                            <div class="col-4">
+                                <input type="password">
+                            </div>
+                        </div>
+                        <br>
+                        <input type="submit" value="Войти" class="log-button">
+                    </form>
+                </div>
+
+                    <br><br>
+
+                <div class="account-registration-container">
+                    <div class="row">
+                        <div class="col-2"></div>
+                            <p class="fs-4 fw-bold">Регистрация</p>
+                    </div>
+                    <form name = "registration-form", class="registration-form">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <h6>Логин:</h6>
+                            </div>
+                            <div class="col-4">
+                                <input type = "text">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <h6>Пароль:</h6>
+                            </div>
+                            <div class="col-4">
+                                <input type="password">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-3">
+                                <h6>Фото профиля:</h6>
+                            </div>
+                            <div class="col-4">
+                                <input type="file" accept=".jpg">
+                            </div>
+                        </div>
+                        <br>
+                        <input type="submit" value="Зарегистрироваться" class="reg-button">
+                    </form>
+                </div>
+            </div>
+            <div class="col-2 right-container">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        
+    </footer>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
