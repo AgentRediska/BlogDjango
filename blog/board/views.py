@@ -3,7 +3,11 @@ from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("Страница приложения c входом")
+    return render(request, '')
+
+
+def main_page(request):
+    return render(request, 'board/main_page.html')
 
 
 def page_not_found(request, exception):
