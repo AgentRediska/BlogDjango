@@ -14,11 +14,11 @@
 
 <body>
     <header>
-        <img class="logo" src="{% static 'board/images/logo.jpg' %}">
+        <div class="logo"></div>
         <h4 class="text-start logo-text text-white">Let's tell</h4>
         <div class="head-container"> 
             <div class="exit-from-account-container">
-                <a href="" class="btn btn-exit-from-account">
+                <a href="{% url 'login' %}" class="btn btn-exit-from-account">
                     <h6 class="exit-header-text fst-italic">Выход</h6>
                 </a>
             </div>

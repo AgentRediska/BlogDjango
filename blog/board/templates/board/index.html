@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,9 +6,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link  rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link  rel="stylesheet" href="{% static 'board/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'board/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/style.css' %}">
     <title>Блог</title>
 </head>
 
@@ -59,7 +60,7 @@
                         <div class="col-2"></div>
                             <p class="fs-4 fw-bold">Регистрация</p>
                     </div>
-                    <form name = "registration-form", class="registration-form">
+                    <form name = "registration-form" class="registration-form">
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-3">
@@ -102,6 +103,6 @@
     <footer>
         
     </footer>
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'board/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
