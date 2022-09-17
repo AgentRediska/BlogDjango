@@ -16,7 +16,12 @@ def index(request):
 
 def main_page(request):
     user = User.objects.get(pk=1)
-    return render(request, 'board/main_page.html', {'user': user})
+    contex = {
+        'user': user,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'board/main_page.html', context=contex)
 
 
 def create_note(request):

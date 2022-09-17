@@ -51,38 +51,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="menu-left-container">
-                    <a href="" class="btn btn-sm btn-create-note btn-left-menu">
-                        <img class="img-menu" src="img/create.svg" alt="За стеклом">
-                        <div class="text-start text-menu-block">
-                            <h6 class="text-menu">Создать запись</h6>
-                        </div>
-                    </a>
-                    <a href="" class="btn btn-sm look-note btn-left-menu">
-                        <img class="img-menu" src="img/my_notes.svg" alt="За стеклом">
-                        <div class="text-start text-menu-block">
-                            <h6 class="text-menu">Просмотреть записи</h6>
-                        </div>
-                    </a>
-                    <a href="" class="btn btn-sm edit-note btn-left-menu">
-                        <img class="img-menu" src="img/edit_black_24dp.svg" alt="За стеклом">
-                        <div class="text-start text-menu-block">
-                            <h6 class="text-menu">Черновик</h6>
-                        </div>
-                    </a>
-                    <a href="" class="btn btn-sm subscribers btn-left-menu">
-                        <img class="img-menu" src="img/subscribes.svg" alt="За стеклом">
-                        <div class="text-start text-menu-block">
-                            <h6 class="text-menu">Подписчики</h6>
-                        </div>
-                    </a>
-                    <a href="" class="btn btn-sm my-subscribers btn-left-menu">
-                        <img class="img-menu" src="img/favorite.svg" alt="За стеклом">
-                        <div class="text-start text-menu-block">
-                            <h6 class="text-menu">Подписки</h6>
-                        </div>
-                    </a> 
-                </div>
+                {% block left_menu %}
+                    <div class="menu-left-container">
+                        {% for m in menu %}
+                            <a href="{% url m.url_name %}" class="btn btn-sm btn-create-note btn-left-menu">
+                                <img class="img-menu" src="img/create.svg" alt="За стеклом">
+                                <div class="text-start text-menu-block">
+                                    <h6 class="text-menu">{{ m.title }}</h6>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endblock left_menu %}
             </div>
             <div class="col center-container">
                 <div class="news-list-container overflow-auto">
