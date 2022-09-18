@@ -37,3 +37,11 @@ class Dislike(models.Model):
 
     def __str__(self):
         return f"user_pk: {self.user}, note_pk: {self.note}"
+
+
+class Subscribers(models.Model):
+    subscribers_id = models.IntegerField(null=False)
+    user_id = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True)
+
+    def __str__(self):
+        return f"user id: {self.user_id}, subs id: {self.subscribers_id}"

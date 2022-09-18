@@ -66,186 +66,64 @@
             </div>
             <div class="col center-container">
                 <div class="news-list-container overflow-auto">
-                    <div class="news">
-                        <div class="news-user-info">
-                            <div class="row">
-                                <div class="col-3 photo-news-user"></div>
-                                <div class="col news-title-text-container">
-                                    <div class="row">
-                                        <div class="col-8 row">
-                                            <div class="col-2 nick-title-col">
-                                                <h6 class="nick-title text-start">Ник:</h6>
+                    {% for note in notes %}
+                        <div class="news">
+                            <div class="news-user-info">
+                                <div class="row">
+                                    <div class="col-3 photo-news-user"></div>
+                                    <div class="col news-title-text-container">
+                                        <div class="row">
+                                            <div class="col-8 row">
+                                                <div class="col-2 nick-title-col">
+                                                    <h6 class="nick-title text-start">Ник:</h6>
+                                                </div>
+                                                <div class="col-5 nick-news-user-col">
+                                                    <h6 class="nick-news-user fw-bolder">{{ note_author.name }}</h6>
+                                                </div>
+                                                <div class="col-2 id-title-col">
+                                                    <h6 class="id-title text-end">id:</h6>
+                                                </div>
+                                                <div class="col-3 id-news-user-col">
+                                                    <h6 class="id-news-user fw-bolder">{{ note_author.id }}</h6>
+                                                </div>
                                             </div>
-                                            <div class="col-5 nick-news-user-col">
-                                                <h6 class="nick-news-user fw-bolder">Agent_Rediska</h6>
-                                            </div>
-                                            <div class="col-2 id-title-col">
-                                                <h6 class="id-title text-end">id:</h6>
-                                            </div>
-                                            <div class="col-3 id-news-user-col">
-                                                <h6 class="id-news-user fw-bolder">2312311</h6>
-                                            </div>
+                                            <div class="col-4"></div>
                                         </div>
-                                        <div class="col-4"></div>
-                                    </div>
-                                    <div class="news-user-info-nick-id row">
-                                        <div class="col-1 title-news">
-                                            <h6 class="id-news-user">Тема:</h6>
-                                        </div>
-                                        <div class="col title-news-text"> 
-                                            <h6 class="id-news-user fst-italic fw-bolder">Грут и всего лишь малеьнкая точка</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="description-container">
-                            <h6 class="description">Описание:</h6>
-                            <div class="description-text overflow-auto">
-                                <h6 class="description">Текст небольшого размера<br/>Текст небольшого размера
-                                    <br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера
-                                    Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>
-                                    Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="reaction-container">
-                            <div class="row">
-                                <div class="col-6">
-                                    <a href="" class="btn btn-news-like">
-                                        <img class="img-news-like" src="img/like.svg" alt="За стеклом">
-                                        <h6 class="count-like fst-italic">12332</h6>
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="" class="btn btn-news-dislike">
-                                        <img class="img-news-dislike" src="img/dislike.svg" alt="За стеклом">
-                                        <h6 class="count-dislike ">3231</h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="news">
-                        <div class="news-user-info">
-                            <div class="row">
-                                <div class="col-3 photo-news-user"></div>
-                                <div class="col news-title-text-container">
-                                    <div class="row">
-                                        <div class="col-8 row">
-                                            <div class="col-2 nick-title-col">
-                                                <h6 class="nick-title text-start">Ник:</h6>
+                                        <div class="news-user-info-nick-id row">
+                                            <div class="col-1 title-news">
+                                                <h6 class="id-news-user">Тема:</h6>
                                             </div>
-                                            <div class="col-5 nick-news-user-col">
-                                                <h6 class="nick-news-user fw-bolder">Agent_Rediska</h6>
+                                            <div class="col title-news-text">
+                                                <h6 class="id-news-user fst-italic fw-bolder">{{ note.title }}</h6>
                                             </div>
-                                            <div class="col-2 id-title-col">
-                                                <h6 class="id-title text-end">id:</h6>
-                                            </div>
-                                            <div class="col-3 id-news-user-col">
-                                                <h6 class="id-news-user fw-bolder">2312311</h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-4"></div>
-                                    </div>
-                                    <div class="news-user-info-nick-id row">
-                                        <div class="col-1 title-news">
-                                            <h6 class="id-news-user">Тема:</h6>
-                                        </div>
-                                        <div class="col title-news-text"> 
-                                            <h6 class="id-news-user fst-italic fw-bolder">Грут и всего лишь малеьнкая точка</h6>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="description-container">
-                            <h6 class="description">Описание:</h6>
-                            <div class="description-text overflow-auto">
-                                <h6 class="description">Текст небольшого размера<br/>Текст небольшого размера
-                                    <br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера
-                                    Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>
-                                    Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="reaction-container">
-                            <div class="row">
-                                <div class="col-6">
-                                    <a href="" class="btn btn-news-like">
-                                        <img class="img-news-like" src="img/like.svg" alt="За стеклом">
-                                        <h6 class="count-like fst-italic">12332</h6>
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="" class="btn btn-news-dislike">
-                                        <img class="img-news-dislike" src="img/dislike.svg" alt="За стеклом">
-                                        <h6 class="count-dislike ">3231</h6>
-                                    </a>
+                            <div class="description-container">
+                                <h6 class="description">Описание:</h6>
+                                <div class="description-text overflow-auto">
+                                    <h6 class="description"> {{ note.content }} </h6>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="news">
-                        <div class="news-user-info">
-                            <div class="row">
-                                <div class="col-3 photo-news-user"></div>
-                                <div class="col news-title-text-container">
-                                    <div class="row">
-                                        <div class="col-8 row">
-                                            <div class="col-2 nick-title-col">
-                                                <h6 class="nick-title text-start">Ник:</h6>
-                                            </div>
-                                            <div class="col-5 nick-news-user-col">
-                                                <h6 class="nick-news-user fw-bolder">Agent_Rediska</h6>
-                                            </div>
-                                            <div class="col-2 id-title-col">
-                                                <h6 class="id-title text-end">id:</h6>
-                                            </div>
-                                            <div class="col-3 id-news-user-col">
-                                                <h6 class="id-news-user fw-bolder">2312311</h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-4"></div>
+                            <div class="reaction-container">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="" class="btn btn-news-like">
+                                            <img class="img-news-like" src="img/like.svg" alt="За стеклом">
+                                            <h6 class="count-like fst-italic">12332</h6>
+                                        </a>
                                     </div>
-                                    <div class="news-user-info-nick-id row">
-                                        <div class="col-1 title-news">
-                                            <h6 class="id-news-user">Тема:</h6>
-                                        </div>
-                                        <div class="col title-news-text"> 
-                                            <h6 class="id-news-user fst-italic fw-bolder">Грут и всего лишь малеьнкая точка</h6>
-                                        </div>
+                                    <div class="col-6">
+                                        <a href="" class="btn btn-news-dislike">
+                                            <img class="img-news-dislike" src="img/dislike.svg" alt="За стеклом">
+                                            <h6 class="count-dislike ">3231</h6>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="description-container">
-                            <h6 class="description">Описание:</h6>
-                            <div class="description-text overflow-auto">
-                                <h6 class="description">Текст небольшого размера<br/>Текст небольшого размера
-                                    <br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера
-                                    Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>
-                                    Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>Текст небольшого размера<br/>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="reaction-container">
-                            <div class="row">
-                                <div class="col-6">
-                                    <a href="" class="btn btn-news-like">
-                                        <img class="img-news-like" src="img/like.svg" alt="За стеклом">
-                                        <h6 class="count-like fst-italic">12332</h6>
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="" class="btn btn-news-dislike">
-                                        <img class="img-news-dislike" src="img/dislike.svg" alt="За стеклом">
-                                        <h6 class="count-dislike ">3231</h6>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div> 
             </div>
             <div class="col-2 right-container">
