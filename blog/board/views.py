@@ -15,24 +15,27 @@ def index(request):
 
 
 def main_page(request):
-    user = User.objects.get(pk=2)
-    # subscribers = Subscribers.objects.filter(user_id=user.pk)
-    # notes = {}
-    # for sub in subscribers:
-    #     note = Note.objects.get(creator_id=sub)
-    #     note_author = User.objects.get(pk=note.creator)
-    #     notes.add(note: note_author)
+    user = User.objects.get(pk=1)
+    subsc = Subscribers.objects.filter(user_id=user)
+    sub_user = []
+    note_dict = {}
+    for sub in subsc:
+        sub_user.append(User.objects.get(pk=sub.subscribers_id))
+        notes = Note.objects.filter(creator=sub.subscribers_id)
+        for note in notes:
+            author = User.objects.get(pk=note.creator.pk)
+            like = Like.objects.filter(note=note).count()
+            dislike = Dislike.objects.filter(note=note).count()
+            note_dict[note] = (author, like, dislike)
 
-    notes = Note.objects.filter(creator_id=1)
-    note_author = User.objects.get(pk=1)
-    contex = {
+    context = {
         'user': user,
         'menu': menu,
-        'notes': notes,
-        'note_author': note_author,
+        'note_dict': note_dict,
+        'sub_user': sub_user,
         'title': 'Главная страница'
     }
-    return render(request, 'board/main_page.html', context=contex)
+    return render(request, 'board/main_page.html', context=context)
 
 
 def create_note(request):

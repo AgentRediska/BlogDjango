@@ -51,7 +51,7 @@ header {
 }
 
 .logo {
-    background: url(../board/images/logo.jpg);
+    background: url(../images/example_photo.jpg);
     background-position: center center;
     background-size: 45px 45px;
     position: absolute;

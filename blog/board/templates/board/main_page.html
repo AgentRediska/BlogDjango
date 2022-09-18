@@ -66,7 +66,7 @@
             </div>
             <div class="col center-container">
                 <div class="news-list-container overflow-auto">
-                    {% for note in notes %}
+                    {% for note, note_info in note_dict.items %}
                         <div class="news">
                             <div class="news-user-info">
                                 <div class="row">
@@ -78,13 +78,13 @@
                                                     <h6 class="nick-title text-start">Ник:</h6>
                                                 </div>
                                                 <div class="col-5 nick-news-user-col">
-                                                    <h6 class="nick-news-user fw-bolder">{{ note_author.name }}</h6>
+                                                    <h6 class="nick-news-user fw-bolder">{{ note_info.0.name }}</h6>
                                                 </div>
                                                 <div class="col-2 id-title-col">
                                                     <h6 class="id-title text-end">id:</h6>
                                                 </div>
                                                 <div class="col-3 id-news-user-col">
-                                                    <h6 class="id-news-user fw-bolder">{{ note_author.id }}</h6>
+                                                    <h6 class="id-news-user fw-bolder">{{ note_info.0.pk }}</h6>
                                                 </div>
                                             </div>
                                             <div class="col-4"></div>
@@ -111,13 +111,13 @@
                                     <div class="col-6">
                                         <a href="" class="btn btn-news-like">
                                             <img class="img-news-like" src="img/like.svg" alt="За стеклом">
-                                            <h6 class="count-like fst-italic">12332</h6>
+                                            <h6 class="count-like fst-italic">{{ note_info.1 }}</h6>
                                         </a>
                                     </div>
                                     <div class="col-6">
                                         <a href="" class="btn btn-news-dislike">
                                             <img class="img-news-dislike" src="img/dislike.svg" alt="За стеклом">
-                                            <h6 class="count-dislike ">3231</h6>
+                                            <h6 class="count-dislike ">{{ note_info.2 }}</h6>
                                         </a>
                                     </div>
                                 </div>
@@ -127,53 +127,31 @@
                 </div> 
             </div>
             <div class="col-2 right-container">
-                <div class="subs-user-info">
-                    <div class="row">
-                        <div class="col-3 photo-subs-user"></div>
-                        <div class="col info-subs-user">
-                            <div class="row">
-                                <div class="col-3 nick-title-col">
-                                    <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                {% for sub in sub_user %}
+                    <div class="subs-user-info">
+                        <div class="row">
+                            <div class="col-3 photo-subs-user"></div>
+                            <div class="col info-subs-user">
+                                <div class="row">
+                                    <div class="col-3 nick-title-col">
+                                        <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                                    </div>
+                                    <div class="col nick-subs-user-col">
+                                        <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ sub.name }}</h6>
+                                    </div>
                                 </div>
-                                <div class="col nick-subs-user-col">
-                                    <h6 class="fs-6 nick-subs-user text-center fw-bolder">Agent_Rediska</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3 id-title-col text-center">
-                                    <h6 class="fs-6 id-title">id:</h6>
-                                </div>
-                                <div class="col id-subs-user-col text-center">
-                                    <h6 class="fs-6 id-subs-user fw-bolder">2312311</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="subs-user-info">
-                    <div class="row">
-                        <div class="col-3 photo-subs-user"></div>
-                        <div class="col info-subs-user">
-                            <div class="row">
-                                <div class="col-3 nick-title-col">
-                                    <h6 class="fs-6 nick-title text-center">Ник:</h6>
-                                </div>
-                                <div class="col nick-subs-user-col">
-                                    <h6 class="fs-6 nick-subs-user text-center fw-bolder">Agent_Rediska</h6>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3 id-title-col text-center">
-                                    <h6 class="fs-6 id-title">id:</h6>
-                                </div>
-                                <div class="col id-subs-user-col text-center">
-                                    <h6 class="fs-6 id-subs-user fw-bolder">2312311</h6>
+                                <div class="row">
+                                    <div class="col-3 id-title-col text-center">
+                                        <h6 class="fs-6 id-title">id:</h6>
+                                    </div>
+                                    <div class="col id-subs-user-col text-center">
+                                        <h6 class="fs-6 id-subs-user fw-bolder">{{ sub.pk }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
