@@ -16,7 +16,7 @@ def index(request):
 
 def main_page(request):
     user = User.objects.get(pk=1)
-    subsc = Subscribers.objects.filter(user_id=user)
+    subsc = Subscriptions.objects.filter(user_id=user)
     sub_user = []
     note_dict = {}
     for sub in subsc:
