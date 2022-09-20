@@ -20,8 +20,8 @@ def main_page(request):
     sub_user = []
     note_dict = {}
     for sub in subsc:
-        sub_user.append(User.objects.get(pk=sub.subscribers_id))
-        notes = Note.objects.filter(creator=sub.subscribers_id)
+        sub_user.append(User.objects.get(pk=sub.subscriptions_id))
+        notes = Note.objects.filter(creator=sub.subscriptions_id)
         for note in notes:
             author = User.objects.get(pk=note.creator.pk)
             like = Like.objects.filter(note=note).count()
