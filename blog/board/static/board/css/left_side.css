@@ -17,18 +17,18 @@
     margin-top: 20px;
     padding-top: 4px;
     padding-bottom: 5px;
-    padding-left: 15px;
-    padding-right: 10px;
+    padding-left: 3px;
 }
 
-.photo-main-user {
+.photo-m-user {
     width: 60px;
     height: 60px;
-    background: url(../images/example_photo.jpg);
     background-position: center center;
-    background-size: 50px 50px;
+    background-size: 60px 60px;
     border: 1px solid #000000;
     border-radius: 33px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .info-main-user {

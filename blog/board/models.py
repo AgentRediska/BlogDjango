@@ -10,6 +10,11 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+        ordering = ['name']
+
 
 class Note(models.Model):
     title = models.CharField(null=False, max_length=200)
@@ -21,6 +26,11 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Запись'
+        verbose_name_plural = 'Записи'
+        ordering = ['creation_date']
 
 
 class Like(models.Model):

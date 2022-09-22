@@ -1,3 +1,19 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'name', 'creation_date')
+    list_display_links = ('pk', 'name')
+    search_fields = ('pk', 'name')
+
+
+class NoteAdmin(admin.ModelAdmin):
+    list_display = ('title', 'creator', 'creation_date')
+    list_display_links = ('title', 'creator')
+    search_fields = ('title', 'creator__name',)
+
+
+admin.site.register(User, UserAdmin)
+admin.site.register(Note, NoteAdmin)

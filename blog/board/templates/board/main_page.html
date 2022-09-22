@@ -30,10 +30,12 @@
             <div class="col-2 left-container">
                 <div class="main-user-info">
                     <div class="row">
-                        <div class="col-3 photo-main-user"></div>
+                        {% if user.photo %}
+                            <img class="col-3 photo-m-user" src="{{user.photo.url}}">
+                        {% endif %}
                         <div class="col info-main-user">
                             <div class="row">
-                                <div class="col-3 nick-title-col">
+                                <div class="col-2 nick-title-col">
                                     <h6 class="fs-6 nick-title text-center">Ник:</h6>
                                 </div>
                                 <div class="col nick-main-user-col">
