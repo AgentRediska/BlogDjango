@@ -33,12 +33,13 @@
 .photo-news-user {
     height: 50px;
     width: 50px;
-    background: url(../images/example_photo.jpg);
     background-position: center center;
     background-size: 50px 50px;
     border: 1px solid #000000;
     border-radius: 33px;
     margin-right: 5px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .news-user-info-nick-id {
@@ -64,9 +65,31 @@
 }
 
 .reaction-container {
-    width: 50%;
+    width: 30%;
     height: 50px;
     margin-top: 5px;
+}
+
+.img-news-dislike {
+    background: url(../images/dislike.svg);
+    height: 20px;
+    width: 20px;
+    margin-top: 4px;
+    margin-left: 5px;
+    background-repeat: no-repeat;
+}
+
+.img-news-like {
+    background: url(../images/like.svg);
+    height: 20px;
+    width: 20px;
+    margin-left: 5px;
+    background-repeat: no-repeat;
+}
+
+.btn-news-like {
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .btn-news-like:hover {
@@ -77,7 +100,5 @@
     border: 1px solid #d80000;
 }
 
-.count-like, .count-dislike {
-    display: inline;
-}
+
 

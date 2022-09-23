@@ -72,7 +72,9 @@
                         <div class="news">
                             <div class="news-user-info">
                                 <div class="row">
-                                    <div class="col-3 photo-news-user"></div>
+                                    {% if note_info.0.photo %}
+                                        <img class="col-3 photo-news-user" src="{{ note_info.0.photo.url }}">
+                                    {% endif %}
                                     <div class="col news-title-text-container">
                                         <div class="row">
                                             <div class="col-8 row">
@@ -110,18 +112,25 @@
                             </div>
                             <div class="reaction-container">
                                 <div class="row">
-                                    <div class="col-6">
-                                        <a href="" class="btn btn-news-like">
-                                            <img class="img-news-like" src="img/like.svg" alt="За стеклом">
-                                            <h6 class="count-like fst-italic">{{ note_info.1 }}</h6>
-                                        </a>
-                                    </div>
-                                    <div class="col-6">
-                                        <a href="" class="btn btn-news-dislike">
-                                            <img class="img-news-dislike" src="img/dislike.svg" alt="За стеклом">
-                                            <h6 class="count-dislike ">{{ note_info.2 }}</h6>
-                                        </a>
-                                    </div>
+                                    <a href="" class="col btn btn-news-like">
+                                        <div class="row">
+                                            <div class="col-4 img-news-like"></div>
+                                            <p class="fs-6 text-start col count-like" style="margin-bottom: 0px;">
+                                                {{ note_info.1 }}
+                                            </p>
+                                        </div>
+                                    </a>
+
+                                    <a href="" class="col btn btn-news-dislike">
+                                        <div class="row">
+                                            <div class="col-4 img-news-dislike"></div>
+                                            <p class="fs-6 text-start col count-dislike" style="margin-bottom: 0px;">
+                                                {{ note_info.2 }}
+                                            </p>
+                                        </div>
+                                    </a>
+
+
                                 </div>
                             </div>
                         </div>
@@ -132,7 +141,9 @@
                 {% for sub in sub_user %}
                     <div class="subs-user-info">
                         <div class="row">
-                            <div class="col-3 photo-subs-user"></div>
+                            {% if sub.photo %}
+                                <img class="col-3 photo-subs-user" src="{{ sub.photo.url }}">
+                            {% endif %}
                             <div class="col info-subs-user">
                                 <div class="row">
                                     <div class="col-3 nick-title-col">
