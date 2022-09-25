@@ -54,17 +54,21 @@
     background-color: var(--main_color);
 }
 
+.img-menu {
+    background: url(../images/menu_point.png);
+    background-position: center center;
+    background-size: 25px 25px;
+    position: absolute;
+    background-repeat: no-repeat;
+    height: 40px;
+    width: 40px;
+    left: 5px;
+    bottom: 6px;
+}
+
 .btn-left-menu:hover {
     background-color: var(--color3);
     border: 1px solid #000000;
-}
-
-.img-menu {
-    height: 40px;
-    width: 40px;
-    position: absolute;
-    left: 5px;
-    bottom: 4px;
 }
 
 .text-menu-block {
