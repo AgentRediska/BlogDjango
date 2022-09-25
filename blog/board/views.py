@@ -15,16 +15,9 @@ def index(request):
 
 
 def main_page(request):
-    user = User.objects.get(pk=1)
-    subsc = Subscriptions.objects.filter(user_id=user)
-    sub_user = []
-    for sub in subsc:
-        sub_user.append(User.objects.get(pk=sub.subscriptions_id))
-
     context = {
-        'user_pk': 1,
+        'user_pk': 3,
         'menu': menu,
-        'sub_user': sub_user,
         'title': 'Главная страница'
     }
     return render(request, 'board/main_page.html', context=context)

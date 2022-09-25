@@ -23,3 +23,13 @@ def show_note_dict(user_pk):
             dislike = Dislike.objects.filter(note=note).count()
             note_dict[note] = (author, like, dislike)
     return {"note_dict": note_dict}
+
+
+@register.inclusion_tag('board/inclusion/subscriptions.html')
+def show_subscription_list(user_pk):
+    user = User.objects.get(pk=user_pk)
+    subscriptions = Subscriptions.objects.filter(user_id=user)
+    sub_user = []
+    for sub in subscriptions:
+        sub_user.append(User.objects.get(pk=sub.subscriptions_id))
+    return {"subscription_list": subscriptions}

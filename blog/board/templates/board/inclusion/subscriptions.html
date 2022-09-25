@@ -1,0 +1,27 @@
+{% for sub in subscription_list %}
+    <div class="subs-user-info">
+        <div class="row">
+            {% if sub.photo %}
+                <img class="col-3 photo-subs-user" src="{{ sub.photo.url }}">
+            {% endif %}
+            <div class="col info-subs-user">
+                <div class="row">
+                    <div class="col-3 nick-title-col">
+                        <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                    </div>
+                    <div class="col nick-subs-user-col">
+                        <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ sub.name }}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 id-title-col text-center">
+                        <h6 class="fs-6 id-title">id:</h6>
+                    </div>
+                    <div class="col id-subs-user-col text-center">
+                        <h6 class="fs-6 id-subs-user fw-bolder">{{ sub.pk }}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
