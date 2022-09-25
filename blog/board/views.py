@@ -18,20 +18,12 @@ def main_page(request):
     user = User.objects.get(pk=1)
     subsc = Subscriptions.objects.filter(user_id=user)
     sub_user = []
-    note_dict = {}
     for sub in subsc:
         sub_user.append(User.objects.get(pk=sub.subscriptions_id))
-        notes = Note.objects.filter(creator=sub.subscriptions_id)
-        for note in notes:
-            author = User.objects.get(pk=note.creator.pk)
-            like = Like.objects.filter(note=note).count()
-            dislike = Dislike.objects.filter(note=note).count()
-            note_dict[note] = (author, like, dislike)
 
     context = {
-        'user': user,
+        'user_pk': 1,
         'menu': menu,
-        'note_dict': note_dict,
         'sub_user': sub_user,
         'title': 'Главная страница'
     }
