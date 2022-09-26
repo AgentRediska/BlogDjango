@@ -8,6 +8,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display_links = ('pk', 'name')
     search_fields = ('pk', 'name')
     list_filter = ('creation_date',)
+    prepopulated_fields = {"slug": ("name",)}
 
 
 class NoteAdmin(admin.ModelAdmin):

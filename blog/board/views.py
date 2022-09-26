@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import *
 
@@ -14,9 +14,10 @@ def index(request):
     return render(request, 'board/index.html')
 
 
-def main_page(request):
+def main_page(request, user_slug):
+    post = get_object_or_404(User, slug=user_slug)
     context = {
-        'user_pk': 1,
+        'user_pk': post.pk,
         'menu': menu,
         'title': 'Главная страница'
     }

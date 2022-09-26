@@ -1,14 +1,19 @@
 from django.db import models
+from django.urls import reverse
 
 
 class User(models.Model):
     name = models.CharField(max_length=15, null=False)
+    slug = models.SlugField(max_length=30, unique=True, db_index=True, verbose_name="URL")
     password = models.CharField(max_length=15, null=False)
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
     creation_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('my_page', kwargs={'user_slag': self.slug})
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -49,9 +54,9 @@ class Dislike(models.Model):
         return f"user_pk: {self.user}, note_pk: {self.note}"
 
 
-class Subscriptions(models.Model):
-    subscriptions_id = models.IntegerField(null=False)
+class Subscription(models.Model):
+    subscription_id = models.IntegerField(null=False)
     user_id = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True)
 
     def __str__(self):
-        return f"user id: {self.user_id}, subs id: {self.subscriptions_id}"
+        return f"user id: {self.user_id}, subs id: {self.subscription_id}"
