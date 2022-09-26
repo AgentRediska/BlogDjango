@@ -16,7 +16,7 @@ def index(request):
 
 def main_page(request):
     context = {
-        'user_pk': 3,
+        'user_pk': 1,
         'menu': menu,
         'title': 'Главная страница'
     }

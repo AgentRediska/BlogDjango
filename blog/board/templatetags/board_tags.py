@@ -32,4 +32,4 @@ def show_subscription_list(user_pk):
     sub_user = []
     for sub in subscriptions:
         sub_user.append(User.objects.get(pk=sub.subscriptions_id))
-    return {"subscription_list": subscriptions}
+    return {"subscription_list": sub_user}
