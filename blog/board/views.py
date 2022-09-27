@@ -30,7 +30,7 @@ def create_note(request):
 
 
 def my_notes(request):
-    return HttpResponse("Мои записи")
+    return render(request, 'board/my_notes.html', {'menu': menu})
 
 
 def draft(request):
