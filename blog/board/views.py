@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404
 
+from .forms import *
 from .models import *
 
 menu = [{'title': "Создать запись", 'url_name': "create_note"},
@@ -19,13 +20,13 @@ def main_page(request, user_slug):
     context = {
         'user_pk': post.pk,
         'menu': menu,
-        'title': 'Главная страница'
     }
     return render(request, 'board/main_page.html', context=context)
 
 
 def create_note(request):
-    return HttpResponse("Создать запись")
+    form = AddNoteForm()
+    return render(request, 'board/create_note.html', {'menu': menu, 'from': form})
 
 
 def my_notes(request):

@@ -1,0 +1,23 @@
+{% extends "board/basic.html" %}
+{% load board_tags %}
+
+{% block title %}Создать запись{% endblock %}
+
+{% block header_additional_content %}
+    <div class="head-container">
+        <div class="exit-from-account-container">
+            <a href="{% url 'login' %}" class="btn btn-exit-from-account">
+                <h6 class="exit-header-text fst-italic">Выход</h6>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block center_content %}
+     <form class="login-form" action="{% url 'main_page' %}" method="post">
+     </form>
+{% endblock %}
+
+{% block left_content %}
+    {% show_subscription_list user_pk %}
+{% endblock %}
