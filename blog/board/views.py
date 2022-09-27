@@ -4,8 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from .forms import *
 from .models import *
 
-menu = [{'title': "Создать запись", 'url_name': "create_note"},
-        {'title': "Мои записи", 'url_name': "my_notes"},
+"""{'title': "Создать запись", 'url_name': "create_note/<slug:user_slug>/"}"""
+menu = [{'title': "Мои записи", 'url_name': "my_notes"},
         {'title': "Черновик", 'url_name': "draft"},
         {'title': "Подписки", 'url_name': "subscriptions"},
         {'title': "Подписчики", 'url_name': "subscribers"}]
@@ -24,9 +24,20 @@ def main_page(request, user_slug):
     return render(request, 'board/main_page.html', context=context)
 
 
-def create_note(request):
-    form = AddNoteForm()
-    return render(request, 'board/create_note.html', {'menu': menu, 'from': form})
+def create_note(request, user_slug):
+    post = get_object_or_404(User, slug=user_slug)
+    if request.method == 'POST':
+        form = AddNoteForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = AddNoteForm()
+    context = {
+        'user_pk': post.pk,
+        'menu': menu,
+        'form': form,
+    }
+    return render(request, 'board/create_note.html', context=context)
 
 
 def my_notes(request):

@@ -1,7 +1,8 @@
 from django import forms
 from .models import *
+from django.forms import TextInput
 
 
 class AddNoteForm(forms.Form):
-    title = models.CharField(max_length=200)
-    content = models.CharField(max_length=2000)
+    title = forms.CharField(max_length=200)
+    content = forms.CharField(max_length=2000)

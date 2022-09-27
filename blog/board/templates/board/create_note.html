@@ -14,8 +14,14 @@
 {% endblock %}
 
 {% block center_content %}
-     <form class="login-form" action="{% url 'my_notes' %}" method="post">
-     </form>
+     <div class="news">
+             <form action="{% url 'my_notes' %}" method="POST">
+                 {% csrf_token %}
+                 {{ form.as_p }}
+                 <div class="form-error">{{ form.title.errors }}</div>
+                 <button type="submit">Добавить</button>
+             </form>
+     </div>
 {% endblock %}
 
 {% block left_content %}
