@@ -29,11 +29,10 @@ def create_note(request, user_slug):
     if request.method == 'POST':
         form = AddNoteForm(request.POST)
         if form.is_valid():
-            try:
-                Note.objects.create(**form.cleaned_data)
-                return redirect('create_note')
-            except (Exception,):
-                form.add_error(None, 'Ошибка добавления записи')
+            new_note = form.save(commit=False)
+            new_note.creator = User.objects.get(pk=post.pk)
+            new_note.save()
+            return redirect('login')
     else:
         form = AddNoteForm()
     context = {
