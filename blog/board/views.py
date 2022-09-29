@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import *
 from .models import *
@@ -29,7 +29,11 @@ def create_note(request, user_slug):
     if request.method == 'POST':
         form = AddNoteForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            try:
+                Note.objects.create(**form.cleaned_data)
+                return redirect('create_note')
+            except (Exception,):
+                form.add_error(None, 'Ошибка добавления записи')
     else:
         form = AddNoteForm()
     context = {

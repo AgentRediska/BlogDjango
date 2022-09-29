@@ -8,7 +8,7 @@
     padding-top: 50px;
 }
 
-.account-login-container, .account-registration-container {
+.account-login-container, .account-registration-container, .create-note-container {
     height: 300px;
     width: 500px;
     display: inline-block;
@@ -18,6 +18,10 @@
     border-radius: 7px;
     display: table;
     margin: 0 auto;
+}
+
+.create-note-container {
+     width: 700px;
 }
 
 .account-login-container {
@@ -32,9 +36,16 @@
     background-color: var(--main_color);
   }
 
-.reg-button:hover, .log-button:hover {
+.create-note-button {
     border-radius: 5px;
-    background-color: var(--center_content_background);
+    width: 280px;
+    height: 38px;
+    background-color: var(--main_color);
+  }
+
+.reg-button:hover, .log-button:hover, .create-note-button:hover {
+    border-radius: 5px;
+    background-color: #008000;
     color:white;
   }
 
