@@ -1,5 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
 
 from .forms import *
 from .models import *
@@ -9,6 +11,12 @@ menu = [{'title': "Мои записи", 'url_name': "my_notes"},
         {'title': "Черновик", 'url_name': "draft"},
         {'title': "Подписки", 'url_name': "subscriptions"},
         {'title': "Подписчики", 'url_name': "subscribers"}]
+
+
+class SignInView(CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('main_page')
+    template_name = 'board/index.html'
 
 
 def index(request):

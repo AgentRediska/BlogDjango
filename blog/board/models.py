@@ -1,24 +1,21 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser, PermissionsMixin
 
 
-class User(models.Model):
-    name = models.CharField(max_length=15, null=False)
-    slug = models.SlugField(max_length=30, unique=True, db_index=True, verbose_name="URL")
-    password = models.CharField(max_length=15, null=False)
+class User(AbstractUser, PermissionsMixin):
+    # name = models.CharField(max_length=15, null=False)
+    # slug = models.SlugField(max_length=30, unique=True, db_index=True, verbose_name="URL")
+    # password = models.CharField(max_length=15, null=False)
     photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
-    creation_date = models.DateTimeField(auto_now_add=True)
+    # creation_date = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('my_page', kwargs={'user_slag': self.slug})
+    # def get_absolute_url(self):
+    #     return reverse('my_page', kwargs={'user_slag': self.slug})
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-        ordering = ['name']
 
 
 class Note(models.Model):

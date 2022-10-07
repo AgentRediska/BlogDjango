@@ -4,11 +4,11 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'creation_date')
-    list_display_links = ('pk', 'name')
-    search_fields = ('pk', 'name')
-    list_filter = ('creation_date',)
-    prepopulated_fields = {"slug": ("name",)}
+    list_display = ('id', 'username', 'date_joined')
+    list_display_links = ('id', 'username')
+    search_fields = ('date_joined', 'username')
+    list_filter = ('date_joined',)
+    # prepopulated_fields = {"slug": ("name",)}
 
 
 class NoteAdmin(admin.ModelAdmin):
