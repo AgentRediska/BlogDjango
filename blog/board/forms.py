@@ -40,3 +40,8 @@ class CustomUserChangeForm(UserChangeForm):
             'username': 150,
             'password': 128
         }
+
+
+class AuthForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)

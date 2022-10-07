@@ -1,6 +1,8 @@
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, CreateView
 
 from .forms import *
@@ -19,14 +21,33 @@ class SignInView(CreateView):
     template_name = 'board/index.html'
 
 
+class UserLoginView(LoginView):
+    template_name = 'board/login.html'
+
+
+class UserLogoutView(LogoutView):
+    next_page = "/"
+
+
+class MainView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            context = {'menu': menu, }
+            return render(request, 'board/main_page.html', context)
+        else:
+            response = redirect('board/login/')
+            return response
+
+
 def index(request):
     return render(request, 'board/index.html')
 
 
-def main_page(request, user_slug):
-    post = get_object_or_404(User, slug=user_slug)
+def main_page(request):
+    user_pk = request.user.pk
+    get_object_or_404(User, pk=user_pk)
     context = {
-        'user_pk': post.pk,
+        'user_pk': user_pk,
         'menu': menu,
     }
     return render(request, 'board/main_page.html', context=context)
