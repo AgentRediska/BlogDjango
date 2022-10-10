@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
@@ -18,7 +19,22 @@ menu = [{'title': "Мои записи", 'url_name': "my_notes"},
 class SignInView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('main_page')
-    template_name = 'board/index.html'
+    template_name = 'board/register.html'
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'board/register.html', {'form': form})
 
 
 class UserLoginView(LoginView):

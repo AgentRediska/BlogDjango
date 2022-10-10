@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import *
-from django.forms import TextInput
 
 
 class AddNoteForm(forms.ModelForm):
@@ -24,22 +23,11 @@ class AddNoteForm(forms.ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    # photo = forms.ImageField(required=True)
+
     class Meta:
         model = User
-        fields = {'username', 'password', 'photo'}
-
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = {'username', 'password', 'photo'}
-        labels = {'username': "Имя",
-                  'password': "Пароль",
-                  'photo': "Фото"}
-        max_lengths = {
-            'username': 150,
-            'password': 128
-        }
+        fields = {'username', 'photo'}
 
 
 class AuthForm(forms.Form):

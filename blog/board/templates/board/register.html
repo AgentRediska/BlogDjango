@@ -23,18 +23,19 @@
             <div class="col-2 left-container">
             </div>
             <div class="col center-container account-login-center">
-                <div class="account-login-container">
+                <div class="account-registration-container">
                     <div class="row">
                         <div class="col-2"></div>
-                            <p class="fs-4 fw-bold">Вход</p>
+                            <p class="fs-4 fw-bold">Регистрация</p>
                     </div>
-                    <form method="post" class="login-form">
+                    <form method="post" enctype='multipart/form-data' class="registration-form">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <br>
                         <div class="text-center">
-                            <input type="submit" value="Войти" class="log-button">
+                            <input type="submit" value="Зарегистрироваться" class="reg-button">
                         </div>
+
                     </form>
                 </div>
             </div>
