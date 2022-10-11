@@ -5,7 +5,7 @@
     padding-top: 20px;
     padding-bottom: 15px;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 30px;
 }
 
 .account-login-container, .account-registration-container, .create-note-container {
@@ -30,7 +30,6 @@
 
 .reg-button, .log-button {
     border-radius: 5px;
-    margin-left: 60px;
     width: 280px;
     height: 38px;
     background-color: var(--main_color);

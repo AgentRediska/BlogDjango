@@ -1,10 +1,16 @@
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser, PermissionsMixin):
+    username_validator = UnicodeUsernameValidator()
+
     photo = models.ImageField('Фото профиля', upload_to="photos/%Y/%m/%d/")
+    username = models.CharField('Никнейм', max_length=14, unique=True, validators=[username_validator],
+                                error_messages={'unique': _("Пользователь с таким именем уже существует."), }, )
 
     class Meta:
         verbose_name = 'Пользователь'

@@ -30,6 +30,9 @@ class CustomUserCreationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['username'].max_length = 14
+        self.fields['username'].help_text = "Обязательное поле. Не более 14 символов. Только буквы, цифры и символы " \
+                                            "@/./+/-/_. "
         self.fields['password1'].help_text = 'Пароль не должен быть слишком похож на другую вашу личную информацию.\n' \
                                              'Ваш пароль должен содержать как минимум 8 символов.\n' \
                                              'Пароль не должен быть слишком простым и распространенным.\n' \
