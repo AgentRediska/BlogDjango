@@ -30,12 +30,27 @@
                     </div>
                     <form method="post" enctype='multipart/form-data' class="registration-form">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        <div class="form-error"> {{ form.non_field_errors }}</div>
+                        {% for f in form %}
+                            <div class="row">
+                               <div class="col-4 text-center">
+                                   <h6><label for="{{ f.id_for_label }}">{{ f.label }}</label></h6>
+                               </div>
+                               <div class="col-8 text-start">{{ f }}</div>
+                               <div class="error">{{ field.errors }}</div>
+                            </div>
+                            <div class="row">
+                               <div class="col-1"></div>
+                               <div class="col">
+                                   <h6><label for="{{ f.id_for_label }}">{{ f.help_text|linebreaks }}</label></h6>
+                               </div>
+                            </div>
+                        {% endfor %}
                         <br>
                         <div class="text-center">
                             <input type="submit" value="Зарегистрироваться" class="reg-button">
                         </div>
-
+                        <br>
                     </form>
                 </div>
             </div>

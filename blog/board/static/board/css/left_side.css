@@ -9,13 +9,13 @@
 }
 
 .main-user-info {
-    height: 70px;
+    height: 90px;
     width: 100%;
     background-color: var( --main_color);
     border: 2px solid #000000;
     border-radius: 7px;
     margin-top: 20px;
-    padding-top: 4px;
+    padding-top: 12px;
     padding-bottom: 5px;
     padding-left: 15px;
 }
@@ -31,11 +31,16 @@
     padding-left: 0px;
 }
 
+.user-id {
+    margin-top: 9px;
+}
+
 .info-main-user {
     height: 60px;
     margin-left: 2px;
     margin-right: 6px;
     padding-right:5px;
+    margin-top: 3px;
 }
 
 .menu-left-container {

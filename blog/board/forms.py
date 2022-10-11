@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import *
 
@@ -23,11 +23,18 @@ class AddNoteForm(forms.ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
-    # photo = forms.ImageField(required=True)
 
     class Meta:
         model = User
         fields = {'username', 'photo'}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = 'Пароль не должен быть слишком похож на другую вашу личную информацию.\n' \
+                                             'Ваш пароль должен содержать как минимум 8 символов.\n' \
+                                             'Пароль не должен быть слишком простым и распространенным.\n' \
+                                             'Пароль не может состоять только из цифр.'
+        self.fields['password2'].help_text = 'Для подтверждения введите, пожалуйста, пароль ещё раз.'
 
 
 class AuthForm(forms.Form):

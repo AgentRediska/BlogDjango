@@ -1,10 +1,10 @@
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
-from django.urls import reverse
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 
 
 class User(AbstractUser, PermissionsMixin):
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/")
+    photo = models.ImageField('Фото профиля', upload_to="photos/%Y/%m/%d/")
 
     class Meta:
         verbose_name = 'Пользователь'

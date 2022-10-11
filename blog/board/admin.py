@@ -3,12 +3,17 @@ from django.contrib import admin
 from .models import *
 
 
+class SubscriptionInline(admin.TabularInline):
+    model = Subscription
+    extra = 1
+
+
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'username', 'date_joined')
     list_display_links = ('id', 'username')
     search_fields = ('date_joined', 'username')
     list_filter = ('date_joined',)
-    # prepopulated_fields = {"slug": ("name",)}
+    inlines = [SubscriptionInline]
 
 
 class NoteAdmin(admin.ModelAdmin):

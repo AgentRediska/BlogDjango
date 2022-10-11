@@ -9,8 +9,8 @@ from django.views.generic import ListView, CreateView
 from .forms import *
 from .models import *
 
-"""{'title': "Создать запись", 'url_name': "create_note/<slug:user_slug>/"}"""
-menu = [{'title': "Мои записи", 'url_name': "my_notes"},
+menu = [{'title': "Создать запись", 'url_name': "create_note"},
+        {'title': "Мои записи", 'url_name': "my_notes"},
         {'title': "Черновик", 'url_name': "draft"},
         {'title': "Подписки", 'url_name': "subscriptions"},
         {'title': "Подписчики", 'url_name': "subscribers"}]
@@ -69,15 +69,15 @@ def main_page(request):
     return render(request, 'board/main_page.html', context=context)
 
 
-def create_note(request, user_slug):
-    post = get_object_or_404(User, slug=user_slug)
+def create_note(request):
+    post = get_object_or_404(User, pk=request.user.pk)
     if request.method == 'POST':
         form = AddNoteForm(request.POST)
         if form.is_valid():
             new_note = form.save(commit=False)
             new_note.creator = User.objects.get(pk=post.pk)
             new_note.save()
-            return redirect('login')
+            return redirect('main_page')
     else:
         form = AddNoteForm()
     context = {
