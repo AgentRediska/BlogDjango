@@ -1,51 +1,29 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'board/basic.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link  rel="stylesheet" href="{% static 'board/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'board/css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'board/css/style.css' %}">
-    <title>Вход</title>
-</head>
+{% block title %}Вход{% endblock %}
 
-<body>
-    <header>
-        <div class="logo"></div>
-        <h4 class="text-start logo-text text-white">Let's tell</h4>
-    </header>
 
-    <section class="main-container">
-        <div class="row">
-            <div class="col-2 left-container">
+{% block left_container %}
+{% endblock %}
+
+{% block center_content %}
+    <div class="col center-container account-login-center">
+        <div class="account-login-container">
+            <div class="row">
+                <div class="col-2"></div>
+                <p class="fs-4 fw-bold">Вход</p>
             </div>
-            <div class="col center-container account-login-center">
-                <div class="account-login-container">
-                    <div class="row">
-                        <div class="col-2"></div>
-                            <p class="fs-4 fw-bold">Вход</p>
-                    </div>
-                    <form method="post" class="login-form">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <br>
-                        <div class="text-center">
-                            <input type="submit" value="Войти" class="log-button">
-                        </div>
-                    </form>
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <div class="text-center">
+                    <input type="submit" value="Войти" class="log-button">
                 </div>
-            </div>
-            <div class="col-2 right-container">
-            </div>
+            </form>
         </div>
-    </section>
+    </div>
+{% endblock %}
 
-    <footer>
-
-    </footer>
-    <script src="{% static 'board/js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% block right_content %}
+{% endblock %}

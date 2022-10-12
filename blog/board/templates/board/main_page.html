@@ -1,8 +1,8 @@
 {% extends "board/basic.html" %}
 {% load board_tags %}
 
-
 {% block title %}Главная{% endblock %}
+
 
 {% block header_additional_content %}
     <div class="head-container">
@@ -14,7 +14,7 @@
     </div>
 {% endblock %}
 
-{% block center_content %}
+{% block center_content_inside %}
     {% show_note_dict request.user.pk %}
 {% endblock %}
 

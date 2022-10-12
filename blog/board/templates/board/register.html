@@ -1,67 +1,45 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'board/basic.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link  rel="stylesheet" href="{% static 'board/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'board/css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'board/css/style.css' %}">
-    <title>Вход</title>
-</head>
+{% block title %}Регистрация{% endblock %}
 
-<body>
-    <header>
-        <div class="logo"></div>
-        <h4 class="text-start logo-text text-white">Let's tell</h4>
-    </header>
 
-    <section class="main-container">
-        <div class="row">
-            <div class="col-2 left-container">
+{% block left_container %}
+{% endblock %}
+
+{% block center_content %}
+    <div class="col center-container account-login-center">
+        <div class="account-registration-container">
+            <div class="row">
+                <div class="col-2"></div>
+                <p class="fs-4 fw-bold">Регистрация</p>
             </div>
-            <div class="col center-container account-login-center">
-                <div class="account-registration-container">
+            <form method="post" enctype='multipart/form-data' class="registration-form">
+                {% csrf_token %}
+                <div class="form-error"> {{ form.non_field_errors }}</div>
+                {% for f in form %}
                     <div class="row">
-                        <div class="col-2"></div>
-                            <p class="fs-4 fw-bold">Регистрация</p>
+                       <div class="col-4 text-center">
+                           <b><label for="{{ f.id_for_label }}">{{ f.label }}</label></b>
+                       </div>
+                       <div class="col-8 text-start">{{ f }}</div>
+                       <div class="error">{{ field.errors }}</div>
                     </div>
-                    <form method="post" enctype='multipart/form-data' class="registration-form">
-                        {% csrf_token %}
-                        <div class="form-error"> {{ form.non_field_errors }}</div>
-                        {% for f in form %}
-                            <div class="row">
-                               <div class="col-4 text-center">
-                                   <b><label for="{{ f.id_for_label }}">{{ f.label }}</label></b>
-                               </div>
-                               <div class="col-8 text-start">{{ f }}</div>
-                               <div class="error">{{ field.errors }}</div>
-                            </div>
-                            <div class="row">
-                               <div class="col-1"></div>
-                               <div class="col">
-                                   <i><label for="{{ f.id_for_label }}">{{ f.help_text|linebreaks }}</label></i>
-                               </div>
-                            </div>
-                        <br>
-                        {% endfor %}
-                        <div class="text-center">
-                            <input type="submit" value="Зарегистрироваться" class="reg-button">
-                        </div>
-                        <br>
-                    </form>
+                    <div class="row">
+                       <div class="col-1"></div>
+                       <div class="col">
+                           <i><label for="{{ f.id_for_label }}">{{ f.help_text|linebreaks }}</label></i>
+                       </div>
+                    </div>
+                <br>
+                {% endfor %}
+                <div class="text-center">
+                    <input type="submit" value="Зарегистрироваться" class="reg-button">
                 </div>
-            </div>
-            <div class="col-2 right-container">
-            </div>
+                <br>
+            </form>
         </div>
-    </section>
+    </div>
+{% endblock %}
 
-    <footer>
-
-    </footer>
-    <script src="{% static 'board/js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% block right_content %}
+{% endblock %}

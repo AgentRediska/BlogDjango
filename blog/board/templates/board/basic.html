@@ -23,52 +23,57 @@
         {% endblock %}
     </header>
 
+
     <section class="main-container">
         <div class="row">
             <div class="col-2 left-container">
-                {% get_user_by_pk request.user.pk as user %}
-                <div class="main-user-info">
-                    <div class="row">
-                        {% if user.photo %}
-                            <img class="col-3 photo-m-user" src="{{user.photo.url}}">
-                        {% endif %}
-                        <div class="col info-main-user">
-                            <div class="row">
-                                <div class="col-2 nick-title-col">
-                                    <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                {% block left_container %}
+                    {% get_user_by_pk request.user.pk as user %}
+                    <div class="main-user-info">
+                        <div class="row">
+                            {% if user.photo %}
+                                <img class="col-3 photo-m-user" src="{{user.photo.url}}">
+                            {% endif %}
+                            <div class="col info-main-user">
+                                <div class="row">
+                                    <div class="col-2 nick-title-col">
+                                        <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                                    </div>
+                                    <div class="col nick-main-user-col">
+                                        <h6 class="fs-6 nick-main-user text-center fw-bolder">{{ user.username }}</h6>
+                                    </div>
                                 </div>
-                                <div class="col nick-main-user-col">
-                                    <h6 class="fs-6 nick-main-user text-center fw-bolder">{{ user.username }}</h6>
-                                </div>
-                            </div>
-                            <div class="row user-id">
-                                <div class="col-3 id-title-col text-center">
-                                    <h6 class="fs-6 id-title">id:</h6>
-                                </div>
-                                <div class="col id-main-user-col text-center">
-                                    <h6 class="fs-6 id-main-user fw-bolder">{{ user.pk }}</h6>
+                                <div class="row user-id">
+                                    <div class="col-3 id-title-col text-center">
+                                        <h6 class="fs-6 id-title">id:</h6>
+                                    </div>
+                                    <div class="col id-main-user-col text-center">
+                                        <h6 class="fs-6 id-main-user fw-bolder">{{ user.pk }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="menu-left-container">
-                    {% for m in menu %}
-                        <a href="{% url m.url_name %}" class="btn btn-sm btn-create-note btn-left-menu">
-                            <div class="img-menu"></div>
-                            <div class="text-start text-menu-block">
-                                <h6 class="text-menu">{{ m.title }}</h6>
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
+                    <div class="menu-left-container">
+                        {% for m in menu %}
+                            <a href="{% url m.url_name %}" class="btn btn-sm btn-create-note btn-left-menu">
+                                <div class="img-menu"></div>
+                                <div class="text-start text-menu-block">
+                                    <h6 class="text-menu">{{ m.title }}</h6>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
             </div>
-            <div class="col center-container">
-                <div class="news-list-container overflow-auto">
-                    {% block center_content %}
-                    {% endblock %}
+            {% block center_content %}
+                <div class="col center-container">
+                    <div class="news-list-container overflow-auto">
+                        {% block center_content_inside %}
+                        {% endblock %}
+                    </div>
                 </div>
-            </div>
+            {% endblock %}
             <div class="col-2 right-container">
                 {% block right_content %}
                 {% endblock %}
