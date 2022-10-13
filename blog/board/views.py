@@ -88,6 +88,22 @@ def create_note(request):
     return render(request, 'board/create_note.html', context=context)
 
 
+class MyNotes(ListView):
+    model = Note
+    template_name = 'board/my_notes.html'
+    context_object_name = 'notes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        user = User.objects.get(pk=request.user.pk)
+        return Note.objects.filter(creator=user)
+
+
 def my_notes(request):
     return render(request, 'board/my_notes.html', {'menu': menu})
 

@@ -33,3 +33,11 @@ def show_subscription_list(user_pk):
     for sub in subscriptions:
         sub_user.append(User.objects.get(pk=sub.subscription_id))
     return {"subscription_list": sub_user}
+
+
+@register.inclusion_tag('board/inclusion/notes.html')
+def show_notes(notes):
+    print("AAAAAAAAAAAAAA")
+    print(notes)
+    print(type(notes))
+    return {'notes': notes}

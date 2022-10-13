@@ -1,23 +1,23 @@
 {% extends "board/basic.html" %}
 {% load board_tags %}
 
-
 {% block title %}Мои записи{% endblock %}
+
 
 {% block header_additional_content %}
     <div class="head-container">
         <div class="exit-from-account-container">
-            <a href="{% url 'login' %}" class="btn btn-exit-from-account">
+            <a href="{% url 'user_logout' %}" class="btn btn-exit-from-account">
                 <h6 class="exit-header-text fst-italic">Выход</h6>
             </a>
         </div>
     </div>
 {% endblock %}
 
-{% block center_content %}
-    {% show_note_dict user_pk %}
+{% block center_content_inside %}
+    {% show_notes notes %}
 {% endblock %}
 
 {% block left_content %}
-    {% show_subscription_list user_pk %}
+    {% show_subscription_list request.user.pk %}
 {% endblock %}

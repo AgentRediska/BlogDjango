@@ -1,9 +1,9 @@
-{% for note, note_info in note_dict.items %}
+{% for note in notes %}
     <div class="news">
         <div class="news-user-info">
             <div class="row">
-                {% if note_info.0.photo %}
-                    <img class="col-3 photo-news-user" src="{{ note_info.0.photo.url }}">
+                {% if note.creator.photo %}
+                    <img class="col-3 photo-news-user" src="{{ note.creator.photo.url }}">
                 {% endif %}
                 <div class="col news-title-text-container">
                     <div class="row">
@@ -18,7 +18,7 @@
                                 <h6 class="id-title text-end">id:</h6>
                             </div>
                             <div class="col-3 id-news-user-col">
-                                <h6 class="id-news-user fw-bolder">{{ note_info.0.pk }}</h6>
+                                <h6 class="id-news-user fw-bolder">{{ note.creator.pk }}</h6>
                             </div>
                         </div>
                         <div class="col-4"></div>
@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-4 img-news-like"></div>
                         <p class="fs-6 text-start col count-like" style="margin-bottom: 0px;">
-                            {{ note_info.1 }}
+                            {{ note.like_set.count }}
                         </p>
                     </div>
                 </a>
@@ -55,11 +55,13 @@
                     <div class="row">
                         <div class="col-4 img-news-dislike"></div>
                         <p class="fs-6 text-start col count-dislike" style="margin-bottom: 0px;">
-                            {{ note_info.2 }}
+                            {{ note.dislike_set.count }}
                         </p>
                     </div>
                 </a>
             </div>
         </div>
     </div>
+{% empty %}
+    <li>На данный момент у вас нет записей</li>
 {% endfor %}
