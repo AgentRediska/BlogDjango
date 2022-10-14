@@ -63,5 +63,13 @@
         </div>
     </div>
 {% empty %}
-    <li>На данный момент у вас нет записей</li>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8 text-center">
+            <a href="{% url 'create_note' %}" class="btn btn-basic">
+                <p class="fs-6 fw-semibold text-btn-basic">Создать свою первую запись</p>
+            </a>
+        </div>
+        <div class="col-2"></div>
+    </div>
 {% endfor %}
