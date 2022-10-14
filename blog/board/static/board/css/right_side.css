@@ -1,27 +1,49 @@
-
 .right-container {
     min-height: 520px;
-    max-height: 540px;
+    max-height: 100vh;
     min-width: 260px;
     margin-left: 10px;
     padding: 0px;
-    position: relative;
-    position: sticky;
     top: 50px;
+    position: sticky;
+}
+
+.right-list-container::-webkit-scrollbar {
+    width: 7px;
+    background-color: var(--color_scrollbar);
+}
+
+.right-list-container::-webkit-scrollbar-thumb {
+    background-color: var(--color_scrollbar_thumb);
+}
+
+.right-list-container {
+    position: sticky;
+    overflow:auto;
+    overflow-x: hidden;
+    padding-right: 0px;
+    min-height: 520px;
+    max-height: 80vh;
+    min-width: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 .subs-user-info {
     height: 90px;
-    width: 100%;
+    width: 95%;
     background-color: var( --main_color);
     border: 2px solid #000000;
     border-radius: 7px;
     margin-top: 20px;
+    margin-left:0px;
+    margin-bottom: 10px;
+    margin-right:0px;
     padding-top: 12px;
     padding-bottom: 5px;
     padding-left: 15px;
     padding-right: 10px;
-    margin-bottom: 10px;
+
 }
 
 .subs-user-info:hover {

@@ -18,6 +18,10 @@
     {% show_notes notes %}
 {% endblock %}
 
-{% block left_content %}
-    {% show_subscription_list request.user.pk %}
+{% block right_content %}
+    {% if q %}
+        {% show_subscription_list user_pk=request.user.pk search_text=q %}
+    {% else %}
+       {% show_subscription_list user_pk=request.user.pk %}
+    {% endif %}
 {% endblock %}

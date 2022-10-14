@@ -26,18 +26,18 @@ def show_note_dict(user_pk):
 
 
 @register.inclusion_tag('board/inclusion/subscriptions.html')
-def show_subscription_list(user_pk):
+def show_subscription_list(user_pk, search_text=''):
+    print(search_text)
     user = User.objects.get(pk=user_pk)
     subscriptions = Subscription.objects.filter(user_id=user)
     sub_user = []
     for sub in subscriptions:
-        sub_user.append(User.objects.get(pk=sub.subscription_id))
+        user = User.objects.get(pk=sub.subscription_id)
+        if search_text in user.username:
+            sub_user.append(User.objects.get(pk=sub.subscription_id))
     return {"subscription_list": sub_user}
 
 
 @register.inclusion_tag('board/inclusion/notes.html')
 def show_notes(notes):
-    print("AAAAAAAAAAAAAA")
-    print(notes)
-    print(type(notes))
     return {'notes': notes}
