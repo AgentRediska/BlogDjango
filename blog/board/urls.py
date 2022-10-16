@@ -11,4 +11,5 @@ urlpatterns = [
     path('draft/', draft, name='draft'),
     path('subscriptions/', subscriptions, name='subscriptions'),
     path('subscribers/', subscribers, name='subscribers'),
+    path('speaker/<int:speaker_id>/', SpeakerNotesView.as_view(), name='speaker')
 ]

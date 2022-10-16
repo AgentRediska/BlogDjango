@@ -46,6 +46,11 @@ header {
     color: #000000;
 }
 
+.basic-text {
+    color: var(--main_color_solid);
+}
+
+
 .exit-header-text {
     color: var(--main_color_solid);
     height: 100%;

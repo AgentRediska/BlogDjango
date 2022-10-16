@@ -1,7 +1,7 @@
 {% extends "board/basic.html" %}
 {% load board_tags %}
 
-{% block title %}Мои записи{% endblock %}
+{% block title %}Подписчик{% endblock %}
 
 
 {% block header_additional_content %}
@@ -15,26 +15,19 @@
 {% endblock %}
 
 {% block center_content_inside %}
-    {% if notes|length > 0  %}
+    {% if notes|length > 0 %}
         {% show_notes notes %}
     {% else %}
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8 text-center">
-                <a href="{% url 'create_note' %}" class="btn btn-basic">
-                    <p class="fs-6 fw-semibold text-btn-basic">Создать свою первую запись</p>
-                </a>
+                <h5 class="basic-text fst-italic">У данного пользователя ещё нет записей</h5>
             </div>
             <div class="col-2"></div>
         </div>
     {% endif %}
-    {% show_notes notes %}
 {% endblock %}
 
 {% block right_content %}
-    {% if q %}
-        {% show_subscription_list user_pk=request.user.pk search_text=q %}
-    {% else %}
-       {% show_subscription_list user_pk=request.user.pk %}
-    {% endif %}
+    {% show_subscription_list request.user.pk %}
 {% endblock %}

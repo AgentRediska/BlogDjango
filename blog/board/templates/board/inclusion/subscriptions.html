@@ -5,7 +5,7 @@
 </form>
 <div class="right-list-container">
     {% for sub in subscription_list %}
-        <div class="row subs-user-info">
+        <a href="{% url 'speaker' sub.pk %}" class="row subs-user-info">
             <div class="row">
                 {% if sub.photo %}
                     <img class="col-3 photo-subs-user" src="{{ sub.photo.url }}">
@@ -29,6 +29,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     {% endfor %}
 </div>

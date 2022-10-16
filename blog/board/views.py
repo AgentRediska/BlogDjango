@@ -9,7 +9,8 @@ from django.views.generic import ListView, CreateView
 from .forms import *
 from .models import *
 
-menu = [{'title': "Создать запись", 'url_name': "create_note"},
+menu = [{'title': "Главная страница", 'url_name': "main_page"},
+        {'title': "Создать запись", 'url_name': "create_note"},
         {'title': "Мои записи", 'url_name': "my_notes"},
         {'title': "Черновик", 'url_name': "draft"},
         {'title': "Подписки", 'url_name': "subscriptions"},
@@ -119,6 +120,22 @@ def subscriptions(request):
 
 def subscribers(request):
     return HttpResponse("Подписчики")
+
+
+class SpeakerNotesView(ListView):
+    model = Note
+    template_name = 'board/speaker.html'
+    context_object_name = 'notes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
+
+    def get_queryset(self):
+        user_id = self.kwargs.get("speaker_id")
+        user = User.objects.get(pk=user_id)
+        return Note.objects.filter(creator=user)
 
 
 def page_not_found(request, exception):
