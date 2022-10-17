@@ -1,5 +1,9 @@
+from functools import reduce
+from operator import and_
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Q, QuerySet
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -46,28 +50,33 @@ class UserLogoutView(LogoutView):
     next_page = "/"
 
 
-class MainView(View):
-    def get(self, request):
-        if request.user.is_authenticated:
-            context = {'menu': menu, }
-            return render(request, 'board/main_page.html', context)
-        else:
-            response = redirect('board/login/')
-            return response
+class MainPageView(ListView):
+    model = Note
+    template_name = 'board/main_page.html'
+    context_object_name = 'notes'
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('board/login/')
+        return super(MainPageView, self).get(*args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        subsc = Subscription.objects.filter(user_id=request.user.pk)
+        notes = []
+        for sub in subsc:
+            notes.extend(list(Note.objects.filter(creator=sub.subscription_id)))
+        notes.sort(key=lambda x: x.creation_date)
+        return notes
 
 
 def index(request):
     return render(request, 'board/index.html')
-
-
-def main_page(request):
-    user_pk = request.user.pk
-    get_object_or_404(User, pk=user_pk)
-    context = {
-        'user_pk': user_pk,
-        'menu': menu,
-    }
-    return render(request, 'board/main_page.html', context=context)
 
 
 def create_note(request):
@@ -93,6 +102,7 @@ class MyNotes(ListView):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

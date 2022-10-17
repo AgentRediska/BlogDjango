@@ -3,10 +3,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 from blog import settings
-from board.views import page_not_found, MainView
+from board.views import page_not_found, MainPageView
 
 urlpatterns = [
-    path('', MainView.as_view(), name='main_page'),
+    path('', MainPageView.as_view(), name='main_page'),
     path('admin/', admin.site.urls),
     path('board/', include('board.urls')),
 ]

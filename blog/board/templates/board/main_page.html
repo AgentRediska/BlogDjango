@@ -15,7 +15,17 @@
 {% endblock %}
 
 {% block center_content_inside %}
-    {% show_note_dict request.user.pk %}
+    {% if notes|length > 0  %}
+        {% show_notes notes %}
+    {% else %}
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 text-center">
+                <h5 class="basic-text fst-italic">Пользователи, на которых Вы подписаны, еще не публиковали записи</h5>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block right_content %}
