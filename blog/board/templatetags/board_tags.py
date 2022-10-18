@@ -23,5 +23,5 @@ def show_subscription_list(user_pk, search_text=''):
 
 
 @register.inclusion_tag('board/inclusion/notes.html')
-def show_notes(notes):
-    return {'notes': notes}
+def show_notes(notes, user):
+    return {'notes': notes, 'user': user}

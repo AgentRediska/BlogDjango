@@ -4,7 +4,7 @@ from operator import and_
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q, QuerySet
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -150,3 +150,29 @@ class SpeakerNotesView(ListView):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Page not found<h1>')
+
+
+def like_post(request, note_pk):
+    note = Note.objects.get(pk=note_pk)
+    if request.user in note.likes.all():
+        print("YEEEEEEEEEES")
+    else:
+        print("NOOOOOOO")
+    if note.likes.filter(id=request.user.pk).exists():
+        note.likes.remove(request.user)
+    else:
+        if note.dislikes.filter(id=request.user.pk).exists():
+            note.dislikes.remove(request.user)
+        note.likes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def dislike_post(request, note_pk):
+    note = Note.objects.get(pk=note_pk)
+    if note.dislikes.filter(id=request.user.pk).exists():
+        note.dislikes.remove(request.user)
+    else:
+        if note.likes.filter(id=request.user.pk).exists():
+            note.likes.remove(request.user)
+        note.dislikes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

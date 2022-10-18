@@ -16,7 +16,7 @@
 
 {% block center_content_inside %}
     {% if notes|length > 0 %}
-        {% show_notes notes %}
+        {% show_notes notes request.user%}
     {% else %}
         <div class="row">
             <div class="col-2"></div>

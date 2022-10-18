@@ -17,8 +17,8 @@
 }
 
 .news {
-    min-height: 320px;
-    max-height: 320px;
+    min-height: 350px;
+    max-height: 350px;
     width: 100%;
     background-color: var( --color3);
     border: 2px solid #000000;
@@ -48,7 +48,7 @@
 
 .description-container {
     width: 100%;
-    min-height: 200px;
+    min-height: 220px;
     border: 1px solid var(--border-color);
     margin-top: 5px;
 }
@@ -59,32 +59,41 @@
 }
 
 .description-text {
-    height: 170px;
+    height: 190px;
     width: 100%;
     border: 1px solid #000000;
 }
 
 .reaction-container {
     width: 30%;
-    height: 50px;
+    height: 55px;
     margin-top: 5px;
 }
 
-.img-news-dislike {
-    background: url(../images/dislike.svg);
-    height: 20px;
-    width: 20px;
-    margin-top: 4px;
-    margin-left: 5px;
-    background-repeat: no-repeat;
+.img-news-like-active {
+    background: url(../images/like_active.svg);
 }
 
-.img-news-like {
+.img-news-like-inactive {
     background: url(../images/like.svg);
-    height: 20px;
-    width: 20px;
+}
+
+.img-news-dislike-active {
+    background: url(../images/dislike_active.svg);
+}
+
+.img-news-dislike-inactive {
+    background: url(../images/dislike.svg);
+}
+
+.img-reaction {
+    height: 26px;
+    width: 26px;
     margin-left: 5px;
-    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 26px 26px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 .btn-news-like {
