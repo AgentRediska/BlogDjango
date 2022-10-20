@@ -112,7 +112,7 @@ class MyNotesView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
-        context['q'] = self.request.GET.get('q')
+        context['right_list_search'] = self.request.GET.get('right_list_search')
         return context
 
     def get_queryset(self):
@@ -128,6 +128,27 @@ def draft(request):
 def subscriptions(request):
     return HttpResponse("Подписки")
 
+
+class SubscriptionsView(ListView):
+    model = User
+    template_name = 'board/my_subscriptions.html'
+    context_object_name = 'subscriptions'
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('user_login')
+        return super(SubscriptionsView, self).get(*args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['q'] = self.request.GET.get('q')
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        user = User.objects.get(pk=request.user.pk)
+        return Note.objects.filter(creator=user)
 
 def subscribers(request):
     return HttpResponse("Подписчики")

@@ -16,7 +16,7 @@
 
 {% block center_content_inside %}
     {% if notes|length > 0  %}
-        {% show_notes notes request.user%}
+        {% show_notes notes request.user %}
     {% else %}
         <div class="row">
             <div class="col-2"></div>
@@ -32,7 +32,7 @@
 
 {% block right_content %}
     {% if q %}
-        {% show_subscription_list user_pk=request.user.pk search_text=q %}
+        {% show_subscription_list user_pk=request.user.pk search_text=right_list_search %}
     {% else %}
        {% show_subscription_list user_pk=request.user.pk %}
     {% endif %}
