@@ -2,6 +2,7 @@
 @import url(right_side.css);
 @import url(center.css);
 @import url(account_login.css);
+@import url(center_user_list.css);
 
 :root {
     --color2: #52339a;
