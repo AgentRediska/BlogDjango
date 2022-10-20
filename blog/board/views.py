@@ -182,10 +182,6 @@ def page_not_found(request, exception):
 
 def like_post(request, note_pk):
     note = Note.objects.get(pk=note_pk)
-    if request.user in note.likes.all():
-        print("YEEEEEEEEEES")
-    else:
-        print("NOOOOOOO")
     if note.likes.filter(id=request.user.pk).exists():
         note.likes.remove(request.user)
     else:
@@ -203,4 +199,9 @@ def dislike_post(request, note_pk):
         if note.likes.filter(id=request.user.pk).exists():
             note.likes.remove(request.user)
         note.dislikes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def user_unsubscribe(request, sub_pk):
+    Subscription.objects.filter(Q(subscription_id=sub_pk) & Q(user_id=request.user)).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
