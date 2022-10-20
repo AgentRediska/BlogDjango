@@ -11,7 +11,7 @@ urlpatterns = [
     path('set_like/<int:note_pk>/', like_post, name='set_like'),
     path('set_dislike/<int:note_pk>/', dislike_post, name='set_dislike'),
     path('draft/', draft, name='draft'),
-    path('subscriptions/', subscriptions, name='subscriptions'),
+    path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions'),
     path('subscribers/', subscribers, name='subscribers'),
     path('speaker/<int:speaker_id>/', SpeakerNotesView.as_view(), name='speaker')
 ]

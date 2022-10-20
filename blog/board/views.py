@@ -125,10 +125,6 @@ def draft(request):
     return HttpResponse("Черновик")
 
 
-def subscriptions(request):
-    return HttpResponse("Подписки")
-
-
 class SubscriptionsView(ListView):
     model = User
     template_name = 'board/my_subscriptions.html'
@@ -142,13 +138,18 @@ class SubscriptionsView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
-        context['q'] = self.request.GET.get('q')
+        context['right_list_search'] = self.request.GET.get('right_list_search')
         return context
 
     def get_queryset(self):
         request = self.request
         user = User.objects.get(pk=request.user.pk)
-        return Note.objects.filter(creator=user)
+        subscriptions = Subscription.objects.filter(user_id=user)
+        sub_user = []
+        for sub in subscriptions:
+            sub_user.append(User.objects.get(pk=sub.subscription_id))
+        return sub_user
+
 
 def subscribers(request):
     return HttpResponse("Подписчики")

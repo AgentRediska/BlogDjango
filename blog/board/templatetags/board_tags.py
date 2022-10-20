@@ -11,7 +11,6 @@ def get_user_by_pk(user_pk):
 
 @register.inclusion_tag('board/inclusion/subscriptions.html')
 def show_subscription_list(user_pk, search_text=''):
-    print(search_text)
     user = User.objects.get(pk=user_pk)
     subscriptions = Subscription.objects.filter(user_id=user)
     sub_user = []

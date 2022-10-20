@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "board/basic.html" %}
+{% load board_tags %}
 
-</body>
-</html>
+{% block title %}Мои подписки {% endblock %}
+
+
+{% block header_additional_content %}
+    <div class="head-container">
+        <div class="exit-from-account-container">
+            <a href="{% url 'user_logout' %}" class="btn btn-exit-from-account">
+                <h6 class="exit-header-text fst-italic">Выход</h6>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block center_content_inside %}
+    {% if subscriptions|length > 0  %}
+<!--        {% show_notes notes request.user %}-->
+        {% for subs in subscriptions %}
+            <div class="news">
+                <div class="news-user-info">
+                    <div class="row">
+                        {% if subs.photo %}
+                            <img class="col-3 photo-news-user" src="{{ subs.photo.url }}">
+                        {% endif %}
+                        <div class="col news-title-text-container">
+                            <div class="row">
+                                <div class="col-8 row">
+                                    <div class="col-2 nick-title-col">
+                                        <h6 class="nick-title text-start">Ник:</h6>
+                                    </div>
+                                    <div class="col-5 nick-news-user-col">
+                                        <h6 class="nick-news-user fw-bolder">{{ subs.username }}</h6>
+                                    </div>
+                                    <div class="col-2 id-title-col">
+                                        <h6 class="id-title text-end">id:</h6>
+                                    </div>
+                                    <div class="col-3 id-news-user-col">
+                                        <h6 class="id-news-user fw-bolder">{{ subs.pk }}</h6>
+                                    </div>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reaction-container">
+                    <div class="row">
+                        <a href="{% url 'subscriptions' %}" class="col btn btn-news-like">
+                            <div class="row">
+                                <p class="fs-6 text-start col count-like" style="margin-bottom: 0px;">
+                                    Отписаться
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 text-center">
+                <a href="{% url 'create_note' %}" class="btn btn-basic">
+                    <p class="fs-6 fw-semibold text-btn-basic">Перейти к списку пользователей</p>
+                </a>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block right_content %}
+    {% if q %}
+        {% show_subscription_list user_pk=request.user.pk search_text=right_list_search %}
+    {% else %}
+       {% show_subscription_list user_pk=request.user.pk %}
+    {% endif %}
+{% endblock %}
