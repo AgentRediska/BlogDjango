@@ -57,7 +57,7 @@ class MainPageView(ListView):
 
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
-            return redirect('board/login/')
+            return redirect('user_login')
         return super(MainPageView, self).get(*args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -98,11 +98,16 @@ def create_note(request):
     return render(request, 'board/create_note.html', context=context)
 
 
-class MyNotes(ListView):
+class MyNotesView(ListView):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 2
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('user_login')
+        return super(MyNotesView, self).get(*args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,10 +119,6 @@ class MyNotes(ListView):
         request = self.request
         user = User.objects.get(pk=request.user.pk)
         return Note.objects.filter(creator=user)
-
-
-def my_notes(request):
-    return render(request, 'board/my_notes.html', {'menu': menu})
 
 
 def draft(request):
