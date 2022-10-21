@@ -1,14 +1,10 @@
-from functools import reduce
-from operator import and_
-
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Q, QuerySet
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views import View
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 
 from .forms import *
 from .models import *
@@ -25,6 +21,30 @@ class SignInView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('main_page')
     template_name = 'board/register.html'
+
+
+class UserEditView(UpdateView):
+    form_class = CustomUserChangeForm
+    success_url = reverse_lazy('main_page')
+    template_name = 'board/edit_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+class PasswordsChangeView(PasswordChangeView):
+    template_name = 'board/change_password.html'
+    success_url = reverse_lazy('main_page')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        return context
 
 
 def register_view(request):

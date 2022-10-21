@@ -8,8 +8,17 @@
     top: 50px;
 }
 
+.btn-edit-prof{
+    margin-right:5px;
+}
+
+.btn-edit-prof:hover {
+    color: #FFFFFF;
+}
+
+
 .main-user-info {
-    height: 90px;
+    height: 120px;
     width: 100%;
     background-color: var( --main_color);
     border: 2px solid #000000;

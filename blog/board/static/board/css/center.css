@@ -112,5 +112,9 @@
     border: 1px solid #d80000;
 }
 
+.btn-change-password:hover {
+    color: #FFFFFF;
+}
+
 
 

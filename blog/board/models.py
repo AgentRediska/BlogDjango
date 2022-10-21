@@ -42,7 +42,7 @@ class Note(models.Model):
 
 class Subscription(models.Model):
     subscription_id = models.IntegerField(null=False)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True)
 
     def __str__(self):
-        return f"user id: {self.user_id}, subs id: {self.subscription_id}"
+        return f"user id: {self.user}, subs id: {self.subscription_id}"

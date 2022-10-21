@@ -1,11 +1,14 @@
 from django.urls import path
 
 from .views import *
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('login/', UserLoginView.as_view(), name='user_login'),
     path('logout/', UserLogoutView.as_view(), name='user_logout'),
     path('register', register_view, name='user_register'),
+    path('edit_profile/', UserEditView.as_view(), name='edit_profile'),
+    path('password/', PasswordsChangeView.as_view(), name='password'),
     path('create_note', create_note, name='create_note'),
     path('my_notes/', MyNotesView.as_view(), name='my_notes'),
     path('set_like/<int:note_pk>/', like_post, name='set_like'),
