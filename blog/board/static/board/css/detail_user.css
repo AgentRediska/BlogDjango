@@ -1,0 +1,11 @@
+.description-detail-container {
+    width: 100%;
+    min-height: 220px;
+    margin-top: 5px;
+}
+
+.description-detail-text {
+    min-height: 300px;
+    width: 100%;
+    border: 1px solid #000000;
+}
