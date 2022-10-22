@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from .forms import *
 from .models import *
@@ -157,6 +157,18 @@ class EditNoteView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
         context['title'] = 'Редактировать запись'
+        return context
+
+
+class DetailNoteView(DetailView):
+    model = Note
+    template_name = 'board/detail_note.html'
+    pk_url_kwarg = 'note_pk'
+    context_object_name = 'note'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
         return context
 
 

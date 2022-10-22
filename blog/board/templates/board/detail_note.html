@@ -1,7 +1,7 @@
 {% extends "board/basic.html" %}
 {% load board_tags %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}Инфо{% endblock %}
 
 {% block header_additional_content %}
     <div class="head-container">
@@ -14,13 +14,12 @@
 {% endblock %}
 
 {% block center_content_inside %}
-    <div class="news">
-        <div class="news-user-info">
-            <div class="row">
-                {% if sub.photo %}
-                    <img class="col-3 photo-subs-user-center" src="{{ note.creator.photo.url }}">
+    <div class="note-detail">
+        <div class="row note-detail-user-info">
+                {% if note.creator.photo %}
+                    <img class="col-3 photo-detail-user" src="{{ note.creator.photo.url }}">
                 {% endif %}
-                <div class="col info-subs-user">
+                <div class="col-9 info-subs-user">
                     <div class="row">
                         <div class="col-3 nick-title-col">
                             <h6 class="fs-6 nick-title text-center">Ник:</h6>
@@ -46,16 +45,24 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
-        <div class="news-user-info-nick-id row">
-            <div class="col-1 title-news">
+        <br>
+        <div class="note-title row">
+            <div class="col-3 title-news">
                 <h6 class="id-news-user">Тема:</h6>
             </div>
-            <div class="col title-news-text">
-                <h6 class="id-news-user fst-italic fw-bolder">{{ note.title }}</h6>
+            <div class="col note-title-text">
+                <h6 class="id-news-user fst-italic">{{ note.title }}</h6>
             </div>
         </div>
+        <div class="row">
+                <div class="col-3 id-title-col">
+                    <h6 class="fs-6 id-title">Дата создания записи:</h6>
+                </div>
+                <div class="col id-subs-user-col">
+                    <h6 class="fs-6 id-subs-user fst-italic">{{ note.creation_date }}</h6>
+                </div>
+            </div>
         <div class="description-detail-container">
             <h6 class="description">Описание:</h6>
             <div class="description-detail-text overflow-auto">

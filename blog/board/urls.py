@@ -11,6 +11,7 @@ urlpatterns = [
     path('password/', PasswordsChangeView.as_view(), name='password'),
     path('create_note', create_note, name='create_note'),
     path('edit_note/<int:note_pk>', EditNoteView.as_view(), name='edit_note'),
+    path('detail_note/<int:note_pk>', DetailNoteView.as_view(), name='detail_note'),
     path('my_notes/', MyNotesView.as_view(), name='my_notes'),
     path('set_like/<int:note_pk>/', like_post, name='set_like'),
     path('set_dislike/<int:note_pk>/', dislike_post, name='set_dislike'),

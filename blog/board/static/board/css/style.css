@@ -3,6 +3,7 @@
 @import url(center.css);
 @import url(account_login.css);
 @import url(center_user_list.css);
+@import url(detail_user.css);
 
 :root {
     --color2: #52339a;
