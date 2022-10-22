@@ -114,6 +114,7 @@ def create_note(request):
         'user_pk': post.pk,
         'menu': menu,
         'form': form,
+        'title': 'Создать запись'
     }
     return render(request, 'board/create_note.html', context=context)
 
@@ -143,6 +144,20 @@ class MyNotesView(ListView):
 
 def draft(request):
     return HttpResponse("Черновик")
+
+
+class EditNoteView(UpdateView):
+    model = Note
+    form_class = AddNoteForm
+    template_name = 'board/create_note.html'
+    success_url = 'my_notes'
+    pk_url_kwarg = 'note_pk'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Редактировать запись'
+        return context
 
 
 class SubscriptionsView(ListView):

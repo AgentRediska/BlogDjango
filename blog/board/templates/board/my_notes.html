@@ -16,7 +16,79 @@
 
 {% block center_content_inside %}
     {% if notes|length > 0  %}
-        {% show_notes notes request.user %}
+        {% for note in notes %}
+            <div class="news">
+                <div class="news-user-info">
+                    <div class="row">
+                        {% if note.creator.photo %}
+                            <img class="col-3 photo-news-user" src="{{ note.creator.photo.url }}">
+                        {% endif %}
+                        <div class="col news-title-text-container">
+                            <div class="row">
+                                <div class="col-8 row">
+                                    <div class="col-2 nick-title-col">
+                                        <h6 class="nick-title text-start">Ник:</h6>
+                                    </div>
+                                    <div class="col-5 nick-news-user-col">
+                                        <h6 class="nick-news-user fw-bolder">{{ note.creator.username }}</h6>
+                                    </div>
+                                    <div class="col-2 id-title-col">
+                                        <h6 class="id-title text-end">id:</h6>
+                                    </div>
+                                    <div class="col-3 id-news-user-col">
+                                        <h6 class="id-news-user fw-bolder">{{ note.creator.pk }}</h6>
+                                    </div>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                            <div class="news-user-info-nick-id row">
+                                <div class="col-1 title-news">
+                                    <h6 class="id-news-user">Тема:</h6>
+                                </div>
+                                <div class="col title-news-text">
+                                    <h6 class="id-news-user fst-italic fw-bolder">{{ note.title }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="description-container">
+                    <h6 class="description">Описание:</h6>
+                    <div class="description-text overflow-auto">
+                        <h6 class="description"> {{ note.content }} </h6>
+                    </div>
+                </div>
+                <div class="reaction-container">
+                    <div class="row">
+                        <a href="{% url 'set_like' note.pk %}" class="col btn btn-news-like">
+                            <div class="row">
+                                {% if user in note.likes.all %}
+                                    <div class="col-4 img-news-like-active img-reaction"></div>
+                                {% else %}
+                                    <div class="col-4 img-news-like-inactive img-reaction"></div>
+                                {% endif %}
+                                <p class="fs-6 text-start col count-like" style="margin-bottom: 0px;">
+                                    {{ note.number_of_likes }}
+                                </p>
+                            </div>
+                        </a>
+                        <a href="{% url 'set_dislike' note.pk %}" class="col btn btn-news-dislike">
+                            <div class="row">
+                                {% if user in note.dislikes.all %}
+                                    <div class="col-4 img-news-dislike-active img-reaction"></div>
+                                {% else %}
+                                    <div class="col-4 img-news-dislike-inactive img-reaction"></div>
+                                {% endif %}
+                                <p class="fs-6 text-start col count-dislike" style="margin-bottom: 0px;">
+                                    {{ note.number_of_dislikes }}
+                                </p>
+                            </div>
+                        </a>
+                        <a href="{% url 'edit_note' note.pk %}" class="col btn">Редактировать</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     {% else %}
         <div class="row">
             <div class="col-2"></div>

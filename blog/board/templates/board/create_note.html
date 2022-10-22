@@ -1,7 +1,7 @@
 {% extends "board/basic.html" %}
 {% load board_tags %}
 
-{% block title %}Создать запись{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block header_additional_content %}
     <div class="head-container">
@@ -16,7 +16,7 @@
 {% block center_content_inside %}
     <div class="create-note-container ">
         <div class="row">
-             <p class="fs-4 fw-bold text-center">Создать запись</p>
+             <p class="fs-4 fw-bold text-center">{{ title }}</p>
         </div>
         <form method="POST">
             {% csrf_token %}
@@ -36,7 +36,7 @@
                 <br>
             {% endfor %}
             <div class="text-center">
-               <button type="submit" class="create-note-button">Добавить</button>
+               <button type="submit" class="create-note-button">Сохранить</button>
             </div>
             <br>
         </form>
@@ -44,5 +44,5 @@
 {% endblock %}
 
 {% block right_content %}
-    {% show_subscription_list user_pk %}
+    {% show_subscription_list request.user.pk %}
 {% endblock %}
