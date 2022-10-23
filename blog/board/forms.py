@@ -7,18 +7,20 @@ from .models import *
 class AddNoteForm(forms.ModelForm):
     class Meta:
         model = Note
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'is_published']
         labels = {
             'title': "Тема",
-            'content': "Описание"
+            'content': "Описание",
+            'is_published': "Публикация"
         }
         max_lengths = {
             'title': 200,
-            'content': 2000
+            'content': 5000
         }
         widgets = {
             'title': forms.Textarea(attrs={'cols': 80, 'rows': 2}),
-            'content': forms.Textarea(attrs={'cols': 80, 'rows': 14})
+            'content': forms.Textarea(attrs={'cols': 80, 'rows': 14}),
+            'is_published': forms.CheckboxInput(attrs={'style': 'width:20px;height:20px;'}),
         }
 
 

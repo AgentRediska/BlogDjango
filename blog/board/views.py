@@ -12,7 +12,7 @@ from .models import *
 menu = [{'title': "Главная страница", 'url_name': "main_page"},
         {'title': "Создать запись", 'url_name': "create_note"},
         {'title': "Мои записи", 'url_name': "my_notes"},
-        {'title': "Черновик", 'url_name': "draft"},
+        {'title': "Черновик", 'url_name': "draft_notes"},
         {'title': "Подписки", 'url_name': "subscriptions"},
         {'title': "Подписчики", 'url_name': "subscribers"}]
 
@@ -90,7 +90,7 @@ class MainPageView(ListView):
         subsc = Subscription.objects.filter(user_id=request.user.pk)
         notes = []
         for sub in subsc:
-            notes.extend(list(Note.objects.filter(creator=sub.subscription_id)))
+            notes.extend(list(Note.objects.filter(creator=sub.subscription_id, is_published=True)))
         notes.sort(key=lambda x: x.creation_date)
         return notes
 
@@ -139,7 +139,30 @@ class MyNotesView(ListView):
     def get_queryset(self):
         request = self.request
         user = User.objects.get(pk=request.user.pk)
-        return Note.objects.filter(creator=user)
+        return Note.objects.filter(creator=user, is_published=True)
+
+
+class DraftNotesView(ListView):
+    model = Note
+    template_name = 'board/my_notes.html'
+    context_object_name = 'notes'
+    paginate_by = 2
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('user_login')
+        return super(DraftNotesView, self).get(*args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['right_list_search'] = self.request.GET.get('right_list_search')
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        user = User.objects.get(pk=request.user.pk)
+        return Note.objects.filter(creator=user, is_published=False)
 
 
 def draft(request):
@@ -150,7 +173,7 @@ class EditNoteView(UpdateView):
     model = Note
     form_class = AddNoteForm
     template_name = 'board/create_note.html'
-    success_url = 'my_notes'
+    success_url = '/board/my_notes'
     pk_url_kwarg = 'note_pk'
 
     def get_context_data(self, **kwargs):
@@ -220,7 +243,7 @@ class SpeakerNotesView(ListView):
     def get_queryset(self):
         user_id = self.kwargs.get("speaker_id")
         user = User.objects.get(pk=user_id)
-        return Note.objects.filter(creator=user)
+        return Note.objects.filter(creator=user, is_published=True)
 
 
 def page_not_found(request, exception):
@@ -250,5 +273,5 @@ def dislike_post(request, note_pk):
 
 
 def user_unsubscribe(request, sub_pk):
-    Subscription.objects.filter(Q(subscription_id=sub_pk) & Q(user_id=request.user)).delete()
+    Subscription.objects.filter(subscription_id=sub_pk, user_id=request.user).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

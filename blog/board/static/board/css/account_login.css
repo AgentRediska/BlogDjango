@@ -20,12 +20,11 @@
     margin: 0 auto;
 }
 
+.account-login-container, .account-registration-container, .create-note-container {
+    height: 280px;
+}
 .create-note-container {
      width: 700px;
-}
-
-.account-login-container {
-    height: 230px;
 }
 
 .reg-button, .log-button {
@@ -34,6 +33,14 @@
     height: 38px;
     background-color: var(--main_color);
   }
+
+.btn-regis-prof{
+    margin-right:5px;
+}
+
+.btn-regis-prof:hover {
+    color: #FFFFFF;
+}
 
 .create-note-button {
     border-radius: 5px;

@@ -19,7 +19,7 @@ class User(AbstractUser, PermissionsMixin):
 
 class Note(models.Model):
     title = models.CharField(null=False, max_length=200)
-    content = models.CharField(null=False, max_length=2000)
+    content = models.CharField(null=False, max_length=5000)
     creation_date = models.DateTimeField(auto_now_add=True, db_index=True)
     creator = models.ForeignKey('User', on_delete=models.CASCADE, related_name="note_creator")
     likes = models.ManyToManyField('User', related_name="liked_user")
