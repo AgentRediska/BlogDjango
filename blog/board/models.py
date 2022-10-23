@@ -24,6 +24,7 @@ class Note(models.Model):
     creator = models.ForeignKey('User', on_delete=models.CASCADE, related_name="note_creator")
     likes = models.ManyToManyField('User', related_name="liked_user")
     dislikes = models.ManyToManyField('User', related_name="disliked_user")
+    is_published = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
