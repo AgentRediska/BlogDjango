@@ -18,9 +18,9 @@ class AddNoteForm(forms.ModelForm):
             'content': 5000
         }
         widgets = {
-            'title': forms.Textarea(attrs={'cols': 80, 'rows': 2}),
-            'content': forms.Textarea(attrs={'cols': 80, 'rows': 14}),
-            'is_published': forms.CheckboxInput(attrs={'style': 'width:20px;height:20px;'}),
+            'title': forms.Textarea(attrs={'style': 'width:100%;', 'cols': 80, 'rows': 2}),
+            'content': forms.Textarea(attrs={'style': 'width:100%;', 'cols': 80, 'rows': 11}),
+            'is_published': forms.CheckboxInput(attrs={'style': 'width:20px;height:20px;margin-left:20px;'}),
         }
 
 

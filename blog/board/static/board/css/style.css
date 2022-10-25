@@ -50,7 +50,7 @@ header {
 }
 
 .basic-text {
-    color: var(--main_color_solid);
+    color: #000000;
 }
 
 
@@ -107,6 +107,7 @@ footer {
     width: 300px;
     height: 50px;
     padding-top: 10px;
+    border: 2px solid #000000;
     background-color: var(--main_color);
 }
 

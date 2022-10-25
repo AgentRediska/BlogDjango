@@ -70,6 +70,7 @@
 
 .btn-search-sub {
     border-radius: 5px;
+    border: 2px solid #000000;
     width: 180px;
     height: 38px;
     margin-top: 10px;

@@ -3,6 +3,13 @@
 
 {% block title %}Мои подписки{% endblock %}
 
+{% block empty_list_user_info %}
+    <h5 class="basic-text">Вы не подписывались на других пользователей</h5>
+{% endblock %}
+
+{% block title_for_center_list %}
+    <h5 class="basic-text text-center">Подписки</h5>
+{% endblock %}
 
 {% block action_with_subscr %}
     <form action="{% url 'unfollow_user' sub.pk %}" class="text-end">

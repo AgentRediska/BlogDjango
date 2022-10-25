@@ -48,6 +48,19 @@
     border: 1px solid var(--border-color);
 }
 
+.list-empty-info-container {
+    height: 300px;
+    width: 70%;
+    display: inline-block;
+    vertical-align: middle;
+    padding-top: 40px;
+    background-color: var( --color3);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    display: table;
+    margin: 0 auto;
+}
+
 .description-container {
     width: 100%;
     min-height: 220px;
