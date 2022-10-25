@@ -1,35 +1,39 @@
-<h6 class="fs-6 text-center info-text-basic">Подписчики</h6>
+<h6 class="fs-6 text-center info-text-basic">Подписки</h6>
 <form method="get">
     <input class="search-sub" type="search" type="text" name="right_list_search" placeholder="Nickname">
     <button class="btn-search-sub" type="submit">Найти</button>
 
 </form>
 <div class="right-list-container">
-    {% for sub in subscription_list %}
-        <a href="{% url 'speaker' sub.pk %}" class="row subs-user-info">
-            <div class="row">
-                {% if sub.photo %}
-                    <img class="col-3 photo-subs-user" src="{{ sub.photo.url }}">
-                {% endif %}
-                <div class="col info-subs-user">
-                    <div class="row">
-                        <div class="col-3 nick-title-col">
-                            <h6 class="fs-6 nick-title text-center">Ник:</h6>
+    {% if subscription_list|length > 0  %}
+        {% for sub in subscription_list %}
+            <a href="{% url 'speaker' sub.pk %}" class="row subs-user-info">
+                <div class="row">
+                    {% if sub.photo %}
+                        <img class="col-3 photo-subs-user" src="{{ sub.photo.url }}">
+                    {% endif %}
+                    <div class="col info-subs-user">
+                        <div class="row">
+                            <div class="col-3 nick-title-col">
+                                <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                            </div>
+                            <div class="col nick-subs-user-col">
+                                <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ sub.username }}</h6>
+                            </div>
                         </div>
-                        <div class="col nick-subs-user-col">
-                            <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ sub.username }}</h6>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 id-title-col text-center">
-                            <h6 class="fs-6 id-title">id:</h6>
-                        </div>
-                        <div class="col id-subs-user-col text-center">
-                            <h6 class="fs-6 id-subs-user fw-bolder">{{ sub.pk }}</h6>
+                        <div class="row">
+                            <div class="col-3 id-title-col text-center">
+                                <h6 class="fs-6 id-title">id:</h6>
+                            </div>
+                            <div class="col id-subs-user-col text-center">
+                                <h6 class="fs-6 id-subs-user fw-bolder">{{ sub.pk }}</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </a>
-    {% endfor %}
+            </a>
+        {% endfor %}
+    {% else %}
+        <h6 class="fs-6 text-center info-text-basic">Не найдено</h6>
+    {% endif %}
 </div>

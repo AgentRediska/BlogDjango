@@ -83,6 +83,7 @@ class MainPageView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['right_list_search'] = self.request.GET.get('right_list_search')
         context['menu'] = menu
         return context
 
@@ -96,12 +97,9 @@ class MainPageView(ListView):
         return notes
 
 
-def index(request):
-    return render(request, 'board/index.html')
-
-
 def create_note(request):
     post = get_object_or_404(User, pk=request.user.pk)
+    right_list_search = request.GET.get('right_list_search')
     if request.method == 'POST':
         form = AddNoteForm(request.POST)
         if form.is_valid():
@@ -115,6 +113,7 @@ def create_note(request):
         'user_pk': post.pk,
         'menu': menu,
         'form': form,
+        'right_list_search': right_list_search,
         'title': 'Создать запись'
     }
     return render(request, 'board/create_note.html', context=context)
@@ -166,10 +165,6 @@ class DraftNotesView(ListView):
         return Note.objects.filter(creator=user, is_published=False)
 
 
-def draft(request):
-    return HttpResponse("Черновик")
-
-
 class EditNoteView(UpdateView):
     model = Note
     form_class = AddNoteForm
@@ -180,6 +175,7 @@ class EditNoteView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
+        context['right_list_search'] = self.request.GET.get('right_list_search')
         context['title'] = 'Редактировать запись'
         return context
 
@@ -193,6 +189,7 @@ class DetailNoteView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
+        context['right_list_search'] = self.request.GET.get('right_list_search')
         return context
 
 
@@ -281,8 +278,14 @@ class SpeakerNotesView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        speaker_id = self.kwargs.get("speaker_id")
+        user_speaker = User.objects.get(pk=speaker_id)
+        is_subscription = Subscription.objects.filter(subscription_id=self.request.user.id, user=user_speaker)
+        is_subscribe = Subscription.objects.filter(subscription_id=speaker_id, user=self.request.user)
         context['menu'] = menu
-        context["speaker"] = User.objects.get(pk=self.kwargs.get("speaker_id"))
+        context["speaker"] = user_speaker
+        context['is_subscribe'] = is_subscribe
+        context['is_subscription'] = is_subscription
         return context
 
     def get_queryset(self):
@@ -325,4 +328,12 @@ def unfollow_user(request, sub_pk):
 def unsubscribe_user(request, sub_pk):
     user = User.objects.get(pk=sub_pk)
     Subscription.objects.filter(subscription_id=request.user.pk, user=user).delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def subscribe_to_user(request, sub_pk):
+    subscription = Subscription()
+    subscription.subscription_id = sub_pk
+    subscription.user = request.user
+    subscription.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

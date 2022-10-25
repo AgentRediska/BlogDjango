@@ -71,7 +71,7 @@
         </div>
         <div class="reaction-container">
             <div class="row">
-                <a href="{% url 'set_like' note.pk %}" class="col btn btn-news-like">
+                <a href="{% url 'set_like' note.pk %}" class="col-2 btn btn-news-like">
                     <div class="row">
                         {% if user in note.likes.all %}
                             <div class="col-4 img-news-like-active img-reaction"></div>
@@ -83,7 +83,7 @@
                         </p>
                     </div>
                 </a>
-                <a href="{% url 'set_dislike' note.pk %}" class="col btn btn-news-dislike">
+                <a href="{% url 'set_dislike' note.pk %}" class="col-2 btn btn-news-dislike">
                     <div class="row">
                         {% if user in note.dislikes.all %}
                             <div class="col-4 img-news-dislike-active img-reaction"></div>
@@ -95,11 +95,8 @@
                         </p>
                     </div>
                 </a>
+                <div class="col"></div>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block right_content %}
-    {% show_subscription_list request.user.pk %}
 {% endblock %}

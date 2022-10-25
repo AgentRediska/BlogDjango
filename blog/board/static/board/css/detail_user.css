@@ -9,6 +9,7 @@
 
 .description-detail-text {
     min-height: 300px;
+    height: 100%;
     width: 100%;
     padding: 7px;
     border: 1px solid #000000;

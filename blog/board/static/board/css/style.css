@@ -12,6 +12,7 @@
     --color_scrollbar: rgba(0, 0, 0, 0.4);
     --color_scrollbar_thumb: rgba(240, 123, 34, 0.4);
     --main_color: rgba(240, 122, 34, 0.87);
+    --main_color_light: rgba(240, 122, 34, 0.67);
     --main_color_solid: rgb(218, 111, 29);
     --center_content_background: #3D3D3D;
 }
@@ -112,6 +113,20 @@ footer {
 }
 
 .btn-basic:hover {
+    border-radius: 5px;
+    background-color: #008000;
+    color:white;
+}
+
+.btn-basic-little {
+    border-radius: 5px;
+    width: 180px;
+    height: 40px;
+    border: 2px solid #000000;
+    background-color: var(--main_color_light);
+}
+
+.btn-basic-little:hover {
     border-radius: 5px;
     background-color: #008000;
     color:white;

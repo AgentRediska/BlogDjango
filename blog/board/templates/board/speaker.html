@@ -51,9 +51,19 @@
                     </div>
                 </div>
                 <div class="col-3 action_with_speaker">
-                    {% block action_with_subscr %}
-                    AAAAAAAAAAA
-                    {% endblock %}
+                    {% if is_subscribe %}
+                        <form action="{% url 'unfollow_user' speaker.pk %}" class="text-end">
+                            <input type="submit" value="Отписаться" class="btn-unsubscribe"/>
+                        </form>
+                    {% elif is_subscription %}
+                        <form action="{% url 'unsubscribe_user' speaker.pk %}" class="text-end">
+                            <input type="submit" value="Исключить" class="btn-unsubscribe"/>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'subscribe_to_user' speaker.pk %}" class="text-end">
+                            <input type="submit" value="Подписаться" class="btn-unsubscribe"/>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -71,8 +81,4 @@
             {% endif %}
         </div>
     </div>
-{% endblock %}
-
-{% block right_content %}
-    {% show_subscription_list request.user.pk %}
 {% endblock %}
