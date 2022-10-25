@@ -10,7 +10,7 @@
 
 .account-login-container, .account-registration-container, .create-note-container {
     height: 300px;
-    width: 500px;
+    width: 70%;
     display: inline-block;
     vertical-align: middle;
     background-color: var( --color3);
@@ -20,9 +20,6 @@
     margin: 0 auto;
 }
 
-.account-login-container, .account-registration-container, .create-note-container {
-    height: 280px;
-}
 .create-note-container {
      width: 700px;
 }

@@ -13,6 +13,7 @@ menu = [{'title': "Главная страница", 'url_name': "main_page"},
         {'title': "Создать запись", 'url_name': "create_note"},
         {'title': "Мои записи", 'url_name': "my_notes"},
         {'title': "Черновик", 'url_name': "draft_notes"},
+        {'title': "Все пользователи", 'url_name': "all_users"},
         {'title': "Подписки", 'url_name': "subscriptions"},
         {'title': "Подписчики", 'url_name': "subscribers"}]
 
@@ -197,8 +198,8 @@ class DetailNoteView(DetailView):
 
 class SubscriptionsView(ListView):
     model = User
-    template_name = 'board/my_subscriptions.html'
-    context_object_name = 'subscriptions'
+    template_name = 'board/center_subscr/my_subscriptions.html'
+    context_object_name = 'subscr_list'
 
     def get(self, *args, **kwargs):
         if not self.request.user.is_authenticated:
@@ -221,8 +222,51 @@ class SubscriptionsView(ListView):
         return sub_user
 
 
-def subscribers(request):
-    return HttpResponse("Подписчики")
+class SubscribersView(ListView):
+    model = User
+    template_name = 'board/center_subscr/my_subscribers.html'
+    context_object_name = 'subscr_list'
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('user_login')
+        return super(SubscribersView, self).get(*args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['right_list_search'] = self.request.GET.get('right_list_search')
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        subscribers = Subscription.objects.filter(subscription_id=request.user.pk)
+        sub_user = []
+        for sub in subscribers:
+            sub_user.append(User.objects.get(pk=sub.user.pk))
+        return sub_user
+
+
+class AllUsersView(ListView):
+    model = User
+    template_name = 'board/center_subscr/all_users.html'
+    context_object_name = 'subscr_list'
+
+    def get(self, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('user_login')
+        return super(AllUsersView, self).get(*args, **kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['right_list_search'] = self.request.GET.get('right_list_search')
+        return context
+
+    def get_queryset(self):
+        request = self.request
+        users = User.objects.filter(~Q(pk=request.user.pk)).order_by('username')
+        return users
 
 
 class SpeakerNotesView(ListView):
@@ -238,6 +282,7 @@ class SpeakerNotesView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = menu
+        context["speaker"] = User.objects.get(pk=self.kwargs.get("speaker_id"))
         return context
 
     def get_queryset(self):
@@ -272,6 +317,12 @@ def dislike_post(request, note_pk):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def user_unsubscribe(request, sub_pk):
-    Subscription.objects.filter(subscription_id=sub_pk, user_id=request.user).delete()
+def unfollow_user(request, sub_pk):
+    Subscription.objects.filter(subscription_id=sub_pk, user=request.user).delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def unsubscribe_user(request, sub_pk):
+    user = User.objects.get(pk=sub_pk)
+    Subscription.objects.filter(subscription_id=request.user.pk, user=user).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -1,8 +1,6 @@
 {% extends "board/basic.html" %}
 {% load board_tags %}
 
-{% block title %}Мои подписки {% endblock %}
-
 
 {% block header_additional_content %}
     <div class="head-container">
@@ -15,9 +13,9 @@
 {% endblock %}
 
 {% block center_content_inside %}
-    {% if subscriptions|length > 0  %}
+    {% if subscr_list|length > 0  %}
 <!--        {% show_notes notes request.user %}-->
-        {% for sub in subscriptions %}
+        {% for sub in subscr_list %}
             <a href="{% url 'speaker' sub.pk %}" class="col-6 sub-user-center">
                 <div class="row">
                     {% if sub.photo %}
@@ -50,9 +48,8 @@
                         </div>
                     </div>
                 </div>
-                <form action="{% url 'user_unsubscribe' sub.pk %}" class="text-end">
-                    <input type="submit" value="Отписаться" class="btn-unsubscribe"/>
-                </form>
+                {% block action_with_subscr %}
+                {% endblock %}
             </a>
         {% endfor %}
     {% else %}

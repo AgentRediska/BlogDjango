@@ -3,7 +3,6 @@
 
 {% block title %}Подписчик{% endblock %}
 
-
 {% block header_additional_content %}
     <div class="head-container">
         <div class="exit-from-account-container">
@@ -14,18 +13,64 @@
     </div>
 {% endblock %}
 
-{% block center_content_inside %}
-    {% if notes|length > 0 %}
-        {% show_notes notes request.user%}
-    {% else %}
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8 text-center">
-                <h5 class="basic-text fst-italic">У данного пользователя ещё нет записей</h5>
+{% block center_content %}
+    <div class="col center-container-with-title">
+        <div class="title_user_info_in_notes-container">
+            <div class="row title_user_info_in_notes_list">
+                <div class="col-9">
+                    <div class="row">
+                        {% if speaker.photo %}
+                            <img class="col-3 photo-subs-user-center" src="{{ speaker.photo.url }}">
+                        {% endif %}
+                        <div class="col info-subs-user">
+                            <div class="row">
+                                <div class="col-2 nick-title-col">
+                                    <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                                </div>
+                                <div class="col-7 nick-subs-user-col">
+                                    <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ speaker.username }}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 id-title-col text-center">
+                                    <h6 class="fs-6 id-title">id:</h6>
+                                </div>
+                                <div class="col-7 id-subs-user-col text-center">
+                                    <h6 class="fs-6 id-subs-user fw-bolder">{{ speaker.pk }}</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 nick-title-col">
+                                    <h6 class="fs-6 nick-title text-center">Создан:</h6>
+                                </div>
+                                <div class="col-7 nick-subs-user-col">
+                                    <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ speaker.date_joined }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 action_with_speaker">
+                    {% block action_with_subscr %}
+                    AAAAAAAAAAA
+                    {% endblock %}
+                </div>
             </div>
-            <div class="col-2"></div>
         </div>
-    {% endif %}
+        <div class="row news-list-container-with-title overflow-auto justify-content-center">
+            {% if notes|length > 0 %}
+                {% show_notes notes request.user %}
+            {% else %}
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8 text-center">
+                        <h5 class="basic-text fst-italic">У данного пользователя ещё нет записей</h5>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block right_content %}

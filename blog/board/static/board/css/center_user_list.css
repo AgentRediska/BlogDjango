@@ -1,5 +1,6 @@
 .sub-user-center {
-    max-height: 160px;
+    min-height: 110px;
+    max-height: 170px;
     width: 390px;
     background-color: var( --color3);
     border: 2px solid #000000;

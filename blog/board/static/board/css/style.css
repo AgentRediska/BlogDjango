@@ -4,6 +4,7 @@
 @import url(account_login.css);
 @import url(center_user_list.css);
 @import url(detail_user.css);
+@import url(center_with_title.css);
 
 :root {
     --color2: #52339a;
@@ -95,6 +96,10 @@ footer {
     padding-right: 20px;
     align-items:center;
     position: relative;
+}
+
+.info-text-basic {
+    color: var(--main_color);
 }
 
 .btn-basic {

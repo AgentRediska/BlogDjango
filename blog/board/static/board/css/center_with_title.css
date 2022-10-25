@@ -1,0 +1,40 @@
+.center-container-with-title {
+    background-color:var(--center_content_background);
+    min-height: 88vh;
+    max-height:88vh;
+    min-width: 600px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.news-list-container-with-title {
+    height: 84%;
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color:var(--center_content_background);
+    align-content: baseline;
+}
+
+.title_user_info_in_notes-container {
+    height: 16%;
+}
+
+.title_user_info_in_notes_list {
+    margin-left:20px;
+    margin-right:20px;
+    margin-bottom: 15px;
+    background: var(--color3);
+    border: 1px solid #000000;
+    padding-left: 15px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 20px;
+}
+
+.action_with_speaker {
+    padding-top: 35px;
+}

@@ -17,7 +17,9 @@ urlpatterns = [
     path('set_dislike/<int:note_pk>/', dislike_post, name='set_dislike'),
     path('draft/', DraftNotesView.as_view(), name='draft_notes'),
     path('subscriptions/', SubscriptionsView.as_view(), name='subscriptions'),
-    path('user_unsubscribe/<int:sub_pk>', user_unsubscribe, name='user_unsubscribe'),
-    path('subscribers/', subscribers, name='subscribers'),
+    path('unfollow_user/<int:sub_pk>', unfollow_user, name='unfollow_user'),
+    path('subscribers/', SubscribersView.as_view(), name='subscribers'),
+    path('unsubscribe_user/<int:sub_pk>', unsubscribe_user, name='unsubscribe_user'),
+    path('all_users', AllUsersView.as_view(), name='all_users'),
     path('speaker/<int:speaker_id>/', SpeakerNotesView.as_view(), name='speaker')
 ]
