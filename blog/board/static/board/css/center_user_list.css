@@ -49,3 +49,13 @@
     background-color: #008000;
     color:white;
 }
+
+.search-center-container {
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+.search-sub-center {
+    margin-top: 14px;
+    min-width: 100%;
+}

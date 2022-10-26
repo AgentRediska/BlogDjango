@@ -15,8 +15,15 @@
 {% block center_content_inside %}
     {% block title_for_center_list %}
     {% endblock %}
+    <form method="get">
+        <div class="row search-center-container text-center">
+            <div class="col">
+                <input class="search-sub-center" type="search" type="text" name="center_list_search" placeholder="Nickname">
+            </div>
+            <button class="col-4 btn-search-sub" type="submit">Найти</button>
+        </div>
+    </form>
     {% if subscr_list|length > 0  %}
-<!--        {% show_notes notes request.user %}-->
         {% for sub in subscr_list %}
             <a href="{% url 'speaker' sub.pk %}" class="col-6 sub-user-center">
                 <div class="row">
@@ -65,7 +72,7 @@
             <div class="row text-center">
                 <div class="col">
                     <a href="{% url 'all_users' %}" class="btn btn-basic">
-                        <p class="fs-6 fw-semibold text-btn-basic">Перейти к общему списку</p>
+                        <p class="fs-6 fw-semibold text-btn-basic">Список пользователей</p>
                     </a>
                 </div>
             </div>
