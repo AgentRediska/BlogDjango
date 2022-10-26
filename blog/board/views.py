@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+import re
 
 from .forms import *
 from .models import *
@@ -211,11 +212,15 @@ class SubscriptionsView(ListView):
 
     def get_queryset(self):
         request = self.request
-        user = User.objects.get(pk=request.user.pk)
-        subscriptions = Subscription.objects.filter(user_id=user)
+        subscriptions = Subscription.objects.filter(user=request.user)
         sub_user = []
+        search_text = ""
+        if self.request.GET.get("center_list_search"):
+            search_text = self.request.GET.get("center_list_search")
         for sub in subscriptions:
-            sub_user.append(User.objects.get(pk=sub.subscription_id))
+            user = User.objects.get(pk=sub.subscription_id)
+            if re.search(search_text, user.username, re.IGNORECASE):
+                sub_user.append(user)
         return sub_user
 
 
@@ -239,8 +244,14 @@ class SubscribersView(ListView):
         request = self.request
         subscribers = Subscription.objects.filter(subscription_id=request.user.pk)
         sub_user = []
+        search_text = ""
+        if self.request.GET.get("center_list_search"):
+            search_text = self.request.GET.get("center_list_search")
         for sub in subscribers:
-            sub_user.append(User.objects.get(pk=sub.user.pk))
+            user = User.objects.get(pk=sub.user.pk)
+            if re.search(search_text, user.username, re.IGNORECASE):
+                sub_user.append(user)
+        sub_user.sort(key=lambda us: us.username)
         return sub_user
 
 
@@ -262,7 +273,10 @@ class AllUsersView(ListView):
 
     def get_queryset(self):
         request = self.request
-        users = User.objects.filter(~Q(pk=request.user.pk)).order_by('username')
+        search_text = ""
+        if self.request.GET.get("center_list_search"):
+            search_text = self.request.GET.get("center_list_search")
+        users = User.objects.filter(~Q(pk=request.user.pk), username__icontains=search_text).order_by('username')
         return users
 
 
