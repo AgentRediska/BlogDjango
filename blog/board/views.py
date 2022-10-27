@@ -98,26 +98,21 @@ class MainPageView(ListView):
         return notes
 
 
-def create_note(request):
-    post = get_object_or_404(User, pk=request.user.pk)
-    right_list_search = request.GET.get('right_list_search')
-    if request.method == 'POST':
-        form = AddNoteForm(request.POST)
-        if form.is_valid():
-            new_note = form.save(commit=False)
-            new_note.creator = User.objects.get(pk=post.pk)
-            new_note.save()
-            return redirect('main_page')
-    else:
-        form = AddNoteForm()
-    context = {
-        'user_pk': post.pk,
-        'menu': menu,
-        'form': form,
-        'right_list_search': right_list_search,
-        'title': 'Создать запись'
-    }
-    return render(request, 'board/create_note.html', context=context)
+class CreateNoteView(CreateView):
+    form_class = AddNoteForm
+    template_name = 'board/create_note.html'
+    success_url = reverse_lazy("my_notes")
+    pk_url_kwarg = 'note_pk'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['right_list_search'] = self.request.GET.get('right_list_search')
+        return context
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super(CreateNoteView, self).form_valid(form)
 
 
 class MyNotesView(ListView):
@@ -170,7 +165,7 @@ class EditNoteView(UpdateView):
     model = Note
     form_class = AddNoteForm
     template_name = 'board/create_note.html'
-    success_url = '/board/my_notes'
+    success_url = reverse_lazy("my_notes")
     pk_url_kwarg = 'note_pk'
 
     def get_context_data(self, **kwargs):
