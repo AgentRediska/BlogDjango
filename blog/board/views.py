@@ -49,8 +49,11 @@ class PasswordsChangeView(PasswordChangeView):
         return context
 
 
-def register_view(request):
-    if request.method == 'POST':
+class UserRegistrationView(CreateView):
+    form_class = CustomUserCreationForm
+    template_name = 'board/register.html'
+
+    def post(self, request, *args, **kwargs):
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -59,9 +62,7 @@ def register_view(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('/')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'board/register.html', {'form': form})
+        return render(request, {'form': form})
 
 
 class UserLoginView(LoginView):
