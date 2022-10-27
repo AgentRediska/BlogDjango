@@ -1,6 +1,6 @@
 .center-container-with-title {
     background-color:var(--center_content_background);
-    min-height: 88vh;
+    min-height: 50vh;
     max-height:88vh;
     min-width: 600px;
     padding-top: 20px;

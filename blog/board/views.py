@@ -1,22 +1,15 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 import re
 
 from .forms import *
 from .models import *
-
-menu = [{'title': "Главная страница", 'url_name': "main_page"},
-        {'title': "Создать запись", 'url_name': "create_note"},
-        {'title': "Мои записи", 'url_name': "my_notes"},
-        {'title': "Черновик", 'url_name': "draft_notes"},
-        {'title': "Все пользователи", 'url_name': "all_users"},
-        {'title': "Подписки", 'url_name': "subscriptions"},
-        {'title': "Подписчики", 'url_name': "subscribers"}]
+from .utils import *
 
 
 class SignInView(CreateView):
@@ -25,28 +18,28 @@ class SignInView(CreateView):
     template_name = 'board/register.html'
 
 
-class UserEditView(UpdateView):
+class UserEditView(ContextDataMixin, UpdateView):
     form_class = CustomUserChangeForm
     success_url = reverse_lazy('main_page')
     template_name = 'board/edit_profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        return context
+        context_extra = self.get_data_context_mix()
+        return {**context, **context_extra}
 
     def get_object(self, queryset=None):
         return self.request.user
 
 
-class PasswordsChangeView(PasswordChangeView):
+class PasswordsChangeView(ContextDataMixin, PasswordChangeView):
     template_name = 'board/change_password.html'
     success_url = reverse_lazy('main_page')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        return context
+        context_extra = self.get_data_context_mix()
+        return {**context, **context_extra}
 
 
 class UserRegistrationView(CreateView):
@@ -73,21 +66,15 @@ class UserLogoutView(LogoutView):
     next_page = "/"
 
 
-class MainPageView(ListView):
+class MainPageView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/main_page.html'
     context_object_name = 'notes'
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(MainPageView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        context['menu'] = menu
-        return context
+        context_extra = self.get_data_context_mix()
+        return {**context, **context_extra}
 
     def get_queryset(self):
         request = self.request
@@ -99,7 +86,7 @@ class MainPageView(ListView):
         return notes
 
 
-class CreateNoteView(CreateView):
+class CreateNoteView(ContextDataMixin, CreateView):
     form_class = AddNoteForm
     template_name = 'board/create_note.html'
     success_url = reverse_lazy("my_notes")
@@ -107,31 +94,24 @@ class CreateNoteView(CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix(title='Создать запись')
+        return {**context, **context_extra}
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(CreateNoteView, self).form_valid(form)
 
 
-class MyNotesView(ListView):
+class MyNotesView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 2
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(MyNotesView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix()
+        return {**context, **context_extra}
 
     def get_queryset(self):
         request = self.request
@@ -139,22 +119,16 @@ class MyNotesView(ListView):
         return Note.objects.filter(creator=user, is_published=True)
 
 
-class DraftNotesView(ListView):
+class DraftNotesView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 2
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(DraftNotesView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix()
+        return {**context, **context_extra}
 
     def get_queryset(self):
         request = self.request
@@ -162,7 +136,7 @@ class DraftNotesView(ListView):
         return Note.objects.filter(creator=user, is_published=False)
 
 
-class EditNoteView(UpdateView):
+class EditNoteView(ContextDataMixin, UpdateView):
     model = Note
     form_class = AddNoteForm
     template_name = 'board/create_note.html'
@@ -171,13 +145,11 @@ class EditNoteView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        context['title'] = 'Редактировать запись'
-        return context
+        context_extra = self.get_data_context_mix(title='Редактировать запись')
+        return {**context, **context_extra}
 
 
-class DetailNoteView(DetailView):
+class DetailNoteView(ContextDataMixin, DetailView):
     model = Note
     template_name = 'board/detail_note.html'
     pk_url_kwarg = 'note_pk'
@@ -185,26 +157,19 @@ class DetailNoteView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix()
+        return {**context, **context_extra}
 
 
-class SubscriptionsView(ListView):
+class SubscriptionsView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/my_subscriptions.html'
     context_object_name = 'subscr_list'
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(SubscriptionsView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix(title='Создать запись')
+        return {**context, **context_extra}
 
     def get_queryset(self):
         request = self.request
@@ -217,24 +182,19 @@ class SubscriptionsView(ListView):
             user = User.objects.get(pk=sub.subscription_id)
             if re.search(search_text, user.username, re.IGNORECASE):
                 sub_user.append(user)
+        sub_user.sort(key=lambda us: us.username)
         return sub_user
 
 
-class SubscribersView(ListView):
+class SubscribersView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/my_subscribers.html'
     context_object_name = 'subscr_list'
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(SubscribersView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix(title='Создать запись')
+        return {**context, **context_extra}
 
     def get_queryset(self):
         request = self.request
@@ -251,21 +211,15 @@ class SubscribersView(ListView):
         return sub_user
 
 
-class AllUsersView(ListView):
+class AllUsersView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/all_users.html'
     context_object_name = 'subscr_list'
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(AllUsersView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        context['right_list_search'] = self.request.GET.get('right_list_search')
-        return context
+        context_extra = self.get_data_context_mix(title='Создать запись')
+        return {**context, **context_extra}
 
     def get_queryset(self):
         request = self.request
@@ -276,27 +230,20 @@ class AllUsersView(ListView):
         return users
 
 
-class SpeakerNotesView(ListView):
+class SpeakerNotesView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/speaker.html'
     context_object_name = 'notes'
 
-    def get(self, *args, **kwargs):
-        if not self.request.user.is_authenticated:
-            return redirect('user_login')
-        return super(SpeakerNotesView, self).get(*args, **kwargs)
-
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
         speaker_id = self.kwargs.get("speaker_id")
         user_speaker = User.objects.get(pk=speaker_id)
         is_subscription = Subscription.objects.filter(subscription_id=self.request.user.id, user=user_speaker)
         is_subscribe = Subscription.objects.filter(subscription_id=speaker_id, user=self.request.user)
-        context['menu'] = menu
-        context["speaker"] = user_speaker
-        context['is_subscribe'] = is_subscribe
-        context['is_subscription'] = is_subscription
-        return context
+        context = super().get_context_data(**kwargs)
+        context_extra = self.get_data_context_mix(speaker=user_speaker,is_subscribe=is_subscribe,
+                                                  is_subscription=is_subscription)
+        return {**context, **context_extra}
 
     def get_queryset(self):
         user_id = self.kwargs.get("speaker_id")
