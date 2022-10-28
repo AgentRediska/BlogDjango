@@ -78,6 +78,35 @@
                         {% block center_content_inside %}
                         {% endblock %}
                     </div>
+                    {% block paging_container %}
+                        {% if page_obj.has_other_pages %}
+                            <nav class="row justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}" class="col btn-paging-a-l-r text-center">
+                                        <div class="btn-paging-l-r">&lt;</div>
+                                    </a>
+                                {% endif %}
+
+                                    {% for p in paginator.page_range %}
+                                        {% if page_obj.number == p %}
+                                            <div class="col btn-paging-a text-center">
+                                                <div class="btn-paging-selected">{{ p }}</div>
+                                            </div>
+                                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                            <a href="?page={{ p }}" class="col btn-paging-a text-center">
+                                                <div class="btn-paging">{{ p }}</div>
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}" class="col btn-paging-a-l-r text-center">
+                                        <div class="btn-paging-l-r">&gt;</div>
+                                    </a>
+                                {% endif %}
+                            </nav>
+                        {% endif %}
+                    {% endblock %}
                 </div>
             {% endblock %}
             <div class="col-2 right-container">

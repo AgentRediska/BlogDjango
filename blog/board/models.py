@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
-    photo = models.ImageField('Фото профиля', upload_to="photos/%Y/%m/%d/")
+    photo = models.ImageField('Фото профиля', upload_to="photos/%Y/%m/%d/", default='logo.jpg')
     username = models.CharField('Никнейм', max_length=14, unique=True, validators=[username_validator],
                                 error_messages={'unique': _("Пользователь с таким именем уже существует."), }, )
 
