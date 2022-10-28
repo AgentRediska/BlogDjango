@@ -70,6 +70,7 @@ class MainPageView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/main_page.html'
     context_object_name = 'notes'
+    paginate_by = 30
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -106,7 +107,7 @@ class MyNotesView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,7 +124,7 @@ class DraftNotesView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -165,6 +166,7 @@ class SubscriptionsView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/my_subscriptions.html'
     context_object_name = 'subscr_list'
+    paginate_by = 16
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -190,6 +192,7 @@ class SubscribersView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/my_subscribers.html'
     context_object_name = 'subscr_list'
+    paginate_by = 16
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -215,7 +218,7 @@ class AllUsersView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/all_users.html'
     context_object_name = 'subscr_list'
-    paginate_by = 10
+    paginate_by = 40
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -235,6 +238,7 @@ class SpeakerNotesView(ContextDataMixin, ListView):
     model = Note
     template_name = 'board/speaker.html'
     context_object_name = 'notes'
+    paginate_by = 16
 
     def get_context_data(self, *, object_list=None, **kwargs):
         speaker_id = self.kwargs.get("speaker_id")
