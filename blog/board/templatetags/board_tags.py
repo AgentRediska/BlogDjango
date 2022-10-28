@@ -17,7 +17,7 @@ def show_subscription_list(user_pk, search_text=''):
     for sub in subscriptions:
         user = User.objects.get(pk=sub.subscription_id)
         if search_text in user.username:
-            sub_user.append(User.objects.get(pk=sub.subscription_id))
+            sub_user.append(user)
     return {"subscription_list": sub_user}
 
 
