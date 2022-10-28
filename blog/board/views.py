@@ -215,7 +215,7 @@ class AllUsersView(ContextDataMixin, ListView):
     model = User
     template_name = 'board/center_subscr/all_users.html'
     context_object_name = 'subscr_list'
-    paginate_by = 8
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -275,6 +275,11 @@ def dislike_post(request, note_pk):
         if note.likes.filter(id=request.user.pk).exists():
             note.likes.remove(request.user)
         note.dislikes.add(request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def delete_note(request, note_pk):
+    Subscription.object.filter(pk=note_pk).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

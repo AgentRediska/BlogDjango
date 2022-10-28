@@ -1,6 +1,6 @@
 .right-container {
     min-height: 520px;
-    max-height: 100vh;
+    max-height: 80vh;
     min-width: 300px;
     margin-left: 10px;
     padding: 0px;
@@ -22,8 +22,8 @@
     overflow:auto;
     overflow-x: hidden;
     padding-right: 0px;
-    min-height: 520px;
-    max-height: 80vh;
+    min-height: 400px;
+    height: 540px;
     min-width: 100%;
     margin-right: 0px;
     margin-left: 0px;

@@ -85,8 +85,12 @@
                             </div>
                         </a>
                         <div class="col"></div>
-                        <a href="{% url 'edit_note' note.pk%}" class="btn col-4 btn-basic-little">
+                        <a href="{% url 'edit_note' note.pk %}" class="btn col-4 btn-basic-little">
                             <p class="fs-6 fw-semibold text-btn-basic">Редактировать</p>
+                        </a>
+                        <div class="col"></div>
+                        <a href="{% url 'delete_note' note.pk %}" class="btn col-4 btn-basic-little-red">
+                            <p class="fs-6 fw-semibold text-btn-basic">Удалить</p>
                         </a>
                     </div>
                 </div>

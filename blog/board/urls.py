@@ -10,6 +10,7 @@ urlpatterns = [
     path('password/', PasswordsChangeView.as_view(), name='password'),
     path('create_note/', CreateNoteView.as_view(), name='create_note'),
     path('edit_note/<int:note_pk>/', EditNoteView.as_view(), name='edit_note'),
+    path('delete_note/<int:note_pk>/', delete_note, name="delete_note"),
     path('detail_note/<int:note_pk>/', DetailNoteView.as_view(), name='detail_note'),
     path('my_notes/', MyNotesView.as_view(), name='my_notes'),
     path('set_like/<int:note_pk>/', like_post, name='set_like'),

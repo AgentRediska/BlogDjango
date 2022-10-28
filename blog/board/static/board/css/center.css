@@ -1,6 +1,6 @@
 .center-container {
     background-color:var(--center_content_background);
-    min-height: 88vh;
+    min-height: 100vh;
     min-width: 600px;
     padding-top: 20px;
     padding-bottom: 15px;
