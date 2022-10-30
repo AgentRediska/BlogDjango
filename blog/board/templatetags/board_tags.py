@@ -10,15 +10,10 @@ def get_user_by_pk(user_pk):
 
 
 @register.inclusion_tag('board/inclusion/subscriptions.html')
-def show_subscription_list(user_pk, search_text=''):
-    user = User.objects.get(pk=user_pk)
-    subscriptions = Subscription.objects.filter(user_id=user)
-    sub_user = []
-    for sub in subscriptions:
-        user = User.objects.get(pk=sub.subscription_id)
-        if search_text in user.username:
-            sub_user.append(user)
-    return {"subscription_list": sub_user}
+def show_subscription_list(user, search_text=''):
+    subscriptions = Follower.objects.filter(subscriber=user, user__username__icontains=search_text).values('user')
+    users = User.objects.filter(pk__in=subscriptions)
+    return {"subscription_list": users}
 
 
 @register.inclusion_tag('board/inclusion/notes.html')

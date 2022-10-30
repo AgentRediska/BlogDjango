@@ -52,14 +52,14 @@
                 </div>
                 <div class="col-3 action_with_speaker">
                     {% if is_subscribe %}
-                        <form action="{% url 'unfollow_user' speaker.pk %}" class="text-end">
+                        <form action="{% url 'unsubscribe_from_user' speaker.pk %}" class="text-end">
                             <input type="submit" value="Отписаться" class="btn-unsubscribe"/>
                         </form>
                     {% elif is_subscription %}
                         <form action="{% url 'subscribe_to_user' speaker.pk %}" class="text-end">
                             <input type="submit" value="Подписаться" class="btn-sub"/>
                         </form>
-                        <form action="{% url 'unsubscribe_user' speaker.pk %}" class="text-end">
+                        <form action="{% url 'unfollow_user' speaker.pk %}" class="text-end">
                             <input type="submit" value="Исключить" class="btn-unsub"/>
                         </form>
                     {% else %}

@@ -16,6 +16,9 @@ class User(AbstractUser, PermissionsMixin):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
+    def __str__(self):
+        return f"{self.username}"
+
 
 class Note(models.Model):
     title = models.CharField(null=False, max_length=200)
@@ -27,7 +30,7 @@ class Note(models.Model):
     is_published = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title
+        return f'Тема "{self.title}", автор {self.creator}'
 
     def number_of_likes(self):
         return self.likes.count()
@@ -41,9 +44,9 @@ class Note(models.Model):
         ordering = ['creation_date']
 
 
-class Subscription(models.Model):
-    subscription_id = models.IntegerField(null=False)
-    user = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True)
+class Follower(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='owner', db_index=True)
+    subscriber = models.ForeignKey('User', on_delete=models.CASCADE, related_name='subscriber')
 
     def __str__(self):
-        return f"user id: {self.user}, subs id: {self.subscription_id}"
+        return f"{self.subscriber} подписан на {self.user}"

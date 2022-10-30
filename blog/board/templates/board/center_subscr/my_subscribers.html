@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block action_with_subscr %}
-    <form action="{% url 'unsubscribe_user' sub.pk %}" class="text-end">
+    <form action="{% url 'unsubscribe_from_user' sub.pk %}" class="text-end">
         <input type="submit" value="Исключить" class="btn-unsubscribe"/>
     </form>
 {% endblock %}

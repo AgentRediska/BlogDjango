@@ -82,8 +82,8 @@
 
 {% block right_content %}
     {% if q %}
-        {% show_subscription_list user_pk=request.user.pk search_text=right_list_search %}
+        {% show_subscription_list user=request.user search_text=right_list_search %}
     {% else %}
-       {% show_subscription_list user_pk=request.user.pk %}
+       {% show_subscription_list user=request.user %}
     {% endif %}
 {% endblock %}

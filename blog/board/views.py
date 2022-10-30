@@ -78,12 +78,8 @@ class MainPageView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        request = self.request
-        subsc = Subscription.objects.filter(user_id=request.user.pk)
-        notes = []
-        for sub in subsc:
-            notes.extend(list(Note.objects.filter(creator=sub.subscription_id, is_published=True)))
-        notes.sort(key=lambda x: x.creation_date)
+        subscriptions = Follower.objects.filter(subscriber=self.request.user).values('user')
+        notes = Note.objects.filter(creator__in=subscriptions, is_published=True).order_by('creation_date')
         return notes
 
 
@@ -116,8 +112,7 @@ class MyNotesView(ContextDataMixin, ListView):
 
     def get_queryset(self):
         request = self.request
-        user = User.objects.get(pk=request.user.pk)
-        return Note.objects.filter(creator=user, is_published=True)
+        return Note.objects.filter(creator=User.objects.get(pk=request.user.pk), is_published=True)
 
 
 class DraftNotesView(ContextDataMixin, ListView):
@@ -133,8 +128,7 @@ class DraftNotesView(ContextDataMixin, ListView):
 
     def get_queryset(self):
         request = self.request
-        user = User.objects.get(pk=request.user.pk)
-        return Note.objects.filter(creator=user, is_published=False)
+        return Note.objects.filter(creator=User.objects.get(pk=request.user.pk), is_published=False)
 
 
 class EditNoteView(ContextDataMixin, UpdateView):
@@ -174,17 +168,12 @@ class SubscriptionsView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        request = self.request
-        subscriptions = Subscription.objects.filter(user=request.user)
-        sub_user = []
         search_text = ""
         if self.request.GET.get("center_list_search"):
             search_text = self.request.GET.get("center_list_search")
-        for sub in subscriptions:
-            user = User.objects.get(pk=sub.subscription_id)
-            if re.search(search_text, user.username, re.IGNORECASE):
-                sub_user.append(user)
-        sub_user.sort(key=lambda us: us.username)
+        subscriptions = Follower.objects.filter(subscriber=self.request.user,
+                                                user__username__icontains=search_text).values('user')
+        sub_user = User.objects.filter(pk__in=subscriptions).order_by('username')
         return sub_user
 
 
@@ -200,17 +189,12 @@ class SubscribersView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        request = self.request
-        subscribers = Subscription.objects.filter(subscription_id=request.user.pk)
-        sub_user = []
         search_text = ""
         if self.request.GET.get("center_list_search"):
             search_text = self.request.GET.get("center_list_search")
-        for sub in subscribers:
-            user = User.objects.get(pk=sub.user.pk)
-            if re.search(search_text, user.username, re.IGNORECASE):
-                sub_user.append(user)
-        sub_user.sort(key=lambda us: us.username)
+        subscribers = Follower.objects.filter(user=self.request.user,
+                                              subscriber__username__icontains=search_text).values('subscriber')
+        sub_user = User.objects.filter(pk__in=subscribers).order_by('username')
         return sub_user
 
 
@@ -241,12 +225,11 @@ class SpeakerNotesView(ContextDataMixin, ListView):
     paginate_by = 16
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        speaker_id = self.kwargs.get("speaker_id")
-        user_speaker = User.objects.get(pk=speaker_id)
-        is_subscription = Subscription.objects.filter(subscription_id=self.request.user.id, user=user_speaker)
-        is_subscribe = Subscription.objects.filter(subscription_id=speaker_id, user=self.request.user)
+        user_speaker = User.objects.get(pk=self.kwargs.get("speaker_id"))
+        is_subscription = Follower.objects.filter(user=self.request.user, subscriber=user_speaker)
+        is_subscribe = Follower.objects.filter(user=user_speaker, subscriber=self.request.user)
         context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(speaker=user_speaker,is_subscribe=is_subscribe,
+        context_extra = self.get_data_context_mix(speaker=user_speaker, is_subscribe=is_subscribe,
                                                   is_subscription=is_subscription)
         return {**context, **context_extra}
 
@@ -283,24 +266,27 @@ def dislike_post(request, note_pk):
 
 
 def delete_note(request, note_pk):
-    Subscription.object.filter(pk=note_pk).delete()
+    Note.objects.get(pk=note_pk).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def unfollow_user(request, sub_pk):
-    Subscription.objects.filter(subscription_id=sub_pk, user=request.user).delete()
+    """Исключить пользователя из списка ваших подписчиков"""
+    print("unfollow")
+    Follower.objects.filter(subscriber=User.objects.get(pk=sub_pk), user=request.user).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def unsubscribe_user(request, sub_pk):
-    user = User.objects.get(pk=sub_pk)
-    Subscription.objects.filter(subscription_id=request.user.pk, user=user).delete()
+def unsubscribe_from_user(request, sub_pk):
+    """Отписаться от пользователя"""
+    print("unsubscribe")
+    print(sub_pk)
+    Follower.objects.filter(subscriber=request.user, user=User.objects.get(pk=sub_pk)).delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def subscribe_to_user(request, sub_pk):
-    subscription = Subscription()
-    subscription.subscription_id = sub_pk
-    subscription.user = request.user
-    subscription.save()
+    """Подписаться на пользователя"""
+    print("subscribe")
+    Follower.objects.create(user=User.objects.get(pk=sub_pk), subscriber=request.user)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
