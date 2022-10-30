@@ -6,8 +6,9 @@ from blog import settings
 from board.views import page_not_found, MainPageView
 
 urlpatterns = [
-    path('', MainPageView.as_view(), name='main_page'),
     path('admin/', admin.site.urls),
+    path('captcha/', include('captcha.urls')),
+    path('', MainPageView.as_view(), name='main_page'),
     path('board/', include('board.urls')),
 ]
 

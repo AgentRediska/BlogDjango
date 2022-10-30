@@ -1,4 +1,5 @@
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -21,8 +22,10 @@ class User(AbstractUser, PermissionsMixin):
 
 
 class Note(models.Model):
-    title = models.CharField(null=False, max_length=200)
-    content = models.CharField(null=False, max_length=5000)
+    title = models.CharField(null=False, max_length=200,
+                             validators=[MinLengthValidator(10, 'Поле должно содержать не менее 10 символов')])
+    content = models.CharField(null=False, max_length=5000,
+                               validators=[MinLengthValidator(20, 'Поле должно содержать не менее 20 символов')])
     creation_date = models.DateTimeField(auto_now_add=True, db_index=True)
     creator = models.ForeignKey('User', on_delete=models.CASCADE, related_name="note_creator")
     likes = models.ManyToManyField('User', related_name="liked_user")

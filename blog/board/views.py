@@ -43,19 +43,20 @@ class PasswordsChangeView(ContextDataMixin, PasswordChangeView):
 
 
 class UserRegistrationView(CreateView):
-    form_class = CustomUserCreationForm
+    form_class = CustomUserRegistrationForm
     template_name = 'board/register.html'
 
     def post(self, request, *args, **kwargs):
-        form = CustomUserCreationForm(request.POST, request.FILES)
+        form = CustomUserRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
+            print(form.cleaned_data)
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             return redirect('/')
-        return render(request, {'form': form})
+        return render(request, 'board/register.html', {'form': form})
 
 
 class UserLoginView(LoginView):
