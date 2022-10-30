@@ -4,14 +4,12 @@ from board.models import *
 register = template.Library()
 
 
-@register.simple_tag()
-def get_user_by_pk(user_pk):
-    return User.objects.get(pk=user_pk)
-
-
 @register.inclusion_tag('board/inclusion/subscriptions.html')
 def show_subscription_list(user, search_text=''):
-    subscriptions = Follower.objects.filter(subscriber=user, user__username__icontains=search_text).values('user')
+    if not search_text:
+        subscriptions = Follower.objects.filter(subscriber=user, user__username__icontains=search_text).values('user')
+    else:
+        subscriptions = Follower.objects.filter(subscriber=user).values('user')
     users = User.objects.filter(pk__in=subscriptions)
     return {"subscription_list": users}
 

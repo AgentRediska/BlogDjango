@@ -111,8 +111,7 @@ class MyNotesView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        request = self.request
-        return Note.objects.filter(creator=User.objects.get(pk=request.user.pk), is_published=True)
+        return Note.objects.filter(creator=self.request.user, is_published=True)
 
 
 class DraftNotesView(ContextDataMixin, ListView):
@@ -127,8 +126,7 @@ class DraftNotesView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        request = self.request
-        return Note.objects.filter(creator=User.objects.get(pk=request.user.pk), is_published=False)
+        return Note.objects.filter(creator=self.request.user, is_published=False)
 
 
 class EditNoteView(ContextDataMixin, UpdateView):
@@ -168,11 +166,12 @@ class SubscriptionsView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        search_text = ""
         if self.request.GET.get("center_list_search"):
             search_text = self.request.GET.get("center_list_search")
-        subscriptions = Follower.objects.filter(subscriber=self.request.user,
-                                                user__username__icontains=search_text).values('user')
+            subscriptions = Follower.objects.filter(subscriber=self.request.user,
+                                                    user__username__icontains=search_text).values('user')
+        else:
+            subscriptions = Follower.objects.filter(subscriber=self.request.user).values('user')
         sub_user = User.objects.filter(pk__in=subscriptions).order_by('username')
         return sub_user
 
@@ -189,11 +188,12 @@ class SubscribersView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        search_text = ""
         if self.request.GET.get("center_list_search"):
             search_text = self.request.GET.get("center_list_search")
-        subscribers = Follower.objects.filter(user=self.request.user,
-                                              subscriber__username__icontains=search_text).values('subscriber')
+            subscribers = Follower.objects.filter(user=self.request.user,
+                                                  subscriber__username__icontains=search_text).values('subscriber')
+        else:
+            subscribers = Follower.objects.filter(user=self.request.user).values('subscriber')
         sub_user = User.objects.filter(pk__in=subscribers).order_by('username')
         return sub_user
 
@@ -210,11 +210,12 @@ class AllUsersView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        request = self.request
-        search_text = ""
         if self.request.GET.get("center_list_search"):
             search_text = self.request.GET.get("center_list_search")
-        users = User.objects.filter(~Q(pk=request.user.pk), username__icontains=search_text).order_by('username')
+            users = User.objects.filter(~Q(pk=self.request.user.pk),
+                                        username__icontains=search_text).order_by('username')
+        else:
+            users = User.objects.filter(~Q(pk=self.request.user.pk)).order_by('username')
         return users
 
 
@@ -234,9 +235,7 @@ class SpeakerNotesView(ContextDataMixin, ListView):
         return {**context, **context_extra}
 
     def get_queryset(self):
-        user_id = self.kwargs.get("speaker_id")
-        user = User.objects.get(pk=user_id)
-        return Note.objects.filter(creator=user, is_published=True)
+        return Note.objects.filter(creator=self.kwargs.get("speaker_id"), is_published=True)
 
 
 def page_not_found(request, exception):

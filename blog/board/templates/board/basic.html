@@ -28,11 +28,10 @@
         <div class="row">
             <div class="col-2 left-container">
                 {% block left_container %}
-                    {% get_user_by_pk request.user.pk as user %}
                     <div class="main-user-info">
                         <div class="row">
-                            {% if user.photo %}
-                                <img class="col-3 photo-m-user" src="{{user.photo.url}}">
+                            {% if request.user.photo %}
+                                <img class="col-3 photo-m-user" src="{{request.user.photo.url}}">
                             {% endif %}
                             <div class="col info-main-user">
                                 <div class="row">
@@ -40,7 +39,7 @@
                                         <h6 class="fs-6 nick-title text-center">Ник:</h6>
                                     </div>
                                     <div class="col nick-main-user-col">
-                                        <h6 class="fs-6 nick-main-user text-center fw-bolder">{{ user.username }}</h6>
+                                        <h6 class="fs-6 nick-main-user text-center fw-bolder">{{ request.user.username }}</h6>
                                     </div>
                                 </div>
                                 <div class="row user-id">
@@ -48,7 +47,7 @@
                                         <h6 class="fs-6 id-title">id:</h6>
                                     </div>
                                     <div class="col id-main-user-col text-center">
-                                        <h6 class="fs-6 id-main-user fw-bolder">{{ user.pk }}</h6>
+                                        <h6 class="fs-6 id-main-user fw-bolder">{{ request.user.pk }}</h6>
                                     </div>
                                 </div>
                                 <div class="row edit-profile justify-content-end">
