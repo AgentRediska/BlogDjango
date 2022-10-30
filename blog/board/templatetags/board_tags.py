@@ -6,11 +6,12 @@ register = template.Library()
 
 @register.inclusion_tag('board/inclusion/subscriptions.html')
 def show_subscription_list(user, search_text=''):
-    if not search_text:
-        subscriptions = Follower.objects.filter(subscriber=user, user__username__icontains=search_text).values('user')
+    if search_text != "":
+        subscriptions = Follower.objects.filter(subscriber=user,
+                                                user__username__icontains=search_text).values('user').order_by("?")
     else:
         subscriptions = Follower.objects.filter(subscriber=user).values('user')
-    users = User.objects.filter(pk__in=subscriptions)
+    users = User.objects.filter(pk__in=subscriptions).only('pk', 'username', 'photo').order_by('?')
     return {"subscription_list": users}
 
 

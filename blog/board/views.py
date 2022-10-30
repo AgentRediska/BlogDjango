@@ -172,7 +172,8 @@ class SubscriptionsView(ContextDataMixin, ListView):
                                                     user__username__icontains=search_text).values('user')
         else:
             subscriptions = Follower.objects.filter(subscriber=self.request.user).values('user')
-        sub_user = User.objects.filter(pk__in=subscriptions).order_by('username')
+        sub_user = User.objects.filter(pk__in=subscriptions)\
+            .only('pk', 'username', 'photo', 'date_joined').order_by('username')
         return sub_user
 
 
@@ -194,7 +195,8 @@ class SubscribersView(ContextDataMixin, ListView):
                                                   subscriber__username__icontains=search_text).values('subscriber')
         else:
             subscribers = Follower.objects.filter(user=self.request.user).values('subscriber')
-        sub_user = User.objects.filter(pk__in=subscribers).order_by('username')
+        sub_user = User.objects.filter(pk__in=subscribers)\
+            .only('pk', 'username', 'photo', 'date_joined').order_by('username')
         return sub_user
 
 
@@ -212,10 +214,11 @@ class AllUsersView(ContextDataMixin, ListView):
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
             search_text = self.request.GET.get("center_list_search")
-            users = User.objects.filter(~Q(pk=self.request.user.pk),
-                                        username__icontains=search_text).order_by('username')
+            users = User.objects.filter(~Q(pk=self.request.user.pk),username__icontains=search_text)\
+                .only('pk', 'username', 'photo', 'date_joined').order_by('username')
         else:
-            users = User.objects.filter(~Q(pk=self.request.user.pk)).order_by('username')
+            users = User.objects.filter(~Q(pk=self.request.user.pk))\
+                .only('pk', 'username', 'photo', 'date_joined').order_by('username')
         return users
 
 
