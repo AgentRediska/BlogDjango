@@ -22,24 +22,18 @@ class User(AbstractUser, PermissionsMixin):
 
 
 class Note(models.Model):
-    title = models.CharField(null=False, max_length=200,
+    title = models.CharField(verbose_name="Заголовок", null=False, max_length=200,
                              validators=[MinLengthValidator(10, 'Поле должно содержать не менее 10 символов')])
-    content = models.CharField(null=False, max_length=5000,
+    content = models.CharField(verbose_name="Описание", null=False, max_length=5000,
                                validators=[MinLengthValidator(20, 'Поле должно содержать не менее 20 символов')])
-    creation_date = models.DateTimeField(auto_now_add=True, db_index=True)
-    creator = models.ForeignKey('User', on_delete=models.CASCADE, related_name="note_creator")
-    likes = models.ManyToManyField('User', related_name="liked_user")
-    dislikes = models.ManyToManyField('User', related_name="disliked_user")
-    is_published = models.BooleanField(default=True)
+    creation_date = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True, db_index=True)
+    creator = models.ForeignKey('User', verbose_name="Автор", on_delete=models.CASCADE, related_name="note_creator")
+    likes = models.ManyToManyField('User', verbose_name="Поставили лайк", related_name="liked_user")
+    dislikes = models.ManyToManyField('User', verbose_name="Поставили дизлайк", related_name="disliked_user")
+    is_published = models.BooleanField(verbose_name="Опубликовано", default=True)
 
     def __str__(self):
         return f'Тема "{self.title}", автор {self.creator}'
-
-    def number_of_likes(self):
-        return self.likes.count()
-
-    def number_of_dislikes(self):
-        return self.dislikes.count()
 
     class Meta:
         verbose_name = 'Запись'
@@ -48,8 +42,10 @@ class Note(models.Model):
 
 
 class Follower(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='owner', db_index=True)
-    subscriber = models.ForeignKey('User', on_delete=models.CASCADE, related_name='subscriber')
+    user = models.ForeignKey('User', verbose_name="Подписки",
+                             on_delete=models.CASCADE, related_name='owner', db_index=True)
+    subscriber = models.ForeignKey('User', verbose_name="Подписчики",
+                                   on_delete=models.CASCADE, related_name='subscriber')
 
     def __str__(self):
         return f"{self.subscriber} подписан на {self.user}"
