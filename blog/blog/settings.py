@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "debug_toolbar",
     'captcha',
+    'rest_framework',
     'board.apps.BoardConfig',
+    'drf.apps.DrfConfig',
 ]
 
 MIDDLEWARE = [
