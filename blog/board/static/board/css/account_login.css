@@ -5,12 +5,12 @@
     padding-top: 20px;
     padding-bottom: 15px;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 30px;
 }
 
-.account-login-container, .account-registration-container {
+.account-login-container, .account-registration-container, .create-note-container {
     height: 300px;
-    width: 500px;
+    width: 70%;
     display: inline-block;
     vertical-align: middle;
     background-color: var( --color3);
@@ -20,24 +20,39 @@
     margin: 0 auto;
 }
 
-.account-login-container {
-    height: 230px;
+.create-note-container {
+     width: 95%;
 }
 
 .reg-button, .log-button {
     border-radius: 5px;
-    margin-left: 60px;
     width: 280px;
     height: 38px;
     background-color: var(--main_color);
   }
 
-.reg-button:hover, .log-button:hover {
+.btn-regis-prof{
+    margin-right:5px;
+}
+
+.btn-regis-prof:hover {
+    color: #FFFFFF;
+}
+
+.create-note-button {
     border-radius: 5px;
-    background-color: var(--center_content_background);
+    width: 280px;
+    height: 38px;
+    background-color: var(--main_color);
+  }
+
+.reg-button:hover, .log-button:hover, .create-note-button:hover {
+    border-radius: 5px;
+    background-color: #008000;
     color:white;
   }
 
 .login-form, .registration-form {
-    padding-right: 70px;
+    padding-right: 20px;
+    padding-left: 20px;
 }

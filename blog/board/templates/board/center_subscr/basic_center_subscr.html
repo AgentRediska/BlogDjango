@@ -1,0 +1,89 @@
+{% extends "board/basic.html" %}
+{% load board_tags %}
+
+
+{% block header_additional_content %}
+    <div class="head-container">
+        <div class="exit-from-account-container">
+            <a href="{% url 'user_logout' %}" class="btn btn-exit-from-account">
+                <h6 class="exit-header-text fst-italic">Выход</h6>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block center_content_inside %}
+    {% block title_for_center_list %}
+    {% endblock %}
+    <form method="get">
+        <div class="row search-center-container text-center">
+            <div class="col">
+                <input class="search-sub-center" type="search" type="text" name="center_list_search" placeholder="Nickname">
+            </div>
+            <button class="col-4 btn-search-sub" type="submit">Найти</button>
+        </div>
+    </form>
+    {% if subscr_list|length > 0  %}
+        {% for sub in subscr_list %}
+            <a href="{% url 'speaker' sub.pk %}" class="col-6 sub-user-center">
+                <div class="row">
+                    {% if sub.photo %}
+                        <img class="col-3 photo-subs-user-center" src="{{ sub.photo.url }}">
+                    {% endif %}
+                    <div class="col info-subs-user">
+                        <div class="row">
+                            <div class="col-3 nick-title-col">
+                                <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                            </div>
+                            <div class="col nick-subs-user-col">
+                                <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ sub.username }}</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 id-title-col text-center">
+                                <h6 class="fs-6 id-title">id:</h6>
+                            </div>
+                            <div class="col id-subs-user-col text-center">
+                                <h6 class="fs-6 id-subs-user fw-bolder">{{ sub.pk }}</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 nick-title-col">
+                                <h6 class="fs-6 nick-title text-center">Создан:</h6>
+                            </div>
+                            <div class="col nick-subs-user-col">
+                                <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ sub.date_joined }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% block action_with_subscr %}
+                {% endblock %}
+            </a>
+        {% endfor %}
+    {% else %}
+        <div class="row list-empty-info-container">
+            <div class="row text-center">
+                {% block empty_list_user_info %}
+                    <h5 class="basic-text">Список пуст</h5>
+                {% endblock %}
+            </div>
+            <br><br>
+            <div class="row text-center">
+                <div class="col">
+                    <a href="{% url 'all_users' %}" class="btn btn-basic">
+                        <p class="fs-6 fw-semibold text-btn-basic">Список пользователей</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block right_content %}
+    {% if q %}
+        {% show_subscription_list user=request.user search_text=right_list_search %}
+    {% else %}
+       {% show_subscription_list user=request.user %}
+    {% endif %}
+{% endblock %}

@@ -2,11 +2,19 @@
 @import url(right_side.css);
 @import url(center.css);
 @import url(account_login.css);
+@import url(center_user_list.css);
+@import url(detail_user.css);
+@import url(center_with_title.css);
 
 :root {
     --color2: #52339a;
     --color3: #ffffff;
+    --color_scrollbar: rgba(0, 0, 0, 0.4);
+    --color_scrollbar_thumb: rgba(240, 123, 34, 0.4);
     --main_color: rgba(240, 122, 34, 0.87);
+    --main_color_light: rgba(240, 122, 34, 0.67);
+    --btn_red_color_light: rgba(250, 0, 0, 0.67);
+    --btn_red_color: rgba(250, 0, 0);
     --main_color_solid: rgb(218, 111, 29);
     --center_content_background: #3D3D3D;
 }
@@ -44,6 +52,11 @@ header {
     color: #000000;
 }
 
+.basic-text {
+    color: #000000;
+}
+
+
 .exit-header-text {
     color: var(--main_color_solid);
     height: 100%;
@@ -51,7 +64,7 @@ header {
 }
 
 .logo {
-    background: url(../img/logo.jpg);
+    background: url(../images/logo_header.jpg);
     background-position: center center;
     background-size: 45px 45px;
     position: absolute;
@@ -75,17 +88,64 @@ footer {
 
 .main-container {
     min-height: 87vh;
-    background: url(../img/background.jpg);
+    background: url(../images/background.jpg);
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%;
     background-attachment: fixed;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);   
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     padding-top: 50px;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
     align-items:center;
     position: relative;
+}
+
+.info-text-basic {
+    color: var(--main_color);
+}
+
+.btn-basic {
+    border-radius: 5px;
+    width: 300px;
+    height: 50px;
+    padding-top: 10px;
+    border: 2px solid #000000;
+    background-color: var(--main_color);
+}
+
+.btn-basic:hover {
+    border-radius: 5px;
+    background-color: #008000;
+    color:white;
+}
+
+.btn-basic-little {
+    border-radius: 5px;
+    width: 180px;
+    height: 40px;
+    border: 2px solid #000000;
+    background-color: var(--main_color_light);
+}
+
+.btn-basic-little:hover {
+    border-radius: 5px;
+    background-color: #008000;
+    color:white;
+}
+
+.btn-basic-little-red {
+    border-radius: 5px;
+    width: 180px;
+    height: 40px;
+    border: 2px solid #000000;
+    background-color: var(--btn_red_color_light);
+}
+
+.btn-basic-little-red:hover {
+    border-radius: 5px;
+    background-color: var(--btn_red_color);
+    color:white;
 }
 
 .color1 {

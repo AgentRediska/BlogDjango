@@ -1,0 +1,126 @@
+{% load static %}
+{% load board_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'board/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'board/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'board/css/style.css' %}">
+    <title> {% block title %}Блог{% endblock %} </title>
+    <link rel="shortcut icon" href="{% static 'board/images/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <div class="logo"></div>
+        <h4 class="text-start logo-text text-white">Let's tell</h4>
+        {% block header_additional_content %}
+        {% endblock %}
+    </header>
+
+
+    <section class="main-container">
+        <div class="row">
+            <div class="col-2 left-container">
+                {% block left_container %}
+                    <div class="main-user-info">
+                        <div class="row">
+                            {% if request.user.photo %}
+                                <img class="col-3 photo-m-user" src="{{request.user.photo.url}}">
+                            {% endif %}
+                            <div class="col info-main-user">
+                                <div class="row">
+                                    <div class="col-2 nick-title-col">
+                                        <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                                    </div>
+                                    <div class="col nick-main-user-col">
+                                        <h6 class="fs-6 nick-main-user text-center fw-bolder">{{ request.user.username }}</h6>
+                                    </div>
+                                </div>
+                                <div class="row user-id">
+                                    <div class="col-3 id-title-col text-center">
+                                        <h6 class="fs-6 id-title">id:</h6>
+                                    </div>
+                                    <div class="col id-main-user-col text-center">
+                                        <h6 class="fs-6 id-main-user fw-bolder">{{ request.user.pk }}</h6>
+                                    </div>
+                                </div>
+                                <div class="row edit-profile justify-content-end">
+                                    <div class="col-3"></div>
+                                    <div class="col">
+                                    <a href="{% url 'edit_profile' %}" class="btn-edit-prof"><u>Редактировать</u></a>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-left-container">
+                        {% for m in menu %}
+                            <a href="{% url m.url_name %}" class="btn btn-sm btn-create-note btn-left-menu">
+                                <div class="img-menu"></div>
+                                <div class="text-start text-menu-block">
+                                    <h6 class="text-menu">{{ m.title }}</h6>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
+            </div>
+            {% block center_content %}
+                <div class="col center-container">
+                    <div class="row news-list-container overflow-auto justify-content-center">
+                        {% block center_content_inside %}
+                        {% endblock %}
+                    </div>
+                    {% block paging_container %}
+                        {% if page_obj.has_other_pages %}
+                            <nav class="row justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page={{ page_obj.previous_page_number }}" class="col btn-paging-a-l-r text-center">
+                                        <div class="btn-paging-l-r">&lt;</div>
+                                    </a>
+                                {% endif %}
+
+                                    {% for p in paginator.page_range %}
+                                        {% if page_obj.number == p %}
+                                            <div class="col btn-paging-a text-center">
+                                                <div class="btn-paging-selected">{{ p }}</div>
+                                            </div>
+                                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                            <a href="?page={{ p }}" class="col btn-paging-a text-center">
+                                                <div class="btn-paging">{{ p }}</div>
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}" class="col btn-paging-a-l-r text-center">
+                                        <div class="btn-paging-l-r">&gt;</div>
+                                    </a>
+                                {% endif %}
+                            </nav>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+            <div class="col-2 right-container">
+                {% block right_content %}
+                    {% if right_list_search %}
+                        {% show_subscription_list user=request.user search_text=right_list_search %}
+                    {% else %}
+                       {% show_subscription_list user=request.user %}
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </section>
+
+    <footer> </footer>
+    <script src="{% static 'board/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

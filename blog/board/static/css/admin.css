@@ -1,0 +1,31 @@
+#header {
+    background: #151719;
+}
+
+#branding h1 a:link, #branding h1 a:visited {
+    color: rgb(218, 111, 29);
+}
+
+.module caption {
+    background: rgba(205, 87, 0, 0.8);
+}
+
+#nav-sidebar .current-model {
+       background: #3D3D3D;
+}
+
+div.breadcrumbs, div.breadcrumbs a, a.section:link, a.section:visited {
+    color: #000000;
+}
+div.breadcrumbs{
+    background: rgba(205, 87, 0, 0.8);
+}
+
+#nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
+    color: #000000;
+}
+
+.module h2, .inline-group h2 {
+    background: #898176;
+    color: #000000;
+}

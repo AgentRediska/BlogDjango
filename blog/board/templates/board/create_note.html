@@ -1,0 +1,42 @@
+{% extends "board/basic.html" %}
+{% load board_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header_additional_content %}
+    <div class="head-container">
+        <div class="exit-from-account-container">
+            <a href="{% url 'user_logout' %}" class="btn btn-exit-from-account">
+                <h6 class="exit-header-text fst-italic">Выход</h6>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block center_content_inside %}
+    <div class="create-note-container ">
+        <div class="row">
+             <p class="fs-4 fw-bold text-center">{{ title }}</p>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-error"> {{ form.non_field_errors }}</div>
+            {% for f in form %}
+                <div class="row">
+                   <div class="col">
+                       <h6><label for="{{ f.id_for_label }}">{{ f.label }}</label></h6>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col ">{{ f }}</div>
+                   <div class="error">{{ f.errors }}</div>
+                </div>
+                <br>
+            {% endfor %}
+            <div class="text-center">
+               <button type="submit" class="create-note-button">Сохранить</button>
+            </div>
+            <br>
+        </form>
+    </div>
+{% endblock %}

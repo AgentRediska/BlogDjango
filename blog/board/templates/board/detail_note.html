@@ -1,0 +1,102 @@
+{% extends "board/basic.html" %}
+{% load board_tags %}
+
+{% block title %}Инфо{% endblock %}
+
+{% block header_additional_content %}
+    <div class="head-container">
+        <div class="exit-from-account-container">
+            <a href="{% url 'user_logout' %}" class="btn btn-exit-from-account">
+                <h6 class="exit-header-text fst-italic">Выход</h6>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block center_content_inside %}
+    <div class="note-detail">
+        <div class="row note-detail-user-info">
+                {% if note.creator.photo %}
+                    <img class="col-3 photo-detail-user" src="{{ note.creator.photo.url }}">
+                {% endif %}
+                <div class="col-9 info-subs-user">
+                    <div class="row">
+                        <div class="col-3 nick-title-col">
+                            <h6 class="fs-6 nick-title text-center">Ник:</h6>
+                        </div>
+                        <div class="col nick-subs-user-col">
+                            <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ note.creator.username }}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 id-title-col text-center">
+                            <h6 class="fs-6 id-title">id:</h6>
+                        </div>
+                        <div class="col id-subs-user-col text-center">
+                            <h6 class="fs-6 id-subs-user fw-bolder">{{ note.creator.pk }}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 nick-title-col">
+                            <h6 class="fs-6 nick-title text-center">Создан:</h6>
+                        </div>
+                        <div class="col nick-subs-user-col">
+                            <h6 class="fs-6 nick-subs-user text-center fw-bolder">{{ note.creator.date_joined }}</h6>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <br>
+        <div class="note-title row">
+            <div class="col-3 title-news">
+                <h6 class="id-news-user">Тема:</h6>
+            </div>
+            <div class="col note-title-text">
+                <h6 class="id-news-user fst-italic">{{ note.title }}</h6>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-3 id-title-col">
+                    <h6 class="fs-6 id-title">Дата создания записи:</h6>
+                </div>
+                <div class="col id-subs-user-col">
+                    <h6 class="fs-6 id-subs-user fst-italic">{{ note.creation_date }}</h6>
+                </div>
+            </div>
+        <div class="description-detail-container">
+            <h6 class="description">Описание:</h6>
+            <div class="description-detail-text overflow-auto">
+                <h6 class="description"> {{ note.content }} </h6>
+            </div>
+        </div>
+        <div class="reaction-container">
+            <div class="row">
+                <a href="{% url 'set_like' note.pk %}" class="col-2 btn btn-news-like">
+                    <div class="row">
+                        {% if user in note.likes.all %}
+                            <div class="col-4 img-news-like-active img-reaction"></div>
+                        {% else %}
+                            <div class="col-4 img-news-like-inactive img-reaction"></div>
+                        {% endif %}
+                        <p class="fs-6 text-start col count-like" style="margin-bottom: 0px;">
+                            {{ note.number_of_likes }}
+                        </p>
+                    </div>
+                </a>
+                <a href="{% url 'set_dislike' note.pk %}" class="col-2 btn btn-news-dislike">
+                    <div class="row">
+                        {% if user in note.dislikes.all %}
+                            <div class="col-4 img-news-dislike-active img-reaction"></div>
+                        {% else %}
+                            <div class="col-4 img-news-dislike-inactive img-reaction"></div>
+                        {% endif %}
+                        <p class="fs-6 text-start col count-dislike" style="margin-bottom: 0px;">
+                            {{ note.number_of_dislikes }}
+                        </p>
+                    </div>
+                </a>
+                <div class="col"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

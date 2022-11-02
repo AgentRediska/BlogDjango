@@ -1,0 +1,18 @@
+{% extends "board/center_subscr/basic_center_subscr.html" %}
+{% load board_tags %}
+
+{% block title %}Мои подписчики{% endblock %}
+
+{% block empty_list_user_info %}
+    <h5 class="basic-text">Подписчики не найдены</h5>
+{% endblock %}
+
+{% block title_for_center_list %}
+    <h5 class="basic-text text-center" style="margin-bottom: 0px;">Подписчики</h5>
+{% endblock %}
+
+{% block action_with_subscr %}
+    <form action="{% url 'unsubscribe_from_user' sub.pk %}" class="text-end">
+        <input type="submit" value="Исключить" class="btn-unsubscribe"/>
+    </form>
+{% endblock %}

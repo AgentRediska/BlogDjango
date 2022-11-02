@@ -1,0 +1,132 @@
+.center-container {
+    background-color:var(--center_content_background);
+    min-height: 100vh;
+    min-width: 600px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+
+.news-list-container {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color:var(--center_content_background);
+    align-content: baseline;
+}
+
+.news {
+    min-height: 350px;
+    max-height: 350px;
+    width: 100%;
+    background-color: var( --color3);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    position: relative;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 15px;
+}
+
+.photo-news-user {
+    height: 50px;
+    width: 50px;
+    background-position: center center;
+    background-size: 50px 50px;
+    border: 1px solid #000000;
+    border-radius: 33px;
+    margin-right: 5px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.news-user-info-nick-id {
+    border: 1px solid var(--border-color);
+}
+
+.list-empty-info-container {
+    height: 300px;
+    width: 70%;
+    display: inline-block;
+    vertical-align: middle;
+    padding-top: 40px;
+    background-color: var( --color3);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    display: table;
+    margin: 0 auto;
+}
+
+.description-container {
+    width: 100%;
+    min-height: 220px;
+    border: 1px solid var(--border-color);
+    margin-top: 5px;
+}
+
+.news-user-info {
+    height: 60px;
+    margin-right: 11px;
+}
+
+.description-text {
+    height: 190px;
+    width: 100%;
+    border: 1px solid #000000;
+}
+
+.reaction-container {
+    width: 100%;
+    height: 55px;
+    padding-right: 15px;
+    margin-top: 5px;
+}
+
+.img-news-like-active {
+    background: url(../images/like_active.svg);
+}
+
+.img-news-like-inactive {
+    background: url(../images/like.svg);
+}
+
+.img-news-dislike-active {
+    background: url(../images/dislike_active.svg);
+}
+
+.img-news-dislike-inactive {
+    background: url(../images/dislike.svg);
+}
+
+.img-reaction {
+    height: 26px;
+    width: 26px;
+    margin-left: 5px;
+    background-position: center center;
+    background-size: 26px 26px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.btn-news-like {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.btn-news-like:hover {
+    border: 1px solid #00db42;
+}
+
+.btn-news-dislike:hover {
+    border: 1px solid #d80000;
+}
+
+.btn-change-password:hover {
+    color: #FFFFFF;
+}
+
+
+

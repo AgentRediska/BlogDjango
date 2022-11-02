@@ -8,27 +8,40 @@
     top: 50px;
 }
 
+.btn-edit-prof{
+    margin-right:5px;
+}
+
+.btn-edit-prof:hover {
+    color: #FFFFFF;
+}
+
+
 .main-user-info {
-    height: 70px;
+    height: 120px;
     width: 100%;
     background-color: var( --main_color);
     border: 2px solid #000000;
     border-radius: 7px;
     margin-top: 20px;
-    padding-top: 4px;
+    padding-top: 12px;
     padding-bottom: 5px;
     padding-left: 15px;
-    padding-right: 10px;
 }
 
-.photo-main-user {
+.photo-m-user {
     width: 60px;
     height: 60px;
-    background: url(../img/example_photo.jpg);
     background-position: center center;
-    background-size: 50px 50px;
+    background-size: 60px 60px;
     border: 1px solid #000000;
     border-radius: 33px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.user-id {
+    margin-top: 9px;
 }
 
 .info-main-user {
@@ -36,6 +49,7 @@
     margin-left: 2px;
     margin-right: 6px;
     padding-right:5px;
+    margin-top: 3px;
 }
 
 .menu-left-container {
@@ -54,21 +68,27 @@
     background-color: var(--main_color);
 }
 
+.img-menu {
+    background: url(../images/menu_point.png);
+    background-position: center center;
+    background-size: 25px 25px;
+    position: absolute;
+    background-repeat: no-repeat;
+    height: 40px;
+    width: 40px;
+    left: 5px;
+    bottom: 6px;
+}
+
 .btn-left-menu:hover {
     background-color: var(--color3);
     border: 1px solid #000000;
-}
-
-.img-menu {
-    height: 40px;
-    width: 40px;
-    position: absolute;
-    left: 5px;
-    bottom: 4px;
 }
 
 .text-menu-block {
     position: relative;
     top: 8px;
     left: 55px;
+    margin-right:55px;
 }
+

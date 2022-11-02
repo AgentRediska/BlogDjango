@@ -1,0 +1,95 @@
+.right-container {
+    min-height: 520px;
+    max-height: 80vh;
+    min-width: 300px;
+    margin-left: 10px;
+    padding: 0px;
+    top: 50px;
+    position: sticky;
+}
+
+.right-list-container::-webkit-scrollbar {
+    width: 7px;
+    background-color: var(--color_scrollbar);
+}
+
+.right-list-container::-webkit-scrollbar-thumb {
+    background-color: var(--color_scrollbar_thumb);
+}
+
+.right-list-container {
+    position: sticky;
+    overflow:auto;
+    overflow-x: hidden;
+    padding-right: 0px;
+    min-height: 400px;
+    height: 540px;
+    min-width: 100%;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.subs-user-info {
+    height: 80px;
+    width: 99%;
+    background-color: var( --main_color);
+    border: 2px solid #000000;
+    border-radius: 7px;
+    margin-top: 10px;
+    margin-left:0px;
+    margin-right:0px;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+
+.subs-user-info:hover {
+    background-color: var( --color3);
+}
+
+.photo-subs-user {
+    width: 60px;
+    height: 60px;
+    background-position: center center;
+    background-size: 50px 50px;
+    border: 1px solid #000000;
+    border-radius: 33px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.info-subs-user {
+    height: 65px;
+    margin-top: 5px;
+}
+
+.menu-right-container {
+    margin-top: 90px;
+    background-color: var(--main_color);
+}
+
+.btn-search-sub {
+    border-radius: 5px;
+    border: 2px solid #000000;
+    width: 180px;
+    height: 38px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: var(--main_color);
+}
+
+.btn-search-sub:hover {
+    border-radius: 5px;
+    background-color: #008000;
+    color:white;
+}
+
+.search-sub {
+    margin-top: 20px;
+    min-width: 100%;
+}
+
+.right-list-container a:hover, a:visited, a:link, a:active{
+  text-decoration: none;
+  color: #000000;
+}
