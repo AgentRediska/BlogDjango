@@ -26,12 +26,10 @@ class NoteAPIView(APIView):
         return Response({'notes': NoteSerializer(Note.objects.all(), many=True).data})
 
     def post(self, request):
-        print(request.user)
-        print("AAAAAAAAAAAAAAAAAAAAAAAAA")
         note = Note.objects.create(
             title=request.data['title'],
             content=request.data['content'],
-            creator=request.user.pk,
+            creator=request.user,
             is_published=request.data['is_published']
         )
         return Response({'post': NoteSerializer(note).data})
