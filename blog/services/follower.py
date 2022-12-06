@@ -1,18 +1,18 @@
 from board.models import Follower, User
 
 
-def get_subscriptions(user, subscription_name: str = None):
+def get_subscriptions(user, subscription_name: str = ""):
     """Найти подписки. Subscription_name - дополнительная фильтрация по имени"""
-    if subscription_name is None:
+    if not subscription_name:
         return Follower.objects.filter(subscriber=user).values('user')
     else:
         return Follower.objects.filter(subscriber=user,
                                        user__username__icontains=subscription_name).values('user')
 
 
-def get_subscribers(user, subscriber_name: str = None):
+def get_subscribers(user, subscriber_name: str = ""):
     """Найти подписчиков. Subscriber_name - дополнительная фильтрация по имени"""
-    if subscriber_name is None:
+    if not subscriber_name:
         return Follower.objects.filter(user=user).values('subscriber')
     else:
         return Follower.objects.filter(user=user, subscriber__username__icontains=subscriber_name).values('subscriber')

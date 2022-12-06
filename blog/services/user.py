@@ -10,12 +10,12 @@ def get_users_by_follower(followers):
         .only('pk', 'username', 'photo', 'date_joined').order_by('username')
 
 
-def get_users(user, search_username: str = None):
+def get_users(user, search_username: str = ""):
     """Показать список всех пользователей\n
     search_username - дополнительный параметр для фильтрации пользователей по имени"""
-    if search_username is None:
-        return User.objects.filter(~Q(pk=user.pk), username__icontains=search_username) \
+    if not search_username:
+        return User.objects.filter(~Q(pk=user.pk)) \
             .only('pk', 'username', 'photo', 'date_joined').order_by('username')
     else:
-        return User.objects.filter(~Q(pk=user.pk)) \
+        return User.objects.filter(~Q(pk=user.pk), username__icontains=search_username) \
             .only('pk', 'username', 'photo', 'date_joined').order_by('username')
