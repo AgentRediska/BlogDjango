@@ -68,16 +68,11 @@ class UserLogoutView(LogoutView):
     next_page = "/"
 
 
-class MainPageView(ContextDataMixin, ListView):
+class MainPageView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/main_page.html'
     context_object_name = 'notes'
     paginate_by = 30
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix()
-        return {**context, **context_extra}
 
     def get_queryset(self):
         return get_subscription_notes(get_subscriptions(self.request.user))
@@ -99,31 +94,21 @@ class CreateNoteView(ContextDataMixin, CreateView):
         return super(CreateNoteView, self).form_valid(form)
 
 
-class MyNotesView(ContextDataMixin, ListView):
+class MyNotesView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 10
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix()
-        return {**context, **context_extra}
 
     def get_queryset(self):
         return get_user_notes(self.request.user)
 
 
-class DraftNotesView(ContextDataMixin, ListView):
+class DraftNotesView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 10
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix()
-        return {**context, **context_extra}
 
     def get_queryset(self):
         return get_user_draft_notes(self.request.user)
@@ -154,16 +139,11 @@ class DetailNoteView(ContextDataMixin, DetailView):
         return {**context, **context_extra}
 
 
-class SubscriptionsView(ContextDataMixin, ListView):
+class SubscriptionsView(ContextDataListViewMixin):
     model = User
     template_name = 'board/center_subscr/my_subscriptions.html'
     context_object_name = 'subscr_list'
     paginate_by = 16
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(title='Создать запись')
-        return {**context, **context_extra}
 
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
@@ -173,16 +153,11 @@ class SubscriptionsView(ContextDataMixin, ListView):
         return get_users_by_follower(subscriptions)
 
 
-class SubscribersView(ContextDataMixin, ListView):
+class SubscribersView(ContextDataListViewMixin):
     model = User
     template_name = 'board/center_subscr/my_subscribers.html'
     context_object_name = 'subscr_list'
     paginate_by = 16
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(title='Создать запись')
-        return {**context, **context_extra}
 
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
@@ -192,16 +167,11 @@ class SubscribersView(ContextDataMixin, ListView):
         return get_users_by_follower(subscribers)
 
 
-class AllUsersView(ContextDataMixin, ListView):
+class AllUsersView(ContextDataListViewMixin):
     model = User
     template_name = 'board/center_subscr/all_users.html'
     context_object_name = 'subscr_list'
     paginate_by = 40
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(title='Создать запись')
-        return {**context, **context_extra}
 
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
@@ -210,7 +180,7 @@ class AllUsersView(ContextDataMixin, ListView):
             return get_users(self.request.user)
 
 
-class SpeakerNotesView(ContextDataMixin, ListView):
+class SpeakerNotesView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/speaker.html'
     context_object_name = 'notes'
