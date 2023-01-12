@@ -3,13 +3,14 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.db.models import Q
 from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-import re
 
 from .forms import *
 from .models import *
 from .utils import *
+from services.follower import *
+from services.note import *
+from services.user import *
 
 
 class SignInView(CreateView):
@@ -67,21 +68,14 @@ class UserLogoutView(LogoutView):
     next_page = "/"
 
 
-class MainPageView(ContextDataMixin, ListView):
+class MainPageView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/main_page.html'
     context_object_name = 'notes'
     paginate_by = 30
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix()
-        return {**context, **context_extra}
-
     def get_queryset(self):
-        subscriptions = Follower.objects.filter(subscriber=self.request.user).values('user')
-        notes = Note.objects.filter(creator__in=subscriptions, is_published=True).order_by('creation_date')
-        return notes
+        return get_subscription_notes(get_subscriptions(self.request.user))
 
 
 class CreateNoteView(ContextDataMixin, CreateView):
@@ -100,34 +94,24 @@ class CreateNoteView(ContextDataMixin, CreateView):
         return super(CreateNoteView, self).form_valid(form)
 
 
-class MyNotesView(ContextDataMixin, ListView):
+class MyNotesView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix()
-        return {**context, **context_extra}
-
     def get_queryset(self):
-        return Note.objects.filter(creator=self.request.user, is_published=True)
+        return get_user_notes(self.request.user)
 
 
-class DraftNotesView(ContextDataMixin, ListView):
+class DraftNotesView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/my_notes.html'
     context_object_name = 'notes'
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix()
-        return {**context, **context_extra}
-
     def get_queryset(self):
-        return Note.objects.filter(creator=self.request.user, is_published=False)
+        return get_user_draft_notes(self.request.user)
 
 
 class EditNoteView(ContextDataMixin, UpdateView):
@@ -155,75 +139,48 @@ class DetailNoteView(ContextDataMixin, DetailView):
         return {**context, **context_extra}
 
 
-class SubscriptionsView(ContextDataMixin, ListView):
+class SubscriptionsView(ContextDataListViewMixin):
     model = User
     template_name = 'board/center_subscr/my_subscriptions.html'
     context_object_name = 'subscr_list'
     paginate_by = 16
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(title='Создать запись')
-        return {**context, **context_extra}
-
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
-            search_text = self.request.GET.get("center_list_search")
-            subscriptions = Follower.objects.filter(subscriber=self.request.user,
-                                                    user__username__icontains=search_text).values('user')
+            subscriptions = get_subscriptions(self.request.user, self.request.GET.get("center_list_search"))
         else:
-            subscriptions = Follower.objects.filter(subscriber=self.request.user).values('user')
-        sub_user = User.objects.filter(pk__in=subscriptions)\
-            .only('pk', 'username', 'photo', 'date_joined').order_by('username')
-        return sub_user
+            subscriptions = get_subscriptions(self.request.user)
+        return get_users_by_follower(subscriptions)
 
 
-class SubscribersView(ContextDataMixin, ListView):
+class SubscribersView(ContextDataListViewMixin):
     model = User
     template_name = 'board/center_subscr/my_subscribers.html'
     context_object_name = 'subscr_list'
     paginate_by = 16
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(title='Создать запись')
-        return {**context, **context_extra}
-
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
-            search_text = self.request.GET.get("center_list_search")
-            subscribers = Follower.objects.filter(user=self.request.user,
-                                                  subscriber__username__icontains=search_text).values('subscriber')
+            subscribers = get_subscribers(self.request.user, self.request.GET.get("center_list_search"))
         else:
-            subscribers = Follower.objects.filter(user=self.request.user).values('subscriber')
-        sub_user = User.objects.filter(pk__in=subscribers)\
-            .only('pk', 'username', 'photo', 'date_joined').order_by('username')
-        return sub_user
+            subscribers = get_subscribers(self.request.user)
+        return get_users_by_follower(subscribers)
 
 
-class AllUsersView(ContextDataMixin, ListView):
+class AllUsersView(ContextDataListViewMixin):
     model = User
     template_name = 'board/center_subscr/all_users.html'
     context_object_name = 'subscr_list'
     paginate_by = 40
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(title='Создать запись')
-        return {**context, **context_extra}
-
     def get_queryset(self):
         if self.request.GET.get("center_list_search"):
-            search_text = self.request.GET.get("center_list_search")
-            users = User.objects.filter(~Q(pk=self.request.user.pk),username__icontains=search_text)\
-                .only('pk', 'username', 'photo', 'date_joined').order_by('username')
+            return get_users(self.request.user, self.request.GET.get("center_list_search"))
         else:
-            users = User.objects.filter(~Q(pk=self.request.user.pk))\
-                .only('pk', 'username', 'photo', 'date_joined').order_by('username')
-        return users
+            return get_users(self.request.user)
 
 
-class SpeakerNotesView(ContextDataMixin, ListView):
+class SpeakerNotesView(ContextDataListViewMixin):
     model = Note
     template_name = 'board/speaker.html'
     context_object_name = 'notes'
@@ -231,15 +188,16 @@ class SpeakerNotesView(ContextDataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         user_speaker = User.objects.get(pk=self.kwargs.get("speaker_id"))
-        is_subscription = Follower.objects.filter(user=self.request.user, subscriber=user_speaker)
-        is_subscribe = Follower.objects.filter(user=user_speaker, subscriber=self.request.user)
+        rel = check_user_relationship(self.request.user, user_speaker)
         context = super().get_context_data(**kwargs)
-        context_extra = self.get_data_context_mix(speaker=user_speaker, is_subscribe=is_subscribe,
-                                                  is_subscription=is_subscription)
+        context_extra = self.get_data_context_mix(
+            speaker=user_speaker,
+            is_subscribe=rel[0],
+            is_subscription=rel[1])
         return {**context, **context_extra}
 
     def get_queryset(self):
-        return Note.objects.filter(creator=self.kwargs.get("speaker_id"), is_published=True)
+        return get_user_notes(self.kwargs.get("speaker_id"))
 
 
 def page_not_found(request, exception):
@@ -247,24 +205,12 @@ def page_not_found(request, exception):
 
 
 def like_post(request, note_pk):
-    note = Note.objects.get(pk=note_pk)
-    if note.likes.filter(id=request.user.pk).exists():
-        note.likes.remove(request.user)
-    else:
-        if note.dislikes.filter(id=request.user.pk).exists():
-            note.dislikes.remove(request.user)
-        note.likes.add(request.user)
+    set_like_to_note(request.user, note_pk)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def dislike_post(request, note_pk):
-    note = Note.objects.get(pk=note_pk)
-    if note.dislikes.filter(id=request.user.pk).exists():
-        note.dislikes.remove(request.user)
-    else:
-        if note.likes.filter(id=request.user.pk).exists():
-            note.likes.remove(request.user)
-        note.dislikes.add(request.user)
+    set_dislike_to_note(request.user, note_pk)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -274,22 +220,15 @@ def delete_note(request, note_pk):
 
 
 def unfollow_user(request, sub_pk):
-    """Исключить пользователя из списка ваших подписчиков"""
-    print("unfollow")
-    Follower.objects.filter(subscriber=User.objects.get(pk=sub_pk), user=request.user).delete()
+    exclude_user_from_subscriptions(request.user, sub_pk)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def unsubscribe_from_user(request, sub_pk):
-    """Отписаться от пользователя"""
-    print("unsubscribe")
-    print(sub_pk)
-    Follower.objects.filter(subscriber=request.user, user=User.objects.get(pk=sub_pk)).delete()
+    unsubscribe(request.user, sub_pk)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def subscribe_to_user(request, sub_pk):
-    """Подписаться на пользователя"""
-    print("subscribe")
-    Follower.objects.create(user=User.objects.get(pk=sub_pk), subscriber=request.user)
+    subscribe(request.user, sub_pk)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

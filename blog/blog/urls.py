@@ -10,6 +10,7 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('', MainPageView.as_view(), name='main_page'),
     path('board/', include('board.urls')),
+    path('api/', include('drf.urls')),
 ]
 
 if settings.DEBUG:

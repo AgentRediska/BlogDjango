@@ -40,6 +40,12 @@ class Note(models.Model):
         verbose_name_plural = 'Записи'
         ordering = ['creation_date']
 
+    def get_like_count(self) -> int:
+        return self.likes.all().count()
+
+    def get_dislike_count(self) -> int:
+        return self.dislikes.all().count()
+
 
 class Follower(models.Model):
     user = models.ForeignKey('User', verbose_name="Подписки",

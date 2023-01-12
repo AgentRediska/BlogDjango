@@ -68,7 +68,7 @@
                                     <div class="col-4 img-news-like-inactive img-reaction"></div>
                                 {% endif %}
                                 <p class="fs-6 text-start col count-like" style="margin-bottom: 0px;">
-                                    {{ note.number_of_likes }}
+                                    {{ note.get_like_count }}
                                 </p>
                             </div>
                         </a>
@@ -80,7 +80,7 @@
                                     <div class="col-4 img-news-dislike-inactive img-reaction"></div>
                                 {% endif %}
                                 <p class="fs-6 text-start col count-dislike" style="margin-bottom: 0px;">
-                                    {{ note.number_of_dislikes }}
+                                    {{ note.get_dislike_count }}
                                 </p>
                             </div>
                         </a>
