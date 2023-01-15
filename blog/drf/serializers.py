@@ -5,9 +5,12 @@ from board.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=14)
+    password = serializers.CharField(min_length=8, write_only=True)
+
     class Meta:
         model = User
-        fields = ('pk', 'username')
+        fields = ['id', 'username', 'photo', 'password']
 
 
 class NoteSerializer(serializers.Serializer):
@@ -18,24 +21,3 @@ class NoteSerializer(serializers.Serializer):
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     dislikes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     is_published = serializers.BooleanField(default=True)
-
-
-# class NoteModel:
-#     def __init__(self, title, content, is_published):
-#         self.title = title
-#         self.content = content
-#         self.is_published = is_published
-#
-#
-# class NoteSerializer(serializers.Serializer):
-#     title = serializers.CharField(max_length=200)
-#     content = serializers.CharField(max_length=5000)
-#     is_published = serializers.BooleanField(default=True)
-#
-#
-# def encode():
-#     model = NoteModel("title", "content", True)
-#     model_sr = NoteSerializer(model)
-#     print(model_sr.data, type(model_sr.data), sep='\n')
-#     json = JSONRenderer().render(model_sr.data)
-#     print(json)
