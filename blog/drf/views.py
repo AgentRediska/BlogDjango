@@ -1,12 +1,10 @@
 from django.contrib.auth.hashers import make_password
-from django.forms import model_to_dict
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from board.models import User, Note, Follower
 from drf.permissions import IsHimselfOrReadOnly
 from drf.serializers import UserSerializer, NoteSerializer
 from rest_framework import generics
+
+from board.models import User, Note, Follower
+from services import user as user_service
 
 
 class UserListView(generics.ListCreateAPIView):
@@ -20,11 +18,10 @@ class UserListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = User.objects.all()
-        username = self.request.query_params.get("username")
-        if username is not None:
-            queryset = queryset.filter(username=username)
+        if self.request.query_params.get("username") is not None:
+            queryset = user_service.get_users(self.request.user, search_field=self.request.query_params.get("username"))
         elif self.request.query_params.get("id"):
-            queryset = queryset.filter(pk=self.request.query_params.get("id"))
+            queryset = user_service.get_users(self.request.user, search_field=self.request.query_params.get("id"))
         return queryset
 
 

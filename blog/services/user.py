@@ -10,12 +10,16 @@ def get_users_by_follower(followers):
         .only('pk', 'username', 'photo', 'date_joined').order_by('username')
 
 
-def get_users(user, search_username: str = ""):
+def get_users(user, search_field=""):
     """Показать список всех пользователей\n
-    search_username - дополнительный параметр для фильтрации пользователей по имени"""
-    if not search_username:
+    search_username - дополнительный параметр для фильтрации пользователей по имени ИЛИ pk"""
+    if not search_field:
         return User.objects.filter(~Q(pk=user.pk)) \
             .only('pk', 'username', 'photo', 'date_joined').order_by('username')
     else:
-        return User.objects.filter(~Q(pk=user.pk), username__icontains=search_username) \
-            .only('pk', 'username', 'photo', 'date_joined').order_by('username')
+        if search_field.isdigit():
+            return User.objects.filter(~Q(pk=user.pk), Q(pk=search_field)) \
+                .only('pk', 'username', 'photo', 'date_joined').order_by('username')
+        else:
+            return User.objects.filter(~Q(pk=user.pk), Q(username__icontains=search_field)) \
+                .only('pk', 'username', 'photo', 'date_joined').order_by('username')
