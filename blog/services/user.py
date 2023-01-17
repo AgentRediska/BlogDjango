@@ -10,6 +10,10 @@ def get_users_by_follower(followers):
         .only('pk', 'username', 'photo', 'date_joined').order_by('username')
 
 
+def get_user_by_pk(user_pk):
+    return User.objects.get(pk=user_pk)
+
+
 def get_users(user, search_field=""):
     """Показать список всех пользователей\n
     search_username - дополнительный параметр для фильтрации пользователей по имени ИЛИ pk"""
