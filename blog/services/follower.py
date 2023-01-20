@@ -20,7 +20,7 @@ def get_subscribers(user, subscriber_name: str = ""):
 
 def unsubscribe(user, sub_pk):
     """Отписаться от пользователя"""
-    return Follower.objects.filter(subscriber=user, user=User.objects.get(pk=sub_pk)).delete()
+    return Follower.objects.filter(user=User.objects.get(pk=sub_pk), subscriber=user).delete()
 
 
 def subscribe(user, sub_pk):
@@ -41,6 +41,17 @@ def is_subscription(speaker, user):
 def is_subscriber(user, speaker):
     """Проверить наличие подписки у пользователя"""
     return Follower.objects.filter(user=speaker, subscriber=user).exists()
+
+
+def set_subscription(user, sub_pk):
+    if is_subscriber(user, sub_pk):
+        """Отписаться от пользователя"""
+        unsubscribe(user, sub_pk)
+        return {"message": "User removed from subscriptions"}
+    else:
+        """Подписаться на пользователя"""
+        subscribe(user, sub_pk)
+        return {"message": "User added to subscribers"}
 
 
 def check_user_relationship(user, speaker) -> list:

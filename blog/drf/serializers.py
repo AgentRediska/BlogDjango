@@ -18,36 +18,46 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserBaseInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'photo']
+
+
+class FollowerSerializer(serializers.ModelSerializer):
+    user = UserBaseInfoSerializer(read_only=True)
+
+    class Meta:
+        model = Follower
+        fields = ['user', ]
+
+
+class UserFollowerSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=14)
     password = serializers.CharField(min_length=8, write_only=True)
-    note_creator = NoteSerializer(many=True, read_only=True)
+    notes = NoteSerializer(many=True, read_only=True)
+    subscriber = FollowerSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'photo', 'password', 'note_creator']
+        fields = ['id', 'username', 'photo', 'password', 'notes', 'subscriber', ]
+
+
+# class UserSerializer(serializers.ModelSerializer):
+#     username = serializers.CharField(max_length=14)
+#     password = serializers.CharField(min_length=8, write_only=True)
+#     notes = NoteSerializer(many=True, read_only=True)
+#     subscribers = UserFollowerSerializer()
+#
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'photo', 'password', 'notes']
 
 
 class UserNoteSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserBaseInfoSerializer()
     notes = NoteSerializer(many=True)
 
     class Meta:
         model = User
         fields = ['user', 'notes']
-
-
-class FollowerSerializer(serializers.ModelSerializer):
-    subscriber = UserSerializer(many=True)
-
-    class Meta:
-        model = Follower
-        fields = ['subscriber', 'subscriber']
-
-
-class UserUserSerializer(serializers.ModelSerializer):
-    follower = FollowerSerializer(many=True)
-
-    class Meta:
-        model = User
-        fields = ['follower']

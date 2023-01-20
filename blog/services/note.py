@@ -1,6 +1,6 @@
 from django.utils.functional import SimpleLazyObject
 
-from board.models import Note
+from board.models import Note, Follower
 
 
 def set_like_to_note(user, note_pk):
@@ -39,3 +39,8 @@ def get_user_draft_notes(user: SimpleLazyObject):
     """Вернуть неопубликованные записи авторизированного пользователя"""
     return Note.objects.filter(creator=user, is_published=False)
 
+
+def get_notes_user_subscriptions(user):
+    """Вернуть все записи пользователей из подписки"""
+    subscriptions = Follower.objects.filter(subscriber=user).values('user')
+    return Note.objects.filter(creator__in=subscriptions, is_published=True).order_by('creation_date')
