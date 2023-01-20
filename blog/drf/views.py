@@ -2,7 +2,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from rest_framework.response import Response
 import json
 
-from drf.permissions import IsHimselfOrReadOnly
+from drf.permissions import IsHimselfOrReadOnly, IsNoteCreatorOrReadOnly
 from drf.serializers import NoteSerializer, UserNoteSerializer, UserFollowerSerializer, UserBaseInfoSerializer
 from rest_framework import generics
 
@@ -61,10 +61,53 @@ class FollowerDetailView(generics.RetrieveDestroyAPIView,
             return Response({"message": "You are not following a user"})
 
 
-class NoteListView(generics.ListAPIView):
+class SubscriptionNoteListView(generics.ListAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         return note_s.get_notes_user_subscriptions(self.request.user)
+
+
+class UserNoteListView(generics.ListCreateAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
+
+    def get_queryset(self):
+        return note_s.get_all_user_notes(self.request.user)
+
+
+class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    permission_classes = (IsNoteCreatorOrReadOnly,)
+
+
+class NoteLikeView(generics.CreateAPIView,
+                   generics.DestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        sub_pk = self.kwargs.get("pk")
+        if not follower_s.is_subscriber(user, sub_pk):
+            follower_s.subscribe(user, sub_pk)
+            return Response({"message": "You have subscribed to a user"})
+        else:
+            return Response({"message": "You are already following a user"})
+
+    def delete(self, request, *args, **kwargs):
+        user = self.request.user
+        sub_pk = self.kwargs.get("pk")
+        if follower_s.is_subscriber(user, sub_pk):
+            follower_s.unsubscribe(user, sub_pk)
+            return Response({"message": "You have unsubscribed from the user"})
+        else:
+            return Response({"message": "You are not following a user"})

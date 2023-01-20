@@ -7,7 +7,7 @@ from board.models import User, Note, Follower
 class NoteSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=200)
     content = serializers.CharField(max_length=5000)
-    creation_date = serializers.DateTimeField()
+    creation_date = serializers.DateTimeField(read_only=True)
     creator = serializers.PrimaryKeyRelatedField(read_only=True)
     likes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     dislikes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -41,17 +41,6 @@ class UserFollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'photo', 'password', 'notes', 'subscriber', ]
-
-
-# class UserSerializer(serializers.ModelSerializer):
-#     username = serializers.CharField(max_length=14)
-#     password = serializers.CharField(min_length=8, write_only=True)
-#     notes = NoteSerializer(many=True, read_only=True)
-#     subscribers = UserFollowerSerializer()
-#
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'photo', 'password', 'notes']
 
 
 class UserNoteSerializer(serializers.ModelSerializer):

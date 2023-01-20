@@ -44,3 +44,7 @@ def get_notes_user_subscriptions(user):
     """Вернуть все записи пользователей из подписки"""
     subscriptions = Follower.objects.filter(subscriber=user).values('user')
     return Note.objects.filter(creator__in=subscriptions, is_published=True).order_by('creation_date')
+
+
+def get_all_user_notes(user):
+    return Note.objects.filter(creator=user).order_by('creation_date')
