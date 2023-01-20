@@ -95,19 +95,36 @@ class NoteLikeView(generics.CreateAPIView,
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
-        user = self.request.user
-        sub_pk = self.kwargs.get("pk")
-        if not follower_s.is_subscriber(user, sub_pk):
-            follower_s.subscribe(user, sub_pk)
-            return Response({"message": "You have subscribed to a user"})
+        result = note_s.set_like(self.request.user, self.kwargs.get("pk"))
+        if result:
+            return Response({"result": True})
         else:
-            return Response({"message": "You are already following a user"})
+            return Response({"result": "Like already placed"})
 
     def delete(self, request, *args, **kwargs):
-        user = self.request.user
-        sub_pk = self.kwargs.get("pk")
-        if follower_s.is_subscriber(user, sub_pk):
-            follower_s.unsubscribe(user, sub_pk)
-            return Response({"message": "You have unsubscribed from the user"})
+        result = note_s.delete_like(self.request.user, self.kwargs.get("pk"))
+        if result:
+            return Response({"result": True})
         else:
-            return Response({"message": "You are not following a user"})
+            return Response({"result": "Like not found"})
+
+
+class NoteDislikeView(generics.CreateAPIView,
+                      generics.DestroyAPIView):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        result = note_s.set_dislike(self.request.user, self.kwargs.get("pk"))
+        if result:
+            return Response({"result": True})
+        else:
+            return Response({"result": "Dislike already placed"})
+
+    def delete(self, request, *args, **kwargs):
+        result = note_s.delete_dislike(self.request.user, self.kwargs.get("pk"))
+        if result:
+            return Response({"result": True})
+        else:
+            return Response({"result": "Dislike not found"})

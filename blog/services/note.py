@@ -25,6 +25,48 @@ def set_dislike_to_note(user, note_pk):
         note.dislikes.add(user)
 
 
+def set_like(user, note_pk) -> bool:
+    """Поставить лайк на запись"""
+    note = Note.objects.get(pk=note_pk)
+    if note.likes.filter(id=user.pk).exists():
+        return False
+    else:
+        if note.dislikes.filter(id=user.pk).exists():
+            note.dislikes.remove(user)
+        note.likes.add(user)
+        return True
+
+
+def delete_like(user, note_pk) -> bool:
+    """Удалить лайк из записи"""
+    note = Note.objects.get(pk=note_pk)
+    if note.likes.filter(id=user.pk).exists():
+        note.likes.remove(user)
+        return True
+    return False
+
+
+def set_dislike(user, note_pk) -> bool:
+    """Поставить лайк на запись"""
+    note = Note.objects.get(pk=note_pk)
+    if note.dislikes.filter(id=user.pk).exists():
+        return False
+    else:
+        if note.likes.filter(id=user.pk).exists():
+            note.likes.remove(user)
+        note.dislikes.add(user)
+        return True
+
+
+def delete_dislike(user, note_pk) -> bool:
+    """Удалить лайк из записи"""
+    note = Note.objects.get(pk=note_pk)
+    if note.dislikes.filter(id=user.pk).exists():
+        note.dislikes.remove(user)
+        return True
+    return False
+
+
 def get_subscription_notes(subscriptions: list):
     """Вернуть все записи пользователей из подписки"""
     return Note.objects.filter(creator__in=subscriptions, is_published=True).order_by('creation_date')
@@ -47,4 +89,5 @@ def get_notes_user_subscriptions(user):
 
 
 def get_all_user_notes(user):
+    """Вернуть все записи пользователя"""
     return Note.objects.filter(creator=user).order_by('creation_date')
