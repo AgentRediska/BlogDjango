@@ -27,9 +27,9 @@ class Note(models.Model):
     content = models.CharField(verbose_name="Описание", null=False, max_length=5000,
                                validators=[MinLengthValidator(20, 'Поле должно содержать не менее 20 символов')])
     creation_date = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True, db_index=True)
-    creator = models.ForeignKey('User', verbose_name="Автор", on_delete=models.CASCADE, related_name="note_creator")
-    likes = models.ManyToManyField('User', verbose_name="Поставили лайк", related_name="liked_user")
-    dislikes = models.ManyToManyField('User', verbose_name="Поставили дизлайк", related_name="disliked_user")
+    creator = models.ForeignKey('User', verbose_name="Автор", on_delete=models.CASCADE, related_name="notes")
+    likes = models.ManyToManyField('User', verbose_name="Поставили лайк", related_name="liked_notes")
+    dislikes = models.ManyToManyField('User', verbose_name="Поставили дизлайк", related_name="disliked_notes")
     is_published = models.BooleanField(verbose_name="Опубликовано", default=True)
 
     def __str__(self):
@@ -39,6 +39,12 @@ class Note(models.Model):
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
         ordering = ['creation_date']
+
+    def get_like_count(self) -> int:
+        return self.likes.all().count()
+
+    def get_dislike_count(self) -> int:
+        return self.dislikes.all().count()
 
 
 class Follower(models.Model):
