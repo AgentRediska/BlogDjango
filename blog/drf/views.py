@@ -1,12 +1,12 @@
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-import json
 
-from drf.permissions import IsHimselfOrReadOnly, IsNoteCreatorOrReadOnly
-from drf.serializers import NoteSerializer, UserNoteSerializer, UserFollowerSerializer, UserBaseInfoSerializer
 from rest_framework import generics
+from drf.permissions import IsHimselfOrReadOnly, IsNoteCreatorOrReadOnly
+from drf.serializers import NoteSerializer, UserFollowerSerializer, UserBaseInfoSerializer
+from drf.paginations import *
 
-from board.models import User, Note, Follower
+from board.models import User, Note
 from services import user as user_s
 from services import note as note_s
 from services import follower as follower_s
@@ -15,6 +15,7 @@ from services import follower as follower_s
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserBaseInfoSerializer
+    pagination_class = UsersPagination
 
     def get_queryset(self):
         queryset = User.objects.all()
@@ -34,6 +35,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 class FollowerListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserFollowerSerializer
+    pagination_class = UsersPagination
 
 
 class FollowerDetailView(generics.RetrieveDestroyAPIView,
@@ -65,6 +67,7 @@ class SubscriptionNoteListView(generics.ListAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = NotesPagination
 
     def get_queryset(self):
         return note_s.get_notes_user_subscriptions(self.request.user)
@@ -74,6 +77,7 @@ class UserNoteListView(generics.ListCreateAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = NotesPagination
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
