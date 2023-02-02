@@ -14,7 +14,7 @@ menu = [{'title': "Главная страница", 'url_name': "main_page"},
 class ContextDataMixin(LoginRequiredMixin):
     login_url = reverse_lazy('user_login')
 
-    def get_data_context_mix(self, **kwargs):
+    def deget_data_context_mix(self, **kwargs):
         context = kwargs
         context['menu'] = menu
         context['right_list_search'] = self.request.GET.get('right_list_search')
